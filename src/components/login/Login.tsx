@@ -20,7 +20,6 @@ const Login: React.SFC = () => (
             </Form.Field>
             <Button type="submit">Login</Button>
         </Form>
-        <div>xd</div>
     </div>
 );
 
