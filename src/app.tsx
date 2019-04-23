@@ -3,8 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
-import Base from './screens/base/Base';
 import store from './store';
+import Application from './components/Application';
 
 // Create main element
 const mainElement = document.createElement('div');
@@ -27,8 +27,9 @@ render(Application);
 // Hot Module Replacement API
 if (typeof module.hot !== 'undefined') {
     module.hot.accept('./components/Application', () => {
-        import('./screens/base/Base').then(World => {
-            render(World.default);
+        import('./components/Application').then(Application => {
+            render(Application.default);
+            render(Application.default);
         });
     });
 }

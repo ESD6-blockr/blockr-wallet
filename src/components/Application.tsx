@@ -1,9 +1,6 @@
-import * as React from 'react';
-
 import { Grid, Segment } from 'semantic-ui-react';
-import LoginContainer from '../../containers/login/LoginContainer';
-
-require('../../Global.scss');
+import LoginContainer from '../containers/login/LoginContainer';
+import * as React from 'react';
 
 const Application = () => (
     <div>
