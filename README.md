@@ -1,7 +1,5 @@
 # Blockr Wallet
 
-### A Boilerplate for an Easy Start with TypeScript, React, and Electron.
-
 ## Usage
 Both processes have to be started **simultaneously** in different console tabs:
 
