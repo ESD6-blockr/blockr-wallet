@@ -10,4 +10,4 @@ Map settings = [
     archive_folders: ["dist/", "release/"]
 ]
 
-tsBuildAndPublish(repo, settings)
+tsBuild(repo, settings)
