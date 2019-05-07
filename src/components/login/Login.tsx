@@ -1,26 +1,30 @@
 import * as React from 'react';
-
-import { Button, Checkbox, Form } from 'semantic-ui-react';
+import { Checkbox, Form } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 require('./Login.scss');
 
-const Login: React.SFC = () => (
-    <div>
-        <Form>
-            <Form.Field required>
-                <label>Public key</label>
-                <input placeholder="Public key" />
-            </Form.Field>
-            <Form.Field required>
-                <label>Private key</label>
-                <input placeholder="Private key" />
-            </Form.Field>
-            <Form.Field required>
-                <Checkbox label="I agree to the Terms and Conditions" />
-            </Form.Field>
-            <Button type="submit">Login</Button>
-        </Form>
-    </div>
-);
-
-export default Login;
+export default class Login extends React.Component<any, any> {
+    render() {
+        return (
+            <div>
+                <Form>
+                    <Form.Field required>
+                        <label>Public key</label>
+                        <input placeholder="Public key" />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Private key</label>
+                        <input placeholder="Private key" />
+                    </Form.Field>
+                    <Form.Field required>
+                        <Checkbox label="I agree to the Terms and Conditions" />
+                    </Form.Field>
+                    <Link className="ui button" to="/profile">
+                        Login
+                    </Link>
+                </Form>
+            </div>
+        );
+    }
+}
