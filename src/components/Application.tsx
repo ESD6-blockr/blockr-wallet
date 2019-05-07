@@ -2,9 +2,10 @@ import { Grid, Segment } from 'semantic-ui-react';
 import LoginContainer from '../containers/login/LoginContainer';
 import * as React from 'react';
 
+const numberOfColumns = 2;
 const Application = () => (
     <div>
-        <Grid centered={true} columns={2}>
+        <Grid centered={true} columns={numberOfColumns}>
             <Grid.Column
                 style={{
                     width: '90%'
