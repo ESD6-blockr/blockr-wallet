@@ -1,7 +1,7 @@
-import { combineReducers, compose, applyMiddleware, createStore, Store } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { applyMiddleware, combineReducers, compose, createStore, Store } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import { rootReducer, RootState } from '../reducers';
+import { rootReducer, RootState } from "../reducers";
 
 const configureStore = (initialState?: RootState): Store<RootState | undefined> => {
     const middlewares: any[] = [];
@@ -11,9 +11,9 @@ const configureStore = (initialState?: RootState): Store<RootState | undefined> 
 
 const store = configureStore();
 
-if (typeof module.hot !== 'undefined') {
-    module.hot.accept('../reducers', () =>
-        store.replaceReducer(require('../reducers').rootReducer)
+if (typeof module.hot !== "undefined") {
+    module.hot.accept("../reducers", () =>
+        store.replaceReducer(require("../reducers").rootReducer),
     );
 }
 

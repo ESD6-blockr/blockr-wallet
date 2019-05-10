@@ -1,8 +1,10 @@
-import { Grid, Segment } from 'semantic-ui-react';
-import * as React from 'react';
-import Profile from './profile/Profile';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-import Login from './login/Login';
+import * as React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Grid, Segment } from "semantic-ui-react";
+import "../Global.scss";
+import Login from "./login/Login";
+import Profile from "./profile/Profile";
+import Transaction from "./transaction/Transaction";
 
 const numberOfColumns = 2;
 const Application = () => (
@@ -10,13 +12,13 @@ const Application = () => (
         <Grid centered={true} columns={numberOfColumns}>
             <Grid.Column
                 style={{
-                    width: '90%'
+                    width: "90%",
                 }}
             >
                 <Segment
                     style={{
-                        marginTop: '2%',
-                        textAlign: 'center'
+                        marginTop: "2%",
+                        textAlign: "center",
                     }}
                 >
                     <h1>Blockr Wallet</h1>
@@ -26,6 +28,7 @@ const Application = () => (
                         <div>
                             <Route exact path="/" component={Login} />
                             <Route exact path="/profile" component={Profile} />
+                            <Route exact path="/transaction" component={Transaction} />
                         </div>
                     </Router>
                 </Segment>

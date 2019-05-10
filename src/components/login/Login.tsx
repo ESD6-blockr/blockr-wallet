@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { Checkbox, Form } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-
-require('./Login.scss');
+import { logger } from "@blockr/blockr-logger";
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { Checkbox, Form } from "semantic-ui-react";
+import "./Login.scss";
 
 export default class Login extends React.Component<any, any> {
-    render() {
+    public render() {
         return (
             <div>
                 <Form>

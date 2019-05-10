@@ -1,49 +1,39 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-
-require('./Profile.scss');
+import { logger } from "@blockr/blockr-logger";
+import * as React from "react";
+import { Link } from "react-router-dom";
+import "./Profile.scss";
 
 const profile = {
-    publicKey: '11231023012312301023012031',
     balance: 233,
+    publicKey: "11231023012312301023012031",
     transactions: [
         {
-            id: 1,
-            hash: '12312312341312',
-            from: '11231023012312301023012031',
-            to: '1023812038123123123',
             amount: 502,
-            date: '07-05-2019'
+            date: "07-05-2019",
+            from: "11231023012312301023012031",
+            hash: "12312312341312",
+            id: 1,
+            to: "1023812038123123123",
         },
         {
-            id: 2,
-            hash: '12312541412412',
-            from: '11231023012312301023012031',
-            to: '1203102414201024',
             amount: 120,
-            date: '02-05-2019'
-        }
-    ]
+            date: "02-05-2019",
+            from: "11231023012312301023012031",
+            hash: "12312541412412",
+            id: 2,
+            to: "1203102414201024",
+        },
+    ],
 };
 
 export default class Profile extends React.Component<any, any> {
-    render() {
+    public render() {
         return (
-            <div
-                style={{
-                    textAlign: 'center'
-                }}
-            >
+            <div className="centered">
                 <h2>{profile.publicKey}</h2>
                 <h3>Balance: {profile.balance}</h3>
                 <h3>Transactions</h3>
-                <div
-                    role="list"
-                    className="ui divided relaxed list"
-                    style={{
-                        textAlign: 'left'
-                    }}
-                >
+                <div role="list" className="ui divided relaxed list left-div">
                     {profile.transactions.map((value, index) => {
                         return (
                             <div key={index} role="listitem" className="item">
@@ -61,17 +51,25 @@ export default class Profile extends React.Component<any, any> {
                         );
                     })}
                 </div>
-                <Link
-                    className="ui button"
-                    to="/"
+                <div
                     style={{
-                        position: 'absolute',
-                        right: '10px',
-                        top: '10px'
+                        position: "absolute",
+                        right: "10px",
+                        top: "10px",
                     }}
                 >
-                    Logout
-                </Link>
+                    <Link className="ui red button space-top right-button" to="/">
+                        Logout
+                    </Link>
+                    <br />
+                    <Link className="ui green button space-top right-button" to="/transaction">
+                        Create Transaction
+                    </Link>
+                    <br />
+                    <Link className="ui button space-top right-button" to="/file">
+                        Upload file
+                    </Link>
+                </div>
             </div>
         );
     }
