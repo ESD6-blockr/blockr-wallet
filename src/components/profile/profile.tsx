@@ -1,7 +1,7 @@
 import { logger } from "@blockr/blockr-logger";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import "./Profile.scss";
+import "./profile.scss";
 
 const profile = {
     balance: 233,

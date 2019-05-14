@@ -1,11 +1,11 @@
 import { combineReducers, Reducer } from "redux";
 
-import { counterReducer, CounterState } from "./counterReducer";
+import { authenticationReducer, AuthenticationState } from "./authentication.reducer";
 
 export interface RootState {
-    counter: CounterState;
+    authentication: AuthenticationState;
 }
 
 export const rootReducer = combineReducers<RootState | undefined>({
-    counter: counterReducer,
+    authentication: authenticationReducer,
 });

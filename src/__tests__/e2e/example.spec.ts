@@ -9,8 +9,8 @@ describe("Main window", () => {
 
     beforeEach(() => {
         app = new Application({
-            path: electronPath.toString(),
             args: [path.join(__dirname, "..", "..")],
+            path: electronPath.toString(),
         });
 
         return app.start();

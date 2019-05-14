@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 
-import Application from "./components/Application";
+import Application from "./components/application";
 import store from "./store";
 
 // Create main element
@@ -26,8 +26,8 @@ render(Application);
 
 // Hot Module Replacement API
 if (typeof module.hot !== "undefined") {
-    module.hot.accept("./components/Application", () => {
-        import("./components/Application").then((app) => {
+    module.hot.accept("./components/application", () => {
+        import("./components/application").then((app) => {
             render(app.default);
         });
     });

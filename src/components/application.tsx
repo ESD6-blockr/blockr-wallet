@@ -1,9 +1,10 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, Router, Switch } from "react-router";
 import { Grid, Segment } from "semantic-ui-react";
-import "../Global.scss";
-import Login from "./login/Login";
-import Profile from "./profile/Profile";
+import "../global.scss";
+import routerHistory from "../store/routerHistory";
+import Login from "./login/login";
+import Profile from "./profile/profile";
 import Transaction from "./transaction/Transaction";
 
 const numberOfColumns = 2;
@@ -24,12 +25,12 @@ const Application = () => (
                     <h1>Blockr Wallet</h1>
                 </Segment>
                 <Segment>
-                    <Router>
-                        <div>
-                            <Route exact path="/" component={Login} />
-                            <Route exact path="/profile" component={Profile} />
-                            <Route exact path="/transaction" component={Transaction} />
-                        </div>
+                    <Router history={routerHistory}>
+                        <Switch>
+                            <Route path="/profile" component={Profile} />
+                            <Route path="/transaction" component={Transaction} />
+                            <Route exact path="/" component={Login}/>
+                        </Switch>
                     </Router>
                 </Segment>
             </Grid.Column>
