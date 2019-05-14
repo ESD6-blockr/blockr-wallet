@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="1" time="4.88">
-  <testsuite name="Login component" errors="0" failures="1" skipped="0" timestamp="2019-05-14T13:22:08" time="3.64" tests="1">
+<testsuites name="jest tests" tests="1" failures="0" time="4.05">
+  <testsuite name="Login component" errors="0" failures="0" skipped="0" timestamp="2019-05-14T14:12:48" time="4.023" tests="1">
     <testcase classname="Login component renders correctly" name="Login component renders correctly" time="0.011">
-      <failure>Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object.
-    at invariant (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:55:15)
-    at createFiberFromTypeAndProps (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2056:11)
-    at createFiberFromElement (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2077:15)
-    at reconcileSingleElement (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4629:23)
-    at reconcileChildFibers (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4686:35)
-    at reconcileChildren (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6508:28)
-    at updateHostRoot (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6920:5)
-    at beginWork (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7745:14)
-    at performUnitOfWork (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11413:12)
-    at workLoop (/home/roelvdboom/Documents/projects/school/blockr/blockr-wallet/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11445:24)</failure>
     </testcase>
   </testsuite>
 </testsuites>
