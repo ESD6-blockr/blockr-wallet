@@ -1,10 +1,11 @@
+import { logger } from "@blockr/blockr-logger";
 import * as React from "react";
 import { connect } from "react-redux";
 import { AnyAction, bindActionCreators, Dispatch } from "redux";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import { login as loginAction } from "../../actions/authentication.actions";
 import User from "../../models/user";
-import store from "../../store";
+import { ApiService } from "../../services/apiService";
 import { goToUrl } from "../../store/routerHistory";
 import "./login.scss";
 
@@ -17,6 +18,8 @@ interface DefaultState {
 }
 
 class Login extends React.Component<DefaultProps, DefaultState, object> {
+    private apiService: ApiService;
+
     constructor(props: any) {
         super(props);
 
@@ -24,6 +27,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
             privateKey: "",
             publicKey: "",
         };
+        this.apiService = new ApiService();
     }
 
     public handlePublicKeyChange = (element) => {
@@ -42,6 +46,14 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         const user: User = new User(this.state.publicKey, this.state.privateKey);
         this.props.loginAction(user);
         goToUrl("/profile");
+    }
+
+    public retrieveTransactions = () => {
+        logger.info("Start Retrieving");
+        this.apiService
+            .getTransactionsByReceiver("12314")
+            .then((transactions) => console.log(transactions));
+        logger.info("Done Retrieving");
     }
 
     public render() {
@@ -71,6 +83,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                     <Button type="submit" name="loginButton">
                         Login
                     </Button>
+                    <Button onClick={this.retrieveTransactions}>Retrieve shit</Button>
                 </Form>
             </div>
         );
