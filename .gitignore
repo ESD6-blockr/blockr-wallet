@@ -4,3 +4,4 @@ release/
 .idea/
 logs/
 coverage/
+junit.xml

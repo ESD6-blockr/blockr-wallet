@@ -15,7 +15,7 @@
     "lint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
     "lint:fix": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json --fix",
     "precommit": "lint-staged",
-    "test": "jest || exit 0",
+    "test": "jest --collectCoverage || exit 0",
     "pretest:e2e": "npm run build",
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir",
