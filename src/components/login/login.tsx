@@ -51,7 +51,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     public retrieveTransactions = () => {
         logger.info("Start Retrieving");
         this.apiService
-            .getTransactionsByReceiver("12314")
+            .getTransactionsByReceiver("123")
             .then((transactions) => console.log(transactions));
         logger.info("Done Retrieving");
     }

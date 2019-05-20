@@ -164,10 +164,10 @@
   dependencies:
     winston "^3.2.1"
 
-"@blockr/blockr-models@^1.3.0-11":
-  version "1.3.0-18"
-  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.3.0-18.tgz#5a8179c561b19e9eaffaff763b05b4e3765b6212"
-  integrity sha512-dAEXJXkVAtO+P/7aZoKDiegy/3OUY17KwShAz5t23EcVVWMB9o9rf+grpZdZZ15TZvM0PqoX5auagkVtiW7pZg==
+"@blockr/blockr-models@^1.4.0-2":
+  version "1.4.0-20"
+  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.4.0-20.tgz#6854f8fa92f7ee444152e04ca7bd1709336b13e3"
+  integrity sha512-d6IhhD9fGm6iQdyiitWToPrm63PMqaxqC3sQ9N0K0hwADFn/lSr1ifYDtE2d1JcAqJ/faGkE5dug/RIuduWB3w==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
