@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import { IRootState } from "reducers";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import { login } from "../../actions/authentication.actions";
@@ -36,20 +37,21 @@ class Login extends React.Component<Props, DefaultState> {
         this.setState({
             publicKey: element.target.value,
         });
-    }
+    };
 
     public handlePrivateKeyChange = (element) => {
         this.setState({
             privateKey: element.target.value,
         });
-    }
+    };
 
     public login = () => {
         this.props.login(this.state.publicKey, this.state.privateKey);
-    }
+    };
 
     public componentDidUpdate() {
         if (this.props.currentUser) {
+            toast.success("Logged in!");
             goToUrl("/profile");
         }
     }
