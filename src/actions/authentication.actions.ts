@@ -5,9 +5,7 @@ export const login = (publicKey: string, privateKey: string) => {
     return (dispatch: any) => {
         dispatch({ type: TOGGLE_LOADING });
 
-        setTimeout(() => {
-            dispatch({ type: LOGIN, payload: new User(publicKey, privateKey) });
-        }, 1000);
+        dispatch({ type: LOGIN, payload: new User(publicKey, privateKey) });
     };
 };
 

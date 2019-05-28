@@ -1,7 +1,7 @@
 import { combineReducers, Reducer } from "redux";
 
 import authenticationReducer, { IAuthenticationState } from "./authentication.reducer";
-import getTransactionsReducer, { ITransactionState } from "./getTransactions.reducer";
+import getTransactionsReducer, { ITransactionState } from "./transaction.reducer";
 
 export interface IRootState {
     authentication: IAuthenticationState;

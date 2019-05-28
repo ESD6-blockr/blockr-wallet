@@ -3,9 +3,10 @@ import { Route, Router, Switch } from "react-router";
 import { Grid, Segment } from "semantic-ui-react";
 import "../global.scss";
 import routerHistory from "../store/routerHistory";
+import CreateTransaction from "./createTransaction/createTransaction";
 import Login from "./login/login";
 import Profile from "./profile/profile";
-import Transaction from "./transaction/Transaction";
+import Transaction from "./transaction/transaction";
 
 const numberOfColumns = 2;
 const Application = () => (
@@ -28,8 +29,9 @@ const Application = () => (
                     <Router history={routerHistory}>
                         <Switch>
                             <Route path="/profile" component={Profile} />
-                            <Route path="/transaction" component={Transaction} />
-                            <Route exact path="/" component={Login}/>
+                            <Route exact path="/transaction/create" component={CreateTransaction} />
+                            <Route exact path="/" component={Login} />
+                            <Route exact path="/transaction" component={Transaction} />
                         </Switch>
                     </Router>
                 </Segment>

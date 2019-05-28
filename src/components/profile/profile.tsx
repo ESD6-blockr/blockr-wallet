@@ -10,6 +10,7 @@ import {
     getAllTransactions,
     getTransactionsByRecipient,
     getTransactionsBySender,
+    setCurrentTransaction,
 } from "../../actions/transaction.actions";
 import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
     getTransactionsByRecipient,
     getTransactionsBySender,
     logout,
+    setCurrentTransaction,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
@@ -37,19 +39,25 @@ class Profile extends React.Component<Props, {}> {
     }
 
     public componentDidMount() {
-        if (this.props.transactions.length === 0 && this.props.currentUser) {
-            this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
+        if (!this.props.currentUser) {
+            goToUrl("/");
             return;
         }
 
-        logger.error("CurrentUser is null");
+        if (this.props.transactions.length === 0) {
+            this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
+        }
     }
 
     public logout = () => {
-        logger.info("Logging out...");
         this.props.logout();
         goToUrl("/");
-    }
+    };
+
+    public goToTransactionDetailView = (transaction: Transaction) => {
+        this.props.setCurrentTransaction(transaction);
+        goToUrl("/transaction");
+    };
 
     public render() {
         const { transactions, currentUser, getTransactionLoading } = this.props;
@@ -67,7 +75,12 @@ class Profile extends React.Component<Props, {}> {
                         )}
                         {transactions.map((transaction: Transaction, index: number) => {
                             return (
-                                <div key={index} role="listitem" className="item">
+                                <div
+                                    key={index}
+                                    role="listitem"
+                                    className="item"
+                                    onClick={() => this.goToTransactionDetailView(transaction)}
+                                >
                                     <i
                                         aria-hidden="true"
                                         className="bitcoin large icon middle aligned"
@@ -82,6 +95,7 @@ class Profile extends React.Component<Props, {}> {
                             );
                         })}
                     </div>
+                    {transactions.length === 0 && <p>No Transactions</p>}
                 </Segment>
                 <div
                     style={{
@@ -98,7 +112,10 @@ class Profile extends React.Component<Props, {}> {
                         Logout
                     </Button>
                     <br />
-                    <Link className="ui green button space-top right-button" to="/transaction">
+                    <Link
+                        className="ui green button space-top right-button"
+                        to="/transaction/create"
+                    >
                         Create Transaction
                     </Link>
                     <br />

@@ -3,26 +3,31 @@ import {
     GET_TRANSACTIONS_BEGIN,
     GET_TRANSACTIONS_FAILURE,
     GET_TRANSACTIONS_SUCCESS,
+    SET_CURRENT_TRANSACTION,
 } from "../constants/transaction.constant";
 import { ApiService } from "../services/apiService";
 
 const apiService: ApiService = new ApiService();
 
+export const setCurrentTransaction = (transaction: Transaction) => {
+    return (dispatch: any) => {
+        dispatch({ type: SET_CURRENT_TRANSACTION, payload: transaction });
+    };
+};
+
 export const getAllTransactions = () => {
     return (dispatch: any) => {
         dispatch({ type: GET_TRANSACTIONS_BEGIN });
 
-        setTimeout(() => {
-            apiService
-                .getAllTransactionsAsync()
-                .then((transactions: Transaction[]) => {
-                    dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
-                })
-                .catch((error) => {
-                    console.error(error);
-                    dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
-                });
-        }, 2000);
+        apiService
+            .getAllTransactionsAsync()
+            .then((transactions: Transaction[]) => {
+                dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
+            });
     };
 };
 

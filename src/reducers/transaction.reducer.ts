@@ -1,8 +1,9 @@
 import { Transaction } from "@blockr/blockr-models";
 import * as constants from "../constants/transaction.constant";
-import { createReducer } from "./helper";
+import { createReducer } from "../helpers/reducer.helper";
 
 export interface ITransactionState {
+    readonly currentTransaction: Transaction | null;
     readonly getTransactionDone: boolean;
     readonly getTransactionError: Error | null;
     readonly getTransactionLoading: boolean;
@@ -10,11 +11,17 @@ export interface ITransactionState {
 }
 
 const initialState: ITransactionState = {
+    currentTransaction: null,
     getTransactionDone: false,
     getTransactionError: null,
     getTransactionLoading: false,
     transactions: [],
 };
+
+const setCurrentTransaction = (state: ITransactionState, action): ITransactionState => ({
+    ...state,
+    currentTransaction: action.payload,
+});
 
 const getTransactionBegin = (state: ITransactionState): ITransactionState => ({
     ...state,
@@ -35,6 +42,7 @@ const getTransactionFailure = (state: ITransactionState, action): ITransactionSt
 });
 
 export const getTransactionHandlers = {
+    [constants.SET_CURRENT_TRANSACTION]: setCurrentTransaction,
     [constants.GET_TRANSACTIONS_BEGIN]: getTransactionBegin,
     [constants.GET_TRANSACTIONS_SUCCESS]: getTransactionSuccess,
     [constants.GET_TRANSACTIONS_FAILURE]: getTransactionFailure,

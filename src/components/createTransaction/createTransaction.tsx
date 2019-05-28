@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Form } from "semantic-ui-react";
-import "./Transaction.scss";
+import "./CreateTransaction.scss";
 
-export default class Transaction extends React.Component<any, any> {
+export default class CreateTransaction extends React.Component<any, any> {
     public render() {
         return (
             <div>

@@ -1,6 +1,6 @@
 import * as constants from "../constants/authentication.constant";
+import { createReducer } from "../helpers/reducer.helper";
 import User from "../models/user";
-import { createReducer } from "./helper";
 
 export interface IAuthenticationState {
     readonly currentUser: User | null;
