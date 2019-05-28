@@ -9,7 +9,7 @@ Map settings = [
     source_folder: "src/",
     archive_folders: ["dist/", "release/"],
     yarn: true,
-    skip_Tests: true
+    skip_tests: true
 ]
 
 tsBuild(repo, settings)
