@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
-import { Button, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import { goToUrl } from "../../store/routerHistory";
 import "./Transaction.scss";
 
@@ -64,13 +65,9 @@ class Transaction extends React.Component<Props, DefaultState> {
                         top: "10px",
                     }}
                 >
-                    <Button
-                        onClick={() => goToUrl("/profile")}
-                        name="logoutButton"
-                        className="ui button space-top right-button"
-                    >
+                    <Link className="ui button space-top right-button" to="/profile">
                         Back
-                    </Button>
+                    </Link>
                 </div>
             </div>
         );

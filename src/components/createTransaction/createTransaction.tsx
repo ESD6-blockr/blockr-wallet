@@ -1,9 +1,73 @@
+import { Transaction, TransactionType } from "@blockr/blockr-models";
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Form } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
+import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
+import { IRootState } from "../../reducers";
+import { goToUrl } from "../../store/routerHistory";
 import "./CreateTransaction.scss";
 
-export default class CreateTransaction extends React.Component<any, any> {
+interface DefaultState {
+    amount: number;
+    publicKey: string;
+}
+
+const mapStateToProps = (state: IRootState, props: any) => ({
+    currentUser: state.authentication.currentUser,
+    postTransactionLoading: state.transaction.postTransactionLoading,
+});
+
+const mapDispatchToProps = {
+    getTransactionsByRecipient,
+    postTransaction,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+class CreateTransaction extends React.Component<Props, DefaultState> {
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            amount: 0,
+            publicKey: "",
+        };
+    }
+
+    public componentDidMount() {
+        if (!this.props.currentUser) {
+            goToUrl("/");
+        }
+    }
+
+    public handlePublicKeyChange = (element) => {
+        this.setState({
+            publicKey: element.target.value,
+        });
+    };
+
+    public handleAmountChange = (element) => {
+        this.setState({
+            amount: element.target.value,
+        });
+    };
+
+    public postTransaction = () => {
+        if (!this.props.currentUser) {
+            return;
+        }
+        const transaction: Transaction = new Transaction(
+            TransactionType.COIN,
+            this.state.publicKey,
+            this.props.currentUser.publicKey,
+            this.state.amount,
+            new Date(),
+        );
+
+        this.props.postTransaction(transaction);
+    };
+
     public render() {
         return (
             <div>
@@ -13,15 +77,31 @@ export default class CreateTransaction extends React.Component<any, any> {
                     }}
                 >
                     <h3>Create transaction</h3>
-                    <Form>
+                    <Form onSubmit={this.postTransaction}>
                         <Form.Field>
                             <label>To:</label>
-                            <input placeholder="Public key" />
+                            <input
+                                placeholder="Public key"
+                                value={this.state.publicKey}
+                                onChange={this.handlePublicKeyChange}
+                            />
                         </Form.Field>
                         <Form.Field>
                             <label>Amount:</label>
-                            <input placeholder="Amount" type="number" />
+                            <input
+                                placeholder="Amount"
+                                type="number"
+                                value={this.state.amount}
+                                onChange={this.handleAmountChange}
+                            />
                         </Form.Field>
+                        <Button
+                            type="submit"
+                            name="createButton"
+                            loading={this.props.postTransactionLoading}
+                        >
+                            Create
+                        </Button>
                     </Form>
                 </div>
                 <div
@@ -39,3 +119,8 @@ export default class CreateTransaction extends React.Component<any, any> {
         );
     }
 }
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(CreateTransaction);

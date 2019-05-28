@@ -10,6 +10,21 @@ import Login from "./login/login";
 import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
 
+let validatorIp: string | undefined;
+
+// const initPeer = async () => {
+//     const peer: IPeer = new Peer("Wallet");
+//     await peer.init();
+//     validatorIp = peer.getPeerOfType("Validator");
+// }
+
+// initPeer()
+validatorIp = "https://public.blockr.verux.nl";
+
+export function getValidatorIp(): string {
+    return validatorIp || "0.0.0.0";
+}
+
 const numberOfColumns = 2;
 const Application = () => (
     <div>

@@ -1,4 +1,3 @@
-import { logger } from "@blockr/blockr-logger";
 import { Transaction } from "@blockr/blockr-models";
 import * as React from "react";
 import { connect } from "react-redux";
