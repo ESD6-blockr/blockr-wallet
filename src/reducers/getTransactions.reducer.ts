@@ -1,53 +1,43 @@
-import Transaction from "../components/transaction/Transaction";
+import { Transaction } from "@blockr/blockr-models";
 import * as constants from "../constants/transaction.constant";
+import { createReducer } from "./helper";
 
-export interface TransactionState {
-    readonly getTransactionsLoading: boolean;
+export interface ITransactionState {
+    readonly getTransactionDone: boolean;
+    readonly getTransactionError: Error | null;
+    readonly getTransactionLoading: boolean;
     readonly transactions: Transaction[];
-    readonly getTransactionsError: Error | null;
 }
 
-const defaultState: TransactionState = {
-    getTransactionsError: null,
-    getTransactionsLoading: false,
+const initialState: ITransactionState = {
+    getTransactionDone: false,
+    getTransactionError: null,
+    getTransactionLoading: false,
     transactions: [],
 };
 
-function getTransactionsBegin(state) {
-    return {
-        ...state,
-        getTransactionsLoading: true,
-    };
-}
-function getTransactionsSuccess(state, action) {
-    return {
-        ...state,
-        getRateListDone: true,
-        getTransactionsLoading: false,
-        transaction: action.payload,
-    };
-}
-function getTransactionsFailure(state, action) {
-    return {
-        ...state,
-        getTransactionsError: action.payload,
-        getTransactionsLoading: false,
-    };
-}
+const getTransactionBegin = (state: ITransactionState): ITransactionState => ({
+    ...state,
+    getTransactionLoading: true,
+});
 
-const createReducer = (initialState: any, handlers: any) => {
-    return (state = initialState, action: any) => {
-        if (handlers.hasOwnProperty(action.type)) {
-            return handlers[action.type](state, action);
-        }
-        return state;
-    };
+const getTransactionSuccess = (state: ITransactionState, action): ITransactionState => ({
+    ...state,
+    getTransactionDone: true,
+    getTransactionLoading: false,
+    transactions: action.payload,
+});
+
+const getTransactionFailure = (state: ITransactionState, action): ITransactionState => ({
+    ...state,
+    getTransactionError: action.payload,
+    getTransactionLoading: false,
+});
+
+export const getTransactionHandlers = {
+    [constants.GET_TRANSACTIONS_BEGIN]: getTransactionBegin,
+    [constants.GET_TRANSACTIONS_SUCCESS]: getTransactionSuccess,
+    [constants.GET_TRANSACTIONS_FAILURE]: getTransactionFailure,
 };
 
-const getTransactionHandlers = {
-    [constants.GET_TRANSACTIONS_BEGIN]: getTransactionsBegin,
-    [constants.GET_TRANSACTIONS_SUCCESS]: getTransactionsSuccess,
-    [constants.GET_TRANSACTIONS_FAILURE]: getTransactionsFailure,
-};
-
-export default createReducer(defaultState, getTransactionHandlers);
+export default createReducer(initialState, getTransactionHandlers);

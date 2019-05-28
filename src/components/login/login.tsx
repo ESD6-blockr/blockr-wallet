@@ -1,22 +1,28 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AnyAction, bindActionCreators, Dispatch } from "redux";
+import { IRootState } from "reducers";
 import { Button, Checkbox, Form } from "semantic-ui-react";
-import { login as loginAction } from "../../actions/authentication.actions";
-import User from "../../models/user";
-import { ApiService } from "../../services/apiService";
+import { login } from "../../actions/authentication.actions";
 import { goToUrl } from "../../store/routerHistory";
 import "./login.scss";
 
-interface DefaultProps {
-    loginAction: (currentUser: User) => void;
-}
 interface DefaultState {
     privateKey: string;
     publicKey: string;
 }
 
-class Login extends React.Component<DefaultProps, DefaultState, object> {
+const mapStateToProps = (state: IRootState, props: any) => ({
+    currentUser: state.authentication.currentUser,
+    isLoading: state.authentication.isLoading,
+});
+
+const mapDispatchToProps = {
+    login,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+class Login extends React.Component<Props, DefaultState> {
     constructor(props: any) {
         super(props);
 
@@ -39,12 +45,17 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     }
 
     public login = () => {
-        const user: User = new User(this.state.publicKey, this.state.privateKey);
-        this.props.loginAction(user);
-        goToUrl("/profile");
+        this.props.login(this.state.publicKey, this.state.privateKey);
+    }
+
+    public componentDidUpdate() {
+        if (this.props.currentUser) {
+            goToUrl("/profile");
+        }
     }
 
     public render() {
+        const { isLoading } = this.props;
         return (
             <div>
                 <Form onSubmit={this.login}>
@@ -68,7 +79,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                     <Form.Field required>
                         <Checkbox label="I agree to the Terms and Conditions" />
                     </Form.Field>
-                    <Button type="submit" name="loginButton">
+                    <Button type="submit" name="loginButton" loading={isLoading}>
                         Login
                     </Button>
                 </Form>
@@ -76,14 +87,6 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         );
     }
 }
-
-const mapStateToProps = (state: any, props: any) => {
-    return {};
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, props: any) => {
-    return bindActionCreators({ loginAction }, dispatch);
-};
 
 export default connect(
     mapStateToProps,

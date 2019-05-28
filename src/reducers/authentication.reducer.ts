@@ -1,34 +1,37 @@
-import { Reducer } from "redux";
-import {
-    AuthenticationAction,
-    LOGIN,
-    LOGOUT,
-    TOGGLE_LOADING,
-} from "../actions/authentication.actions";
+import * as constants from "../constants/authentication.constant";
 import User from "../models/user";
+import { createReducer } from "./helper";
 
-export interface AuthenticationState {
+export interface IAuthenticationState {
     readonly currentUser: User | null;
     readonly isLoading: boolean;
 }
 
-const defaultState: AuthenticationState = {
+const initialState: IAuthenticationState = {
     currentUser: null,
     isLoading: false,
 };
 
-export const authenticationReducer: Reducer<AuthenticationState> = (
-    state = defaultState,
-    action: AuthenticationAction,
-) => {
-    switch (action.type) {
-        case LOGIN:
-            return { ...state, currentUser: action.payload.currentUser };
-        case LOGOUT:
-            return { ...state, currentUser: null };
-        case TOGGLE_LOADING:
-            return { ...state, isLoading: action.payload.isLoading };
-        default:
-            return state;
-    }
+const login = (state: IAuthenticationState, action): IAuthenticationState => ({
+    ...state,
+    currentUser: action.payload,
+    isLoading: false,
+});
+
+const logout = (state: IAuthenticationState): IAuthenticationState => ({
+    ...state,
+    currentUser: null,
+});
+
+const toggleLoading = (state: IAuthenticationState, action): IAuthenticationState => ({
+    ...state,
+    isLoading: !state.isLoading,
+});
+
+export const authenticationHandlers = {
+    [constants.LOGIN]: login,
+    [constants.LOGOUT]: logout,
+    [constants.TOGGLE_LOADING]: toggleLoading,
 };
+
+export default createReducer(initialState, authenticationHandlers);
