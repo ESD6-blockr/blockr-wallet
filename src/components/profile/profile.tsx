@@ -1,6 +1,10 @@
 import { logger } from "@blockr/blockr-logger";
+import { Transaction } from "@blockr/blockr-models";
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { getAllTransactions } from "../../actions/transaction.actions";
+import User from "../../models/user";
 import "./profile.scss";
 
 const profile = {
@@ -26,8 +30,43 @@ const profile = {
     ],
 };
 
-export default class Profile extends React.Component<any, any> {
+interface DefaultState {
+    currentUser: User;
+    transactions: Transaction[];
+}
+
+interface DefaultProps {
+    getAllTransactions: () => void;
+}
+
+const mapStateToProps = (state: any, props: any) => ({
+    transactions: state.transactions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getAllTransactions: () => dispatch(getAllTransactions()),
+});
+
+class Profile extends React.Component<DefaultProps, DefaultState> {
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            currentUser: new User("x", "x"),
+            transactions: [],
+        };
+    }
+
+    public componentDidMount() {
+        logger.info("Checking...");
+        if (this.state.transactions.length === 0) {
+            logger.info("Start retrieving transactions");
+            this.props.getAllTransactions();
+        }
+    }
+
     public render() {
+        console.log(this.state.transactions);
         return (
             <div className="centered">
                 <h2>{profile.publicKey}</h2>
@@ -74,3 +113,8 @@ export default class Profile extends React.Component<any, any> {
         );
     }
 }
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Profile);

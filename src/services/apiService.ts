@@ -1,33 +1,33 @@
+import { logger } from "@blockr/blockr-logger";
 import { Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
 
-const publicApiUrl = "http://127.0.0.1:8000";
+const publicApiUrl = "https://public.blockr.verux.nl";
 const transactionRoute = publicApiUrl + "/transactions";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
-        return new Promise(async (resolve) => {
-            const response = await Axios.get<Transaction[]>(transactionRoute);
-            resolve(response.data);
-        });
+        logger.info("Within api Service");
+        return this.getTransactionsByQuery({});
     }
 
     public getTransactionsBySender = (publicKey: string): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({
-            publicKey,
+            senderKey: publicKey,
         });
     }
 
-    public getTransactionsByReceiver(publicKey: string): Promise<Transaction[]> {
+    public getTransactionsByRecipient(publicKey: string): Promise<Transaction[]> {
         return this.getTransactionsByQuery({
-            publicKey,
+            recipientKey: publicKey,
         });
     }
 
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
-        return new Promise(async (resolve) => {
-            const response = await Axios.get<Transaction[]>(transactionRoute, queryObject);
-            resolve(response.data);
+        return new Promise(async (resolve, reject) => {
+            Axios.get<Transaction[]>(transactionRoute, { params: queryObject })
+                .then((response) => resolve(response.data))
+                .catch((error) => reject(error));
         });
     }
 }
