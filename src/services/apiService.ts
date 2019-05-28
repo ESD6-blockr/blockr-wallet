@@ -1,11 +1,9 @@
-import { logger } from "@blockr/blockr-logger";
 import { Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
 import { getValidatorIp } from "../components/application";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
-        logger.info("Within api Service");
         return this.getTransactionsByQuery({});
     };
 

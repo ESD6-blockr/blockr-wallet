@@ -53,7 +53,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         });
     };
 
-    public postTransaction = () => {
+    public hanldePostTransaction = () => {
         if (!this.props.currentUser) {
             return;
         }
@@ -77,7 +77,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                     }}
                 >
                     <h3>Create transaction</h3>
-                    <Form onSubmit={this.postTransaction}>
+                    <Form onSubmit={this.hanldePostTransaction}>
                         <Form.Field>
                             <label>To:</label>
                             <input

@@ -48,12 +48,12 @@ class Profile extends React.Component<Props, {}> {
         }
     }
 
-    public logout = () => {
+    public handleLogout = () => {
         this.props.logout();
         goToUrl("/");
     };
 
-    public goToTransactionDetailView = (transaction: Transaction) => {
+    public handleTransactionView = (transaction: Transaction) => {
         this.props.setCurrentTransaction(transaction);
         goToUrl("/transaction");
     };
@@ -78,7 +78,7 @@ class Profile extends React.Component<Props, {}> {
                                     key={index}
                                     role="listitem"
                                     className="item"
-                                    onClick={() => this.goToTransactionDetailView(transaction)}
+                                    onClick={() => this.handleTransactionView(transaction)}
                                 >
                                     <i
                                         aria-hidden="true"
@@ -104,7 +104,7 @@ class Profile extends React.Component<Props, {}> {
                     }}
                 >
                     <Button
-                        onClick={this.logout}
+                        onClick={this.handleLogout}
                         name="logoutButton"
                         className="ui red button space-top right-button"
                     >

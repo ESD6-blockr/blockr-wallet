@@ -50,7 +50,7 @@ class Login extends React.Component<Props, DefaultState> {
         });
     };
 
-    public login = () => {
+    public handleLogin = () => {
         this.props.login(this.state.publicKey, this.state.privateKey);
     };
 
@@ -58,7 +58,7 @@ class Login extends React.Component<Props, DefaultState> {
         const { isLoading } = this.props;
         return (
             <div>
-                <Form onSubmit={this.login}>
+                <Form onSubmit={this.handleLogin}>
                     <Form.Input
                         label="Public key"
                         required

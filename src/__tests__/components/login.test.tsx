@@ -13,6 +13,7 @@ jest.mock("history");
 
 describe("Login component", () => {
     it("renders correctly", () => {
+        // TODO: Fix this test out of the scope of this pull request
         const initialState = {
             authentication: { currentUser: new User("public", "private"), isLoading: false },
         };
@@ -27,6 +28,5 @@ describe("Login component", () => {
             </Provider>,
         ).dive();
         expect(Object.keys(container.props()).length).toEqual(1);
-        // TODO: Test if state is set correctly
     });
 });
