@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('blockr-jenkins-lib@implement-yarn') _
+@Library('blockr-jenkins-lib') _
 
 String repo = "blockr-wallet"
 
