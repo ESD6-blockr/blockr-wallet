@@ -1,5 +1,7 @@
+import { logger } from "@blockr/blockr-logger";
 import { Transaction } from "@blockr/blockr-models";
 import { toast } from "react-toastify";
+import { AnyAction, Dispatch } from "redux";
 import {
     GET_TRANSACTIONS_BEGIN,
     GET_TRANSACTIONS_FAILURE,
@@ -16,20 +18,20 @@ import { goToUrl } from "../store/routerHistory";
 const apiService: ApiService = new ApiService();
 
 export const setCurrentTransaction = (transaction: Transaction) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AnyAction>) => {
         dispatch({ type: SET_CURRENT_TRANSACTION, payload: transaction });
     };
 };
 
 export const postTransaction = (transaction: Transaction) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<any>) => {
         dispatch({ type: POST_TRANSACTIONS_BEGIN });
 
         apiService
             .postTransaction(transaction)
             .then(() => {
                 dispatch({ type: POST_TRANSACTIONS_SUCCESS });
-                toast("Created Transaction");
+                toast.info("Created Transaction");
                 const state = store.getState();
                 if (state && state.authentication.currentUser) {
                     dispatch(
@@ -39,7 +41,7 @@ export const postTransaction = (transaction: Transaction) => {
                 }
             })
             .catch((error) => {
-                console.error(error);
+                logger.error(error);
                 toast.error("Failed to post Transaction");
                 dispatch({ type: POST_TRANSACTIONS_FAILURE, error });
             });
@@ -47,7 +49,7 @@ export const postTransaction = (transaction: Transaction) => {
 };
 
 export const getAllTransactions = () => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AnyAction>) => {
         dispatch({ type: GET_TRANSACTIONS_BEGIN });
 
         apiService
@@ -56,14 +58,14 @@ export const getAllTransactions = () => {
                 dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
             })
             .catch((error) => {
-                console.error(error);
+                logger.error(error);
                 dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
             });
     };
 };
 
 export const getTransactionsBySender = (publicKey: string) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AnyAction>) => {
         dispatch({ type: GET_TRANSACTIONS_BEGIN });
 
         apiService
@@ -72,14 +74,14 @@ export const getTransactionsBySender = (publicKey: string) => {
                 dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
             })
             .catch((error) => {
-                console.error(error);
+                logger.error(error);
                 dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
             });
     };
 };
 
 export const getTransactionsByRecipient = (publicKey: string) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AnyAction>) => {
         dispatch({ type: GET_TRANSACTIONS_BEGIN });
 
         apiService
@@ -88,7 +90,7 @@ export const getTransactionsByRecipient = (publicKey: string) => {
                 dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
             })
             .catch((error) => {
-                console.error(error);
+                logger.error(error);
                 dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
             });
     };

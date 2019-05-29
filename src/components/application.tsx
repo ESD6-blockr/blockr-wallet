@@ -1,3 +1,4 @@
+import { IPeer, Peer, PeerType } from "@blockr/blockr-p2p-lib";
 import * as React from "react";
 import { Route, Router, Switch } from "react-router";
 import { ToastContainer } from "react-toastify";
@@ -10,19 +11,22 @@ import Login from "./login/login";
 import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
 
-let validatorIp: string | undefined;
+// let validatorIp: string | undefined;
 
 // const initPeer = async () => {
-//     const peer: IPeer = new Peer("Wallet");
+//     const peer: IPeer = new Peer(PeerType.WALLET);
 //     await peer.init();
-//     validatorIp = peer.getPeerOfType("Validator");
+//     const node = peer.getPeerOfType(PeerType.VALIDATOR);
+//     if (node) {
+//         validatorIp = node[1];
+//     }
 // }
 
 // initPeer()
-validatorIp = "https://public.blockr.verux.nl";
 
 export function getValidatorIp(): string {
-    return validatorIp || "0.0.0.0";
+    // return validatorIp || "https://public.blockr.verux.nl";
+    return "https://public.blockr.verux.nl";
 }
 
 const numberOfColumns = 2;

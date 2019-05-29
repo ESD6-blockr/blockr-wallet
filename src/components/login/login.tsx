@@ -1,5 +1,7 @@
+import { logger } from "@blockr/blockr-logger";
 import * as React from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import { IRootState } from "reducers";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import { login } from "../../actions/authentication.actions";
@@ -9,9 +11,10 @@ import "./login.scss";
 interface DefaultState {
     privateKey: string;
     publicKey: string;
+    agreement: number;
 }
 
-const mapStateToProps = (state: IRootState, props: any) => ({
+const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
     isLoading: state.authentication.isLoading,
 });
@@ -27,6 +30,7 @@ class Login extends React.Component<Props, DefaultState> {
         super(props);
 
         this.state = {
+            agreement: 0,
             privateKey: "",
             publicKey: "",
         };
@@ -50,8 +54,18 @@ class Login extends React.Component<Props, DefaultState> {
         });
     };
 
+    public handleAgreementChange = (element, data) => {
+        this.setState({
+            agreement: data.checked ? 1 : 0,
+        });
+    };
+
     public handleLogin = () => {
-        this.props.login(this.state.publicKey, this.state.privateKey);
+        if (this.state.agreement) {
+            this.props.login(this.state.publicKey, this.state.privateKey);
+            return;
+        }
+        toast.info("Please agree to the Terms and Conditions");
     };
 
     public render() {
@@ -77,7 +91,11 @@ class Login extends React.Component<Props, DefaultState> {
                         onChange={this.handlePrivateKeyChange}
                     />
                     <Form.Field required>
-                        <Checkbox label="I agree to the Terms and Conditions" />
+                        <Checkbox
+                            label="I agree to the Terms and Conditions"
+                            value={this.state.agreement}
+                            onChange={this.handleAgreementChange}
+                        />
                     </Form.Field>
                     <Button type="submit" name="loginButton" loading={isLoading}>
                         Login

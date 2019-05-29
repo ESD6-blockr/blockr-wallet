@@ -14,7 +14,7 @@ import {
 import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
-const mapStateToProps = (state: IRootState, props: any) => ({
+const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
@@ -32,7 +32,7 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
-class Profile extends React.Component<Props, {}> {
+class Profile extends React.Component<Props> {
     constructor(props: any) {
         super(props);
     }

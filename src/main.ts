@@ -1,11 +1,11 @@
 import { app, BrowserWindow } from "electron";
+import * as installer from "electron-devtools-installer";
 import * as path from "path";
 import * as url from "url";
 
 let win: BrowserWindow | null;
 
 const installExtensions = async () => {
-    const installer = require("electron-devtools-installer");
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"];
 

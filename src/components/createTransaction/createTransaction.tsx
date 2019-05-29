@@ -13,7 +13,7 @@ interface DefaultState {
     publicKey: string;
 }
 
-const mapStateToProps = (state: IRootState, props: any) => ({
+const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
     postTransactionLoading: state.transaction.postTransactionLoading,
 });
