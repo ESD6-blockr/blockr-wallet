@@ -9,7 +9,8 @@ Map settings = [
     source_folder: "src/",
     archive_folders: ["dist/", "release/"],
     yarn: true,
-    skip_tests: true
+    skip_tests: true,
+    sonar_exclusions: "src/*"
 ]
 
 tsBuild(repo, settings)
