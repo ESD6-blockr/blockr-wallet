@@ -98,31 +98,21 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     }
 
     public login = async () => {
+        logger.info("Logging in user..");
         const user: User = new User(this.state.publicKey, this.state.privateKey);
-        let keyPair;
-
-        console.log(this.state.publicKey);
-        console.log(this.state.privateKey);
-
+        
         try {
-            keyPair = await this.cryptoKeyUtil.verifyKeyPair(
+            // verify keypair-relation
+            let keyPair = await this.cryptoKeyUtil.verifyKeyPair(
                 this.state.publicKey,
                 this.state.privateKey,
             );
-            console.log("Correct keyPair combination supplied!");
-            console.log(keyPair);
-
-            const pubKey = keyPair.getPublic(true, "hex");
-            const privKey = keyPair.getPrivate("hex");
-
-            console.log(pubKey);
-            console.log(privKey);
-
+            
             this.props.loginAction(user);
             goToUrl("/profile");
         } catch (err) {
             console.log(err);
-            this.setState({ invalidKeyPair: true });
+            this.toggleErrorMessage();
         }
     }
 
@@ -135,35 +125,33 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     }
 
     public fileRead = (filePath) => {
-        console.log("LIJP");
+        logger.info("Reading local file..");
         const contents = fs.readFileSync(filePath, "utf8");
-        console.log(contents);
-
-        console.log("after calling readFile");
-
         this.setState({ filePath, open: true, encryptedString: contents });
     }
 
     public generateKeypair = () => {
+        logger.info("Generating new keypair..");
         const keypair = this.cryptoKeyUtil.generateKeyPair();
         const pubKey = keypair.getPublic(true, "hex");
         const privKey = keypair.getPrivate("hex");
 
-        console.log(pubKey);
-        console.log(privKey);
-
-        console.log("generated new keypair");
+        logger.info("PUBKEY: " + pubKey);
+        logger.info("PRIVKEY: " + privKey);
 
         this.setState({ openGenerateDialog: true, privateKey: privKey, publicKey: String(pubKey) });
     }
 
     public showSaveDialog = () => {
+        logger.info("Saving credentials to local file..");
+
         const options = {
+            // default file location
             defaultPath: app.getPath("documents") + "/blockr-keyfile.enc",
         };
 
         dialog.showSaveDialog(null, options, (path) => {
-            console.log(path);
+            logger.info("Select path: " + path);
             this.setState({ filePath: path, openEncryptDialog: true });
         });
     }
@@ -174,7 +162,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         };
 
         dialog.showOpenDialog(null, options, (path) => {
-            console.log(path);
+            logger.info("Select path: " + path);
 
             const contents = fs.readFileSync(path[0], "utf8");
             this.setState({ filePath: path[0], encryptedString: contents, open: true });
@@ -186,12 +174,21 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         this.showSaveDialog();
     }
 
-    public closeGenerateDialog = () => {
-        this.setState({ openGenerateDialog: false });
-        this.setState({ openEncryptDialog: true });
+    public close = () => this.setState({ open: false });
+
+    private toggleSuccessMessage = () => {
+        this.setState({ decryptFileSuccess: true });
+        setTimeout(() => {
+            this.setState({ decryptFileSuccess: false });
+        }, 2000);
     }
 
-    public close = () => this.setState({ open: false });
+    private toggleErrorMessage = () => {
+        this.setState({ invalidKeyPair: true });
+        setTimeout(() => {
+            this.setState({ invalidKeyPair: false });
+        }, 2000);
+    }
 
     public render() {
         const { open, openEncryptDialog, openGenerateDialog } = this.state;
@@ -249,7 +246,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                                 this.fileRead(this.userDataStore.get("localFilePath"))
                             }
                         >
-                            <Icon name='world' />
+                            <Icon name='unlock' />
                         </Button>
                     </div>
 
@@ -389,8 +386,8 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                 >
                     <Message
                         negative
-                        header="Invalid keyPair"
-                        content="Please fill in a correct pub/priv key combination"
+                        header="Invalid Credentials"
+                        content="Please supply correct credentials!"
                     />
                 </Transition>
 
@@ -401,16 +398,13 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     private decryptFile = () => {
         logger.info("Start decrypting local file");
 
-        console.log(this.state.encryptedString);
-
         // het semester valt niet meer te r
         const decryptedContent = this.cryptoService.decrypt(
             this.state.encryptedString,
             this.state.passphrase,
         ); // key has to be 16 or 32 bytes
-        console.log(decryptedContent);
+
         const keys = decryptedContent.split(":");
-        console.log(keys);
 
         if (decryptedContent) {
             this.toggleSuccessMessage();
@@ -421,26 +415,8 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         logger.info("Done decrypting local file");
     }
 
-    private toggleSuccessMessage = () => {
-        this.setState({ decryptFileSuccess: true });
-        setTimeout(() => {
-            this.setState({ decryptFileSuccess: false });
-        }, 2000);
-    }
-
-    private toggleErrorMessage = () => {
-        this.setState({ invalidKeyPair: true });
-        setTimeout(() => {
-            this.setState({ invalidKeyPair: false });
-        }, 2000);
-    }
-
     private encryptFile = () => {
         logger.info("Start encrypting local file");
-
-        console.log(this.state.filePath);
-        console.log(this.state.passphrase);
-        console.log(this.state.privateKey);
 
         fs.writeFile(
             this.state.filePath,
@@ -455,7 +431,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
 
                 this.setState({ openEncryptDialog: false });
 
-                console.log("The file was saved!");
+                logger.info("The file was saved!");
             }.bind(this),
         );
 
