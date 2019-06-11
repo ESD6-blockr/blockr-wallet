@@ -23,7 +23,7 @@ const logout = (state: IAuthenticationState): IAuthenticationState => ({
     currentUser: null,
 });
 
-const toggleLoading = (state: IAuthenticationState, action): IAuthenticationState => ({
+const toggleLoading = (state: IAuthenticationState): IAuthenticationState => ({
     ...state,
     isLoading: !state.isLoading,
 });

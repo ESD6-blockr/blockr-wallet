@@ -6,7 +6,6 @@ import { IRootState } from 'reducers';
 import { Button, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import { logout } from '../../actions/authentication.actions';
 import {
-    getAllTransactions,
     getTransactionsByRecipient,
     getTransactionsBySender,
     setCurrentTransaction
@@ -23,9 +22,7 @@ const mapStateToProps = (state: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-    getAllTransactions,
     getTransactionsByRecipient,
-    getTransactionsBySender,
     logout,
     setCurrentTransaction
 };
