@@ -52,6 +52,6 @@ export class ApiService {
     }
 
     private getIPFSRoute(): string {
-        return `${getIPFSIp()}/api/paper`;
+        return `${getIPFSIp()}/api/ipfs`;
     }
 }
