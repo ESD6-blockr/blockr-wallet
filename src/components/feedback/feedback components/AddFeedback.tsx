@@ -1,15 +1,15 @@
-import * as React from 'react';
+import * as React from "react";
 
 export default class AddFeedback extends React.Component<any, any> {
     public state = {
-        feedback: null
+        feedback: null,
     };
-    public handleChange = e => {
+    public handleChange = (e) => {
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
         });
     };
-    public handleSubmit = e => {
+    public handleSubmit = (e) => {
         e.preventDefault();
         this.props.addFeedback(this.state);
     };
