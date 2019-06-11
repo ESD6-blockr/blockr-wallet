@@ -1,8 +1,8 @@
-import { Transaction } from '@blockr/blockr-models';
-import Axios from 'axios';
-import { reject } from 'q';
-import { resolve } from 'url';
-import { getIPFSIp, getValidatorIp } from '../components/application';
+import { Transaction } from "@blockr/blockr-models";
+import Axios from "axios";
+import { reject } from "q";
+import { resolve } from "url";
+import { getIPFSIp, getValidatorIp } from "../components/application";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
@@ -11,13 +11,13 @@ export class ApiService {
 
     public getTransactionsBySender = (publicKey: string): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({
-            senderKey: publicKey
+            senderKey: publicKey,
         });
     };
 
     public getTransactionsByRecipient(publicKey: string): Promise<Transaction[]> {
         return this.getTransactionsByQuery({
-            recipientKey: publicKey
+            recipientKey: publicKey,
         });
     }
 
@@ -25,25 +25,25 @@ export class ApiService {
         return new Promise(async (resolve, reject) => {
             return Axios.post(this.getTransactionRoute(), transaction)
                 .then(() => resolve())
-                .catch(error => reject(error));
+                .catch((error) => reject(error));
         });
     }
 
     public postDocumentToIPFS(base64EncodedPDF: string) {
         return new Promise(async (resolve, reject) => {
             return Axios.post(this.getIPFSRoute(), {
-                base64EncodedPDF
+                base64EncodedPDF,
             })
                 .then(() => resolve())
-                .catch(error => reject(error));
+                .catch((error) => reject(error));
         });
     }
 
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
         return new Promise(async (resolve, reject) => {
             Axios.get<Transaction[]>(this.getTransactionRoute(), { params: queryObject })
-                .then(response => resolve(response.data))
-                .catch(error => reject(error));
+                .then((response) => resolve(response.data))
+                .catch((error) => reject(error));
         });
     }
 
