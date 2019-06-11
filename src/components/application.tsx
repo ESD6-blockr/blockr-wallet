@@ -9,6 +9,7 @@ import CreateTransaction from "./createTransaction/createTransaction";
 import Login from "./login/login";
 import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
+import FileUpload from "./file/file";
 
 export function getValidatorIp(): string {
     // return validatorIp || "https://public.blockr.verux.nl";
