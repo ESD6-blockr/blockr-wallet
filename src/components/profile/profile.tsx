@@ -86,9 +86,12 @@ class Profile extends React.Component<Props> {
                                     />
                                     <div className="content">
                                         <a className="header">
-                                            ${transaction.amount} - {transaction.recipientKey}
+                                            ${transaction.transactionHeader.amount} -
+                                            {transaction.transactionHeader.recipientKey}
                                         </a>
-                                        <a className="description">{transaction.date}</a>
+                                        <a className="description">
+                                            {transaction.transactionHeader.date}
+                                        </a>
                                     </div>
                                 </div>
                             );
