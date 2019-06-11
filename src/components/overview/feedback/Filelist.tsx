@@ -1,17 +1,15 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Form, Input } from "semantic-ui-react";
+import { getIPFSIp } from "../../application";
 
 export default class Filelist extends React.Component<any, any> {
     public viewFeedback = (e, file) => {
         console.log("feedback: " + file.hash);
-        window.open(file.hash);
         this.props.selectFeedback(file.hash);
     };
     public openDocument = (e, file) => {
-        console.log("download: " + file.hash);
-        // download document
-        window.open(file.hash);
+        window.open(getIPFSIp() + "/api/ipfs/" + file.hash);
         this.props.selectFeedback(file.hash);
     };
     public render() {
@@ -22,17 +20,17 @@ export default class Filelist extends React.Component<any, any> {
                     <div className="ui column" onClick={(e) => this.viewFeedback(e, file)}>
                         {file.hash}
                     </div>
-                    <Button
+                    <Link
                         className="ui column blue button space-top right-button"
-                        onClick={(e) => this.viewFeedback(e, file)}
+                        // onClick={(e) => this.viewFeedback(e, file)}
+                        to={`/feedback/${file.hash}`}
                     >
                         View feedback
-                    </Button>
+                    </Link>
                     <Button
                         className="ui column blue purple space-top right-button"
-                        onClick={(e) => this.openDocument(e, file)}
-                    >
-                        Open document
+                        onClick={(e) => this.openDocument(e, file)}>
+                        Save document
                     </Button>
                 </div>
             );
