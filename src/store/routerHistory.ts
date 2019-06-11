@@ -1,6 +1,6 @@
-import { createBrowserHistory } from "history";
+import { createHashHistory } from "history";
 
-const routerHistory = createBrowserHistory();
+const routerHistory = createHashHistory();
 
 // Created function because push function wouldn't redirect to URL
 export const goToUrl = (url: string) => {

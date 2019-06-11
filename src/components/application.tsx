@@ -1,4 +1,3 @@
-import { IPeer, Peer, PeerType } from "@blockr/blockr-p2p-lib";
 import * as React from "react";
 import { Route, Router, Switch } from "react-router";
 import { ToastContainer } from "react-toastify";
