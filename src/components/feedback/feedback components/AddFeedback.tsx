@@ -15,7 +15,7 @@ export default class AddFeedback extends React.Component<any, any> {
     };
     public render() {
         return (
-            <div>
+            <div className="row ui">
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="feedback">Feedback:</label>
                     <input type="text" id="feedback" onChange={this.handleChange} />

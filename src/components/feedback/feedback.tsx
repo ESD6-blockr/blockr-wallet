@@ -8,11 +8,13 @@ import Filelist from './feedback components/Filelist';
 
 export default class Feedback extends React.Component<any, any> {
     public state = {
-        selectedUrl: '1.example.com',
+        selectedUrl: '',
         files: [
-            { name: 'werkstuk1', date: '01-01-2019', url: '1.example.com', feedback: [''] },
-            { name: 'werkstuk2', date: '01-01-2019', url: '2.example.com', feedback: [''] },
-            { name: 'werkstuk3', date: '01-01-2019', url: '3.example.com', feedback: [''] }
+            { hash: '8efd86fb78a56a5145ed7739dcb00c78581c5375', feedback: [''] },
+            { hash: '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', feedback: [''] },
+            { hash: 'e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98', feedback: [''] },
+            { hash: 'e9d71f5ee7c92d6dc9e92ffdad17b8b349418f98', feedback: [''] },
+            { hash: 'e9d71f5ee7c92d6dc9e92ffdad17b8b449418f98', feedback: [''] }
         ]
     };
     public selectFeedback = url => {
@@ -25,7 +27,7 @@ export default class Feedback extends React.Component<any, any> {
         const url = this.state.selectedUrl;
         let files = [...this.state.files];
         files.forEach(function(entry) {
-            if (entry.url === url) {
+            if (entry.hash === url) {
                 entry.feedback.push(feedback);
                 console.log(entry);
             }
@@ -39,16 +41,19 @@ export default class Feedback extends React.Component<any, any> {
 
     public render() {
         return (
-            <div className="hidden">
-                <h1>Feedback - Blockr</h1>
+            <div className="">
+                <h1 className="">Feedback - Blockr</h1>
                 <div className="Filelist">
-                    <h2>Werkstukken</h2>
+                    <h2 className="werkstukkenHeader ui">Werkstukken</h2>
                     <Filelist files={this.state.files} selectFeedback={this.selectFeedback} />
                 </div>
                 <div className="Feedback">
-                    <h2>Feedback toevoegen</h2>
+                    <h2 className="ui row">Feedback toevoegen</h2>
                     <AddFeedback addFeedback={this.addFeedback} />
                 </div>
+                <Link className="ui bottom button centered back" to="/profile">
+                    Back
+                </Link>
             </div>
         );
     }

@@ -126,8 +126,9 @@ class Profile extends React.Component<Props> {
                     </Link>
                     <br />
                     <Link className="ui button space-top right-button" to="/feedback">
-                        Feedback
+                        View documents
                     </Link>
+                    <br />
                 </div>
             </div>
         );
