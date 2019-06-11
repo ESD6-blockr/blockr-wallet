@@ -118,7 +118,7 @@
   "dependencies": {
     "@blockr/blockr-crypto": "^1.0.0-1",
     "@blockr/blockr-logger": "^1.1.0-15",
-    "@blockr/blockr-models": "^1.4.0-2",
+    "@blockr/blockr-models": "^1.4.0-build.15",
     "@blockr/blockr-p2p-lib": "^1.0.1-2",
     "axios": "^0.18.0",
     "history": "^4.9.0",

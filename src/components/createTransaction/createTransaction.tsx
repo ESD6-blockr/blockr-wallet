@@ -1,26 +1,28 @@
-import { Transaction, TransactionType } from "@blockr/blockr-models";
-import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
-import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
-import { IRootState } from "../../reducers";
-import { goToUrl } from "../../store/routerHistory";
-import "./CreateTransaction.scss";
+import { Transaction, TransactionHeader, TransactionType } from '@blockr/blockr-models';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button, Dropdown, Form } from 'semantic-ui-react';
+import { getTransactionsByRecipient, postTransaction } from '../../actions/transaction.actions';
+import { TRANSACTION_TYPE_OPTIONS } from '../../constants/createTransaction.constant';
+import { IRootState } from '../../reducers';
+import { goToUrl } from '../../store/routerHistory';
+import './CreateTransaction.scss';
 
 interface DefaultState {
     amount: number;
     publicKey: string;
+    type: string;
 }
 
 const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
-    postTransactionLoading: state.transaction.postTransactionLoading,
+    postTransactionLoading: state.transaction.postTransactionLoading
 });
 
 const mapDispatchToProps = {
     getTransactionsByRecipient,
-    postTransaction,
+    postTransaction
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
@@ -31,25 +33,32 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
 
         this.state = {
             amount: 0,
-            publicKey: "",
+            publicKey: '',
+            type: 'coin'
         };
     }
 
     public componentDidMount() {
         if (!this.props.currentUser) {
-            goToUrl("/");
+            goToUrl('/');
         }
     }
 
-    public handlePublicKeyChange = (element) => {
+    public handlePublicKeyChange = element => {
         this.setState({
-            publicKey: element.target.value,
+            publicKey: element.target.value
         });
     };
 
-    public handleAmountChange = (element) => {
+    public handleAmountChange = element => {
         this.setState({
-            amount: element.target.value,
+            amount: element.target.value
+        });
+    };
+
+    public handleTypeChange = (element, data) => {
+        this.setState({
+            type: data.value
         });
     };
 
@@ -57,12 +66,18 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         if (!this.props.currentUser) {
             return;
         }
-        const transaction: Transaction = new Transaction(
-            TransactionType.COIN,
+
+        const transatcionHeader: TransactionHeader = new TransactionHeader(
             this.state.publicKey,
             this.props.currentUser.publicKey,
             this.state.amount,
-            new Date(),
+            new Date()
+        );
+
+        const transaction: Transaction = new Transaction(
+            TransactionType[this.state.type],
+            transatcionHeader,
+            'signature'
         );
 
         this.props.postTransaction(transaction);
@@ -73,11 +88,22 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             <div>
                 <div
                     style={{
-                        textAlign: "center",
+                        textAlign: 'center'
                     }}
                 >
                     <h3>Create transaction</h3>
                     <Form onSubmit={this.hanldePostTransaction}>
+                        <Form.Field>
+                            <label>Type:</label>
+                            <Dropdown
+                                placeholder="Select type"
+                                fluid
+                                selection
+                                value={this.state.type}
+                                onChange={this.handleTypeChange}
+                                options={TRANSACTION_TYPE_OPTIONS}
+                            />
+                        </Form.Field>
                         <Form.Field>
                             <label>To:</label>
                             <input
@@ -106,9 +132,9 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                 </div>
                 <div
                     style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "10px",
+                        position: 'absolute',
+                        right: '10px',
+                        top: '10px'
                     }}
                 >
                     <Link className="ui button" to="/profile">
@@ -120,7 +146,4 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CreateTransaction);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTransaction);
