@@ -178,10 +178,10 @@
   dependencies:
     winston "^3.2.1"
 
-"@blockr/blockr-models@^1.4.0-2":
-  version "1.4.0-20"
-  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.4.0-20.tgz#6854f8fa92f7ee444152e04ca7bd1709336b13e3"
-  integrity sha512-d6IhhD9fGm6iQdyiitWToPrm63PMqaxqC3sQ9N0K0hwADFn/lSr1ifYDtE2d1JcAqJ/faGkE5dug/RIuduWB3w==
+"@blockr/blockr-models@^1.4.0-build.15":
+  version "1.4.0-build.15"
+  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.4.0-build.15.tgz#41684e20eae8005809ee2278b506e16fdd897c79"
+  integrity sha512-7tVKXn1wMPos0mXie4M+vLCETqaqqnNoJolorXrhofJRmbs8GTDMwZk0IOqj5Lk0LdZsF0XMCulcgPGLvgu4NA==
 
 "@blockr/blockr-p2p-lib@^1.0.1-2":
   version "1.0.1-build.4"

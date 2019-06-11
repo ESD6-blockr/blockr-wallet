@@ -1,9 +1,10 @@
-import { Transaction, TransactionType } from "@blockr/blockr-models";
+import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Dropdown, Form } from "semantic-ui-react";
 import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
+import { TRANSACTION_TYPE_OPTIONS } from "../../constants/createTransaction.constant";
 import { IRootState } from "../../reducers";
 import { goToUrl } from "../../store/routerHistory";
 import "./CreateTransaction.scss";
@@ -11,6 +12,7 @@ import "./CreateTransaction.scss";
 interface DefaultState {
     amount: number;
     publicKey: string;
+    type: string;
 }
 
 const mapStateToProps = (state: IRootState) => ({
@@ -32,6 +34,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         this.state = {
             amount: 0,
             publicKey: "",
+            type: "coin",
         };
     }
 
@@ -53,16 +56,28 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         });
     };
 
+    public handleTypeChange = (element, data) => {
+        this.setState({
+            type: data.value,
+        });
+    };
+
     public hanldePostTransaction = () => {
         if (!this.props.currentUser) {
             return;
         }
-        const transaction: Transaction = new Transaction(
-            TransactionType.COIN,
+
+        const transatcionHeader: TransactionHeader = new TransactionHeader(
             this.state.publicKey,
             this.props.currentUser.publicKey,
             this.state.amount,
             new Date(),
+        );
+
+        const transaction: Transaction = new Transaction(
+            TransactionType[this.state.type],
+            transatcionHeader,
+            "signature",
         );
 
         this.props.postTransaction(transaction);
@@ -78,6 +93,17 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                 >
                     <h3>Create transaction</h3>
                     <Form onSubmit={this.hanldePostTransaction}>
+                        <Form.Field>
+                            <label>Type:</label>
+                            <Dropdown
+                                placeholder="Select type"
+                                fluid
+                                selection
+                                value={this.state.type}
+                                onChange={this.handleTypeChange}
+                                options={TRANSACTION_TYPE_OPTIONS}
+                            />
+                        </Form.Field>
                         <Form.Field>
                             <label>To:</label>
                             <input
