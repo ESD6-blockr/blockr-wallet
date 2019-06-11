@@ -171,10 +171,10 @@
   dependencies:
     winston "^3.2.1"
 
-"@blockr/blockr-logger@^1.4.0-build.4":
-  version "1.4.0-build.4"
-  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-logger/-/blockr-logger-1.4.0-build.4.tgz#d819b65af19d95df48455a7bb90ced6d32be9716"
-  integrity sha512-PYCyRCV530CzP5HHUJAS3isFQsUo/lC3+sDunjaUYTJun52rICJ5Ue6ci9zz3n4gpC0KlLycvBBYqgZ0TJ5lNA==
+"@blockr/blockr-logger@^1.4.1-build.7":
+  version "1.4.1-build.7"
+  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-logger/-/blockr-logger-1.4.1-build.7.tgz#a60138f9dd6fbcc1990542a74f1b3ec040e507fa"
+  integrity sha512-cSjQWEb/DGlGs7AngONHnG8/i/REyArEsxS6cMQkiPkmt8ICEcBQWBsp/y1jSbil0sNZRhPUJjzWSZmYXpUviQ==
   dependencies:
     winston "^3.2.1"
 
