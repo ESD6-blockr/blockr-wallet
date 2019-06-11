@@ -1,11 +1,14 @@
-import { Reducer, combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { CounterState, counterReducer } from './counterReducer';
+import authenticationReducer, { IAuthenticationState } from "./authentication.reducer";
+import getTransactionsReducer, { ITransactionState } from "./transaction.reducer";
 
-export interface RootState {
-    counter: CounterState;
+export interface IRootState {
+    authentication: IAuthenticationState;
+    transaction: ITransactionState;
 }
 
-export const rootReducer = combineReducers<RootState | undefined>({
-    counter: counterReducer
+export const rootReducer = combineReducers<IRootState | undefined>({
+    authentication: authenticationReducer,
+    transaction: getTransactionsReducer,
 });

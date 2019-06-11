@@ -1,0 +1,8 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true
+    },
+    "atlascode.jira.workingSite": {
+        "baseUrlSuffix": "atlassian.net"
+    },
+}

@@ -1,0 +1,29 @@
+@import './variables';
+
+.centered {
+    text-align: center;
+}
+
+.left-div {
+    text-align: left;
+}
+
+.space-top {
+    margin-top: $base-space !important;
+}
+
+.space-bottom {
+    margin-bottom: $base-space !important;
+}
+
+.space-left {
+    margin-left: $base-space !important;
+}
+
+.space-right {
+    margin-right: $base-space !important;
+}
+
+.right-button {
+    float: right;
+}
