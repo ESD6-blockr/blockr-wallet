@@ -1,11 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 
 export default class Feedbacklist extends React.Component<any, any> {
     public render() {
         const { files } = this.props;
-        const feedbacklist = files.map(file => {
-            file.feedback.map(feedback => {
-                console.log('this is feedback: ', feedback);
+        const feedbacklist = files.map((file) => {
+            file.feedback.map((feedback) => {
                 return <div className="comment">{feedback[1]}</div>;
             });
         });

@@ -1,19 +1,18 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import AddFeedback from '../feedback/AddFeedback';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import AddFeedback from "../feedback/AddFeedback";
 export default class Feedback extends React.Component<any, any> {
     public addFeedback = (feedback: string) => {
         const hash = this.state.selectedHash;
         let files = [...this.state.files];
-        files.forEach(function(entry) {
+        files.forEach((entry) => {
             if (entry.hash === hash) {
                 entry.feedback.push(feedback);
-                console.log(entry);
             }
         });
         files = [...this.state.files];
         this.setState({
-            files
+            files,
         });
     };
 

@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import authenticationReducer, { IAuthenticationState } from './authentication.reducer';
-import getTransactionsReducer, { ITransactionState } from './transaction.reducer';
+import authenticationReducer, { IAuthenticationState } from "./authentication.reducer";
+import getTransactionsReducer, { ITransactionState } from "./transaction.reducer";
 
 export interface IRootState {
     authentication: IAuthenticationState;
@@ -10,5 +10,5 @@ export interface IRootState {
 
 export const rootReducer = combineReducers<IRootState | undefined>({
     authentication: authenticationReducer,
-    transaction: getTransactionsReducer
+    transaction: getTransactionsReducer,
 });

@@ -1,30 +1,23 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input } from 'semantic-ui-react';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { Button, Form, Input } from "semantic-ui-react";
 
-import AddFeedback from './feedback/AddFeedback';
-import Feedbacklist from './feedback/Feedbacklist';
-import Filelist from './feedback/Filelist';
+import AddFeedback from "./feedback/AddFeedback";
+import Feedbacklist from "./feedback/Feedbacklist";
+import Filelist from "./feedback/Filelist";
 
 export default class Overview extends React.Component<any, any> {
     public state = {
-        selectedHash: '',
         files: [
-            { hash: 'QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS', feedback: [''] },
-            { hash: 'QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF', feedback: [''] },
-            { hash: "QmWScQUnnhcoLrgGU1H7sWv1vNc38djz2kEmQD7dzmjsEC", feedback: [""] }
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-            // { hash: "QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF", feedback: [""] },
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
-        ]
+            { feedback: [""], hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS" },
+            { feedback: [""], hash: "QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF" },
+            { feedback: [""], hash: "QmWScQUnnhcoLrgGU1H7sWv1vNc38djz2kEmQD7dzmjsEC" },
+        ],
+        selectedHash: "",
     };
-    public selectFeedback = hash => {
+    public selectFeedback = (hash) => {
         this.setState({
-            selectedHash: hash
+            selectedHash: hash,
         });
     };
 
