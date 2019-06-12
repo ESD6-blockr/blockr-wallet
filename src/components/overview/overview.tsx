@@ -11,8 +11,8 @@ export default class Overview extends React.Component<any, any> {
         selectedHash: '',
         files: [
             { hash: 'QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS', feedback: [''] },
-            { hash: 'QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF', feedback: [''] }
-            // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
+            { hash: 'QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF', feedback: [''] },
+            { hash: "QmWScQUnnhcoLrgGU1H7sWv1vNc38djz2kEmQD7dzmjsEC", feedback: [""] }
             // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
             // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
             // { hash: "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS", feedback: [""] },
