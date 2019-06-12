@@ -12,7 +12,7 @@
 </div>
 
 ## Development
-Because npm gave us some problems we use `yarn` for this project. If you don't have yarn this can be installed with `npm install -g yarn`
+Because npm gave us some problems we use `yarn` for this project. If you don't have yarn this can be installed with `npm install -g yarn`, after intalling run `yarn`.
 Both processes have to be started **simultaneously** in different console tabs:
 
 ```bash
