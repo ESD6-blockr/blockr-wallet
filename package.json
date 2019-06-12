@@ -35,6 +35,7 @@
   "build": {
     "productName": "Blockr Wallet",
     "appId": "org.blockr.wallet",
+    "icon": "./dist/icons",
     "mac": {
       "category": "blockr.wallet.blockchain.wallet"
     },
@@ -47,6 +48,7 @@
       "package.json"
     ],
     "linux": {
+      "category": "Utility",
       "target": "deb"
     },
     "win": {
