@@ -1,56 +1,100 @@
-import { logger } from "@blockr/blockr-logger";
+import { Transaction } from "@blockr/blockr-models";
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { IRootState } from "reducers";
+import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
+import { logout } from "../../actions/authentication.actions";
+import {
+    getTransactionsByRecipient,
+    setCurrentTransaction,
+} from "../../actions/transaction.actions";
+import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
-const profile = {
-    balance: 233,
-    publicKey: "11231023012312301023012031",
-    transactions: [
-        {
-            amount: 502,
-            date: "07-05-2019",
-            from: "11231023012312301023012031",
-            hash: "12312312341312",
-            id: 1,
-            to: "1023812038123123123",
-        },
-        {
-            amount: 120,
-            date: "02-05-2019",
-            from: "11231023012312301023012031",
-            hash: "12312541412412",
-            id: 2,
-            to: "1203102414201024",
-        },
-    ],
+const mapStateToProps = (state: IRootState) => ({
+    currentUser: state.authentication.currentUser,
+    getTransactionDone: state.transaction.getTransactionDone,
+    getTransactionError: state.transaction.getTransactionError,
+    getTransactionLoading: state.transaction.getTransactionLoading,
+    transactions: state.transaction.transactions,
+});
+
+const mapDispatchToProps = {
+    getTransactionsByRecipient,
+    logout,
+    setCurrentTransaction,
 };
 
-export default class Profile extends React.Component<any, any> {
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+class Profile extends React.Component<Props> {
+    constructor(props: any) {
+        super(props);
+    }
+
+    public componentDidMount() {
+        if (!this.props.currentUser) {
+            goToUrl("/");
+            return;
+        }
+
+        if (this.props.transactions.length === 0) {
+            this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
+        }
+    }
+
+    public handleLogout = () => {
+        this.props.logout();
+        goToUrl("/");
+    };
+
+    public handleTransactionView = (transaction: Transaction) => {
+        this.props.setCurrentTransaction(transaction);
+        goToUrl("/transaction");
+    };
+
     public render() {
+        const { transactions, currentUser, getTransactionLoading } = this.props;
         return (
             <div className="centered">
-                <h2>{profile.publicKey}</h2>
-                <h3>Balance: {profile.balance}</h3>
+                <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
+                <h3>Balance: temp 123</h3>
                 <h3>Transactions</h3>
-                <div role="list" className="ui divided relaxed list left-div">
-                    {profile.transactions.map((value, index) => {
-                        return (
-                            <div key={index} role="listitem" className="item">
-                                <i
-                                    aria-hidden="true"
-                                    className="bitcoin large icon middle aligned"
-                                />
-                                <div className="content">
-                                    <a className="header">
-                                        {value.amount} - {value.to}
-                                    </a>
-                                    <a className="description">{value.date}</a>
+                <Segment>
+                    <div role="list" className="ui divided relaxed list left-div">
+                        {getTransactionLoading && (
+                            <Dimmer active inverted>
+                                <Loader />
+                            </Dimmer>
+                        )}
+                        {transactions.map((transaction: Transaction, index: number) => {
+                            return (
+                                <div
+                                    key={index}
+                                    role="listitem"
+                                    className="item"
+                                    onClick={() => this.handleTransactionView(transaction)}
+                                >
+                                    <i
+                                        aria-hidden="true"
+                                        className="bitcoin large icon middle aligned"
+                                    />
+                                    <div className="content">
+                                        <a className="header">
+                                            ${transaction.transactionHeader.amount} -
+                                            {transaction.transactionHeader.recipientKey}
+                                        </a>
+                                        <a className="description">
+                                            {transaction.transactionHeader.date}
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                    {transactions.length === 0 && <p>No Transactions</p>}
+                </Segment>
                 <div
                     style={{
                         position: "absolute",
@@ -58,11 +102,18 @@ export default class Profile extends React.Component<any, any> {
                         top: "10px",
                     }}
                 >
-                    <Link className="ui red button space-top right-button" to="/">
+                    <Button
+                        onClick={this.handleLogout}
+                        name="logoutButton"
+                        className="ui red button space-top right-button"
+                    >
                         Logout
-                    </Link>
+                    </Button>
                     <br />
-                    <Link className="ui green button space-top right-button" to="/transaction">
+                    <Link
+                        className="ui green button space-top right-button"
+                        to="/transaction/create"
+                    >
                         Create Transaction
                     </Link>
                     <br />
@@ -74,3 +125,8 @@ export default class Profile extends React.Component<any, any> {
         );
     }
 }
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Profile);

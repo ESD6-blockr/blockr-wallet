@@ -1,37 +1,22 @@
-import { logger } from '@blockr/blockr-logger';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
-import {
-    Button,
-    Checkbox,
-    Form,
-    Icon,
-    Input,
-    Label,
-    Message,
-    Modal,
-    Segment,
-    Transition
-} from 'semantic-ui-react';
-import { login as loginAction } from '../../actions/authentication.actions';
-import User from '../../models/user';
-import { ApiService } from '../../services/apiService';
+import { logger } from "@blockr/blockr-logger";
+import * as React from "react";
+import { connect } from "react-redux";
+import { toast } from "react-toastify";
+import { IRootState } from "reducers";
+import { Button, Checkbox, Form, Icon, Input, Label, Message, Modal, Segment, Transition } from "semantic-ui-react";
+import { login } from "../../actions/authentication.actions";
+import { goToUrl } from "../../store/routerHistory";
+import "./login.scss";
 import { CryptoService } from '../../services/cryptoService';
-import { goToUrl } from '../../store/routerHistory';
-import './login.scss';
 import { CryptoKeyUtil } from '@blockr/blockr-crypto';
-
 const { dialog, app } = require('electron').remote;
 const fs = require('fs');
 const UserDataStore = require('../../store/userDataStore');
 
-interface DefaultProps {
-    loginAction: (currentUser: User) => void;
-}
 interface DefaultState {
     privateKey: string;
     publicKey: string;
+    agreement: number;
     passphrase: string;
     filePath: string;
     decryptFileSuccess: boolean;
@@ -42,8 +27,18 @@ interface DefaultState {
     invalidKeyPair: boolean;
 }
 
-class Login extends React.Component<DefaultProps, DefaultState, object> {
-    private apiService: ApiService;
+const mapStateToProps = (state: IRootState) => ({
+    currentUser: state.authentication.currentUser,
+    isLoading: state.authentication.isLoading,
+});
+
+const mapDispatchToProps = {
+    login,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+class Login extends React.Component<Props, DefaultState> {
     private cryptoService: CryptoService;
     private cryptoKeyUtil: CryptoKeyUtil;
     private userDataStore: UserDataStore;
@@ -52,8 +47,9 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         super(props);
 
         this.state = {
-            privateKey: '',
-            publicKey: '',
+            agreement: 0,
+            privateKey: "",
+            publicKey: "",
             passphrase: '',
             filePath: '',
             decryptFileSuccess: false,
@@ -63,21 +59,27 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
             encryptedString: '',
             invalidKeyPair: false
         };
-        this.apiService = new ApiService();
+
         this.cryptoService = new CryptoService();
         this.cryptoKeyUtil = new CryptoKeyUtil();
         this.userDataStore = new UserDataStore();
     }
 
-    public handlePublicKeyChange = element => {
+    public componentDidMount() {
+        if (this.props.currentUser) {
+            goToUrl("/profile");
+        }
+    }
+
+    public handlePublicKeyChange = (element) => {
         this.setState({
-            publicKey: element.target.value
+            publicKey: element.target.value,
         });
     };
 
-    public handlePrivateKeyChange = element => {
+    public handlePrivateKeyChange = (element) => {
         this.setState({
-            privateKey: element.target.value
+            privateKey: element.target.value,
         });
     };
 
@@ -93,9 +95,14 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
         });
     };
 
-    public login = async () => {
+    public handleAgreementChange = (element, data) => {
+        this.setState({
+            agreement: data.checked ? 1 : 0,
+        });
+    };
+
+    public handleLogin = async () => {
         logger.info('Logging in user..');
-        const user: User = new User(this.state.publicKey, this.state.privateKey);
 
         try {
             // verify keypair-relation
@@ -104,20 +111,16 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                 this.state.privateKey
             );
 
-            this.props.loginAction(user);
+            if (this.state.agreement) {
+                this.props.login(this.state.publicKey, this.state.privateKey);
+                return;
+            }
+            toast.info("Please agree to the Terms and Conditions");
             goToUrl('/profile');
         } catch (err) {
             console.log(err);
             this.toggleErrorMessage();
         }
-    };
-
-    public retrieveTransactions = () => {
-        logger.info('Start Retrieving');
-        this.apiService
-            .getTransactionsByReceiver('123')
-            .then(transactions => console.log(transactions));
-        logger.info('Done Retrieving');
     };
 
     public fileRead = filePath => {
@@ -129,13 +132,14 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     public generateKeypair = () => {
         logger.info('Generating new keypair..');
         const keypair = this.cryptoKeyUtil.generateKeyPair();
-        const pubKey = keypair.getPublic(true, 'hex');
-        const privKey = keypair.getPrivate('hex');
+        console.log(keypair);
+        // const pubKey = keypair.getPublic(true, 'hex');
+        // const privKey = keypair.getPrivate('hex');
 
-        logger.info('PUBKEY: ' + pubKey);
-        logger.info('PRIVKEY: ' + privKey);
+        // logger.info('PUBKEY: ' + pubKey);
+        // logger.info('PRIVKEY: ' + privKey);
 
-        this.setState({ openGenerateDialog: true, privateKey: privKey, publicKey: String(pubKey) });
+        // this.setState({ openGenerateDialog: true, privateKey: privKey, publicKey: String(pubKey) });
     };
 
     public showSaveDialog = () => {
@@ -187,11 +191,12 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     };
 
     public render() {
+        const { isLoading } = this.props;
         const { open, openEncryptDialog, openGenerateDialog } = this.state;
 
         return (
             <div>
-                <Form onSubmit={this.login}>
+                <Form onSubmit={this.handleLogin}>
                     <Form.Input
                         label="Public key"
                         required
@@ -210,12 +215,15 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                         onChange={this.handlePrivateKeyChange}
                     />
                     <Form.Field required>
-                        <Checkbox label="I agree to the Terms and Conditions" />
+                        <Checkbox
+                            label="I agree to the Terms and Conditions"
+                            value={this.state.agreement}
+                            onChange={this.handleAgreementChange}
+                        />
                     </Form.Field>
-                    <Button type="submit" name="loginButton">
+                    <Button type="submit" name="loginButton" loading={isLoading}>
                         Login
                     </Button>
-                    <Button onClick={this.retrieveTransactions}>Retrieve shit</Button>
                     <Button type="button" onClick={() => this.generateKeypair()}>
                         Register
                     </Button>
@@ -409,7 +417,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
                 this.state.publicKey + ':' + this.state.privateKey,
                 this.state.passphrase
             ),
-            function(this: Login, err) {
+            function (this: Login, err) {
                 if (err) {
                     return console.log(err);
                 }
@@ -424,15 +432,7 @@ class Login extends React.Component<DefaultProps, DefaultState, object> {
     };
 }
 
-const mapStateToProps = (state: any, props: any) => {
-    return {};
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, props: any) => {
-    return bindActionCreators({ loginAction }, dispatch);
-};
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(Login);

@@ -1,33 +1,41 @@
 import { Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
-
-const publicApiUrl = "http://127.0.0.1:8000";
-const transactionRoute = publicApiUrl + "/transactions";
+import { getValidatorIp } from "../components/application";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
-        return new Promise(async (resolve) => {
-            const response = await Axios.get<Transaction[]>(transactionRoute);
-            resolve(response.data);
-        });
-    }
+        return this.getTransactionsByQuery({});
+    };
 
     public getTransactionsBySender = (publicKey: string): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({
-            publicKey,
+            "transactionHeader.senderKey": publicKey,
+        });
+    };
+
+    public getTransactionsByRecipient(publicKey: string): Promise<Transaction[]> {
+        return this.getTransactionsByQuery({
+            "transactionHeader.recipientKey": publicKey,
         });
     }
 
-    public getTransactionsByReceiver(publicKey: string): Promise<Transaction[]> {
-        return this.getTransactionsByQuery({
-            publicKey,
+    public postTransaction(transaction: Transaction): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            return Axios.post(this.getTransactionRoute(), transaction)
+                .then(() => resolve())
+                .catch((error) => reject(error));
         });
     }
 
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
-        return new Promise(async (resolve) => {
-            const response = await Axios.get<Transaction[]>(transactionRoute, queryObject);
-            resolve(response.data);
+        return new Promise(async (resolve, reject) => {
+            Axios.get<Transaction[]>(this.getTransactionRoute(), { params: queryObject })
+                .then((response) => resolve(response.data))
+                .catch((error) => reject(error));
         });
+    }
+
+    private getTransactionRoute(): string {
+        return `${getValidatorIp()}/transactions`;
     }
 }

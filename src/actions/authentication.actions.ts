@@ -1,44 +1,20 @@
-import { Action, ActionCreator } from "redux";
+import { toast } from "react-toastify";
+import { LOGIN, LOGOUT, TOGGLE_LOADING } from "../constants/authentication.constant";
 import User from "../models/user";
+import { goToUrl } from "../store/routerHistory";
 
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const TOGGLE_LOADING = "TOGGLELOADING";
+export const login = (publicKey: string, privateKey: string) => {
+    return (dispatch: any) => {
+        dispatch({ type: TOGGLE_LOADING });
 
-export interface LoginAction extends Action {
-    payload: {
-        currentUser: User | null;
+        dispatch({ type: LOGIN, payload: new User(publicKey, privateKey) });
+        goToUrl("/profile");
+        toast.success("Logged in!");
     };
-    type: "LOGIN";
-}
+};
 
-export interface LogoutAction extends Action {
-    type: "LOGOUT";
-}
-
-export interface ToggleLoadingAction extends Action {
-    payload: {
-        isLoading: boolean;
+export const logout = () => {
+    return (dispatch: any) => {
+        dispatch({ type: LOGOUT });
     };
-    type: "TOGGLELOADING";
-}
-
-export const login: ActionCreator<LoginAction> = (user: User | null) => ({
-    payload: {
-        currentUser: user,
-    },
-    type: LOGIN,
-});
-
-export const logout: ActionCreator<LogoutAction> = () => ({
-    type: LOGOUT,
-});
-
-export const toggleLoading: ActionCreator<ToggleLoadingAction> = (isLoading: boolean) => ({
-    payload: {
-        isLoading,
-    },
-    type: TOGGLE_LOADING,
-});
-
-export type AuthenticationAction = LoginAction | LogoutAction | ToggleLoadingAction;
+};

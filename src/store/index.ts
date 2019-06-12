@@ -1,16 +1,15 @@
-import { applyMiddleware, combineReducers, createStore, Store } from "redux";
+import { applyMiddleware, createStore, Middleware, Store } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { rootReducer, RootState } from "../reducers";
+import thunk from "redux-thunk";
+import { IRootState, rootReducer } from "../reducers";
 
-const configureStore = (initialState?: RootState): Store<RootState | undefined> => {
-    const middlewares: any[] = [];
+const configureStore = (initialState?: IRootState): Store<IRootState | undefined> => {
+    const middlewares: Middleware[] = [thunk];
     const enhancer = composeWithDevTools(applyMiddleware(...middlewares));
     return createStore(rootReducer, initialState!, enhancer);
 };
 
-const store = configureStore({
-    authentication: { currentUser: null, isLoading: false },
-});
+const store = configureStore();
 
 if (typeof module.hot !== "undefined") {
     module.hot.accept("../reducers", () =>
