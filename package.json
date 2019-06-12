@@ -1,6 +1,6 @@
 {
   "name": "blockr-wallet",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
@@ -134,6 +134,7 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0"
+    "semantic-ui-react": "^0.86.0",
+    "uws": "10.148.1"
   }
 }

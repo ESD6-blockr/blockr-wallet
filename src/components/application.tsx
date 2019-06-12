@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { IPeer, Peer, PeerType } from "@blockr/blockr-p2p-lib";
 import * as React from "react";
 import { Route, Router, Switch } from "react-router";
@@ -15,7 +17,7 @@ let validatorIp: string | undefined;
 
 const initPeer = async () => {
     const peer: IPeer = new Peer(PeerType.WALLET);
-    await peer.init();
+    await peer.init(["localhost"], "14000");
     const node = peer.getPeerOfType(PeerType.VALIDATOR);
     if (node) {
         validatorIp = node[1];
