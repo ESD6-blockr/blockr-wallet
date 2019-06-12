@@ -52,6 +52,7 @@
       "target": "deb"
     },
     "win": {
+      "icon": "./dist/icons/icon.png",
       "target": "nsis"
     }
   },
