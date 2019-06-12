@@ -1,13 +1,13 @@
-import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
-import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Button, Dropdown, Form } from "semantic-ui-react";
-import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
-import { TRANSACTION_TYPE_OPTIONS } from "../../constants/createTransaction.constant";
-import { IRootState } from "../../reducers";
-import { goToUrl } from "../../store/routerHistory";
-import "./CreateTransaction.scss";
+import { Transaction, TransactionHeader, TransactionType } from '@blockr/blockr-models';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button, Dropdown, Form } from 'semantic-ui-react';
+import { getTransactionsByRecipient, postTransaction } from '../../actions/transaction.actions';
+import { TRANSACTION_TYPE_OPTIONS } from '../../constants/createTransaction.constant';
+import { IRootState } from '../../reducers';
+import { goToUrl } from '../../store/routerHistory';
+import './CreateTransaction.scss';
 
 interface DefaultState {
     amount: number;
@@ -17,12 +17,12 @@ interface DefaultState {
 
 const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
-    postTransactionLoading: state.transaction.postTransactionLoading,
+    postTransactionLoading: state.transaction.postTransactionLoading
 });
 
 const mapDispatchToProps = {
     getTransactionsByRecipient,
-    postTransaction,
+    postTransaction
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
@@ -33,36 +33,36 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
 
         this.state = {
             amount: 0,
-            publicKey: "",
-            type: "coin",
+            publicKey: '',
+            type: 'coin'
         };
     }
 
     public componentDidMount() {
         if (!this.props.currentUser) {
-            goToUrl("/");
+            goToUrl('/');
         }
     }
 
-    public handlePublicKeyChange = (element) => {
+    public handlePublicKeyChange = element => {
         this.setState({
-            publicKey: element.target.value,
+            publicKey: element.target.value
         });
     };
 
-    public handleAmountChange = (element) => {
+    public handleAmountChange = element => {
         this.setState({
-            amount: element.target.value,
+            amount: element.target.value
         });
     };
 
     public handleTypeChange = (element, data) => {
         this.setState({
-            type: data.value,
+            type: data.value
         });
     };
 
-    public hanldePostTransaction = () => {
+    public handlePostTransaction = () => {
         if (!this.props.currentUser) {
             return;
         }
@@ -71,13 +71,13 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             this.state.publicKey,
             this.props.currentUser.publicKey,
             this.state.amount,
-            new Date(),
+            new Date()
         );
 
         const transaction: Transaction = new Transaction(
             TransactionType[this.state.type],
             transatcionHeader,
-            "signature",
+            'signature'
         );
 
         this.props.postTransaction(transaction);
@@ -88,11 +88,11 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             <div>
                 <div
                     style={{
-                        textAlign: "center",
+                        textAlign: 'center'
                     }}
                 >
                     <h3>Create transaction</h3>
-                    <Form onSubmit={this.hanldePostTransaction}>
+                    <Form onSubmit={this.handlePostTransaction}>
                         <Form.Field>
                             <label>Type:</label>
                             <Dropdown
@@ -132,9 +132,9 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                 </div>
                 <div
                     style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "10px",
+                        position: 'absolute',
+                        right: '10px',
+                        top: '10px'
                     }}
                 >
                     <Link className="ui button" to="/profile">
@@ -146,7 +146,4 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CreateTransaction);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTransaction);

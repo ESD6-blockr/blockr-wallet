@@ -1,29 +1,17 @@
-import * as React from 'react';
-import { Route, Router, Switch } from 'react-router';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Grid, Segment } from 'semantic-ui-react';
-import '../global.scss';
-import routerHistory from '../store/routerHistory';
-import CreateTransaction from './createTransaction/createTransaction';
-import Overview from './overview/overview';
-import Login from './login/login';
-import Profile from './profile/profile';
-import Transaction from './transaction/transaction';
-import Feedback from './overview/feedback/feedback';
-
-// let validatorIp: string | undefined;
-
-// const initPeer = async () => {
-//     const peer: IPeer = new Peer(PeerType.WALLET);
-//     await peer.init();
-//     const node = peer.getPeerOfType(PeerType.VALIDATOR);
-//     if (node) {
-//         validatorIp = node[1];
-//     }
-// }
-
-// initPeer()
+import * as React from "react";
+import { Route, Router, Switch } from "react-router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Grid, Segment } from "semantic-ui-react";
+import "../global.scss";
+import routerHistory from "../store/routerHistory";
+import CreateTransaction from "./createTransaction/createTransaction";
+import Login from "./login/login";
+import Profile from "./profile/profile";
+import Transaction from "./transaction/transaction";
+import FileUpload from "./file/file";
+import Overview from "./overview/overview";
+import Feedback from "./overview/feedback/feedback";
 
 export function getValidatorIp(): string {
     // return validatorIp || "https://public.blockr.verux.nl";
@@ -61,6 +49,7 @@ const Application = () => (
                             <Route exact path="/transaction" component={Transaction} />
                             <Route exact path="/feedback" component={Overview} />
                             <Route exact path="/feedback/:hash" component={Feedback} />
+                            <Route exact path="/file" component={FileUpload} />
                         </Switch>
                     </Router>
                 </Segment>

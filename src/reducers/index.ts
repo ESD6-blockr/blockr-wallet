@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from "redux";
+import { combineReducers } from "redux";
 
 import authenticationReducer, { IAuthenticationState } from "./authentication.reducer";
 import getTransactionsReducer, { ITransactionState } from "./transaction.reducer";

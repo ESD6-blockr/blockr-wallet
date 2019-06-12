@@ -1,33 +1,30 @@
-import { Transaction } from "@blockr/blockr-models";
-import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { IRootState } from "reducers";
-import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
-import { logout } from "../../actions/authentication.actions";
+import { Transaction } from '@blockr/blockr-models';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { IRootState } from 'reducers';
+import { Button, Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { logout } from '../../actions/authentication.actions';
 import {
-    getAllTransactions,
     getTransactionsByRecipient,
     getTransactionsBySender,
-    setCurrentTransaction,
-} from "../../actions/transaction.actions";
-import { goToUrl } from "../../store/routerHistory";
-import "./profile.scss";
+    setCurrentTransaction
+} from '../../actions/transaction.actions';
+import { goToUrl } from '../../store/routerHistory';
+import './profile.scss';
 
 const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
     getTransactionLoading: state.transaction.getTransactionLoading,
-    transactions: state.transaction.transactions,
+    transactions: state.transaction.transactions
 });
 
 const mapDispatchToProps = {
-    getAllTransactions,
     getTransactionsByRecipient,
-    getTransactionsBySender,
     logout,
-    setCurrentTransaction,
+    setCurrentTransaction
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
@@ -39,7 +36,7 @@ class Profile extends React.Component<Props> {
 
     public componentDidMount() {
         if (!this.props.currentUser) {
-            goToUrl("/");
+            goToUrl('/');
             return;
         }
 
@@ -50,19 +47,19 @@ class Profile extends React.Component<Props> {
 
     public handleLogout = () => {
         this.props.logout();
-        goToUrl("/");
+        goToUrl('/');
     };
 
     public handleTransactionView = (transaction: Transaction) => {
         this.props.setCurrentTransaction(transaction);
-        goToUrl("/transaction");
+        goToUrl('/transaction');
     };
 
     public render() {
         const { transactions, currentUser, getTransactionLoading } = this.props;
         return (
             <div className="centered">
-                <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
+                <h2>{currentUser ? currentUser.publicKey : 'Unknown'}</h2>
                 <h3>Balance: temp 123</h3>
                 <h3>Transactions</h3>
                 <Segment>
@@ -101,9 +98,9 @@ class Profile extends React.Component<Props> {
                 </Segment>
                 <div
                     style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "10px",
+                        position: 'absolute',
+                        right: '10px',
+                        top: '10px'
                     }}
                 >
                     <Button
@@ -135,7 +132,4 @@ class Profile extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
