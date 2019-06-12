@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Form } from "semantic-ui-react";
 import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
-import { TRANSACTION_TYPE_OPTIONS } from "../../constants/createTransaction.constant";
+import { getTransactionTypeOptions } from "../../helpers/transaction.helper";
 import { IRootState } from "../../reducers";
 import { goToUrl } from "../../store/routerHistory";
 import "./CreateTransaction.scss";
@@ -12,7 +12,8 @@ import "./CreateTransaction.scss";
 interface DefaultState {
     amount: number;
     publicKey: string;
-    type: string;
+    type: number;
+    options: any[];
 }
 
 const mapStateToProps = (state: IRootState) => ({
@@ -33,8 +34,9 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
 
         this.state = {
             amount: 0,
+            options: getTransactionTypeOptions(),
             publicKey: "",
-            type: "coin",
+            type: 0,
         };
     }
 
@@ -67,7 +69,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             return;
         }
 
-        const transatcionHeader: TransactionHeader = new TransactionHeader(
+        const transactionHeader: TransactionHeader = new TransactionHeader(
             this.state.publicKey,
             this.props.currentUser.publicKey,
             this.state.amount,
@@ -75,8 +77,8 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         );
 
         const transaction: Transaction = new Transaction(
-            TransactionType[this.state.type],
-            transatcionHeader,
+            this.state.type,
+            transactionHeader,
             "signature",
         );
 
@@ -101,7 +103,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                                 selection
                                 value={this.state.type}
                                 onChange={this.handleTypeChange}
-                                options={TRANSACTION_TYPE_OPTIONS}
+                                options={this.state.options}
                             />
                         </Form.Field>
                         <Form.Field>
