@@ -213,7 +213,7 @@ class Login extends React.Component<Props, DefaultState> {
                     <Button type="submit" name="loginButton" loading={isLoading}>
                         Login
                     </Button>
-                    <Button type="button" onClick={() => this.generateKeypair()}>
+                    <Button type="button" onClick={this.generateKeypair}>
                         Register
                     </Button>
                 </Form>
