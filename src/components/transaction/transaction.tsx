@@ -1,4 +1,8 @@
-import { Transaction as TransactionModel } from "@blockr/blockr-models";
+import {
+    Transaction as TransactionModel,
+    TransactionHeader,
+    TransactionType,
+} from "@blockr/blockr-models";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -26,11 +30,23 @@ class Transaction extends React.Component<Props> {
     }
 
     public render() {
+        // mock data
+        // let mockTransHead = new TransactionHeader(
+        //     "[MOCK]publicKey",
+        //     "[MOCK]currentUser.publicKey",
+        //     1,
+        //     new Date(),
+        //     "[MOCK]uuidv4()",
+        //     "[MOCK]contract"
+        // )
+        // let mockTrans = new Transaction(TransactionType.SMART_CONTRACT,mockTransHead,"signature");
+
         const { currentTransaction } = this.props;
 
         return (
             <div>
-                <Table
+                {/* Below code commented for mocking purposes. */}
+                {/* <Table
                     celled
                     style={{
                         width: "90%",
@@ -55,7 +71,7 @@ class Transaction extends React.Component<Props> {
                             },
                         )}
                     </Table.Body>
-                </Table>
+                </Table> */}
                 <div
                     style={{
                         position: "absolute",

@@ -1,4 +1,4 @@
-import { Transaction } from "@blockr/blockr-models";
+import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +13,10 @@ import {
 } from "../../actions/transaction.actions";
 import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
+
+interface IState {
+    transactions: Transaction[];
+}
 
 const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
@@ -32,9 +36,33 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
-class Profile extends React.Component<Props> {
+class Profile extends React.Component<Props, IState> {
     constructor(props: any) {
         super(props);
+
+        // mock data
+        const mockTransHead = new TransactionHeader(
+            "[MOCK]publicKey",
+            "[MOCK]currentUser.publicKey",
+            1,
+            new Date(),
+            "[MOCK]uuidv4()",
+            "[MOCK]contract",
+        );
+        const mockTrans = new Transaction(
+            TransactionType.SMART_CONTRACT,
+            mockTransHead,
+            "signature",
+        );
+
+        this.state = {
+            transactions: [mockTrans],
+        };
+        // note:
+        // IState interface (all of it) was added for mocking purposes.
+        // "transaction.transactionHeader.date.toString()" --.
+        // "import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";" --.
+        // mock data end
     }
 
     public componentDidMount() {
@@ -72,7 +100,7 @@ class Profile extends React.Component<Props> {
                                 <Loader />
                             </Dimmer>
                         )}
-                        {transactions.map((transaction: Transaction, index: number) => {
+                        {this.state.transactions.map((transaction: Transaction, index: number) => {
                             return (
                                 <div
                                     key={index}
@@ -90,7 +118,7 @@ class Profile extends React.Component<Props> {
                                             {transaction.transactionHeader.recipientKey}
                                         </a>
                                         <a className="description">
-                                            {transaction.transactionHeader.date}
+                                            {transaction.transactionHeader.date.toString()}
                                         </a>
                                     </div>
                                 </div>

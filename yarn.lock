@@ -178,10 +178,13 @@
   dependencies:
     winston "^3.2.1"
 
-"@blockr/blockr-models@^1.4.0-build.15":
-  version "1.4.0-build.15"
-  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.4.0-build.15.tgz#41684e20eae8005809ee2278b506e16fdd897c79"
-  integrity sha512-7tVKXn1wMPos0mXie4M+vLCETqaqqnNoJolorXrhofJRmbs8GTDMwZk0IOqj5Lk0LdZsF0XMCulcgPGLvgu4NA==
+"@blockr/blockr-models@^1.4.0-build.16":
+  version "1.4.0-build.16"
+  resolved "https://npm-dev.naebers.me/@blockr%2fblockr-models/-/blockr-models-1.4.0-build.16.tgz#032be3420a6f2b8858dae140d9766510a5422b4a"
+  integrity sha512-syBGsISSiJaNcKdO7vCK5KsLtClZfB5y8k+4IcNa2gPHRTGZ2+zEQxj/+jaGAo2FE4DedXHRSxA9mP8I4lXytA==
+  dependencies:
+    class-transformer "^0.2.3"
+    reflect-metadata "^0.1.13"
 
 "@blockr/blockr-p2p-lib@^1.0.1-2":
   version "1.0.1-build.4"
@@ -1883,6 +1886,11 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
+
+class-transformer@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.2.3.tgz#598c92ca71dcca73f91ccb875d74a3847ccfa32d"
+  integrity sha512-qsP+0xoavpOlJHuYsQJsN58HXSl8Jvveo+T37rEvCEeRfMWoytAyR0Ua/YsFgpM6AZYZ/og2PJwArwzJl1aXtQ==
 
 class-utils@^0.3.5:
   version "0.3.6"
