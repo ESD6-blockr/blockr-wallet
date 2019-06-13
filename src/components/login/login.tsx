@@ -1,5 +1,3 @@
-// const { dialog, app } = require("electron").remote;
-// const fs = require("fs");
 import electron from "electron";
 import * as fs from "fs";
 const { remote } = electron;
@@ -12,18 +10,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { IRootState } from "reducers";
-import {
-    Button,
-    Checkbox,
-    Form,
-    Icon,
-    Input,
-    Label,
-    Message,
-    Modal,
-    Segment,
-    Transition,
-} from "semantic-ui-react";
+import { Button, Checkbox, Form, Icon, Input, Modal, Segment } from "semantic-ui-react";
 import { login } from "../../actions/authentication.actions";
 import { CryptoService } from "../../services/cryptoService";
 import { goToUrl } from "../../store/routerHistory";
