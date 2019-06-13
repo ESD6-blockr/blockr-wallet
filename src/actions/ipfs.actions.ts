@@ -6,8 +6,9 @@ const apiService: ApiService = new ApiService();
 export const uploadPDFToIPFS = (base64ConvertedPDF: string) => {
     apiService
         .postDocumentToIPFS(base64ConvertedPDF)
-        .then(() => {
+        .then(response => {
             toast.info('Uploaded document');
+            console.log(response);
         })
         .catch(error => {
             logger.error(error);
