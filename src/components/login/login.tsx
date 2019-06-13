@@ -336,7 +336,7 @@ class Login extends React.Component<Props, DefaultState> {
                             lost your funds in the wallet forever!
                         </p>
                         <h3>Public key</h3>
-                        <p style={{ display: "inline " }}>{this.state.publicKey}</p>
+                        <p style={{ display: "inline" }}>{this.state.publicKey}</p>
                         <h3>Private key</h3>
                         <p style={{ display: "inline " }}>{this.state.privateKey}</p>
                     </Modal.Content>
