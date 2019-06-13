@@ -230,7 +230,7 @@ class Login extends React.Component<Props, DefaultState> {
                             disabled
                             placeholder="/path/to/encryptedFile"
                             value={this.userDataStore.get("localFilePath")}
-                            style={{ width: "85% " }}
+                            style={{ width: "85%" }}
                         />
                         <Button
                             onClick={() => this.fileRead(this.userDataStore.get("localFilePath"))}
