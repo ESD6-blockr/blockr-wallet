@@ -136,7 +136,7 @@ class Login extends React.Component<Props, DefaultState> {
             goToUrl("/profile");
         } catch (err) {
             logger.error(err);
-            this.toggleErrorMessage();
+            toast.error("Please supply correct credentials!");
         }
     };
 
@@ -271,6 +271,7 @@ class Login extends React.Component<Props, DefaultState> {
                     <Modal.Header>Unlock local decrypted file</Modal.Header>
                     <Modal.Content>
                         <Input
+                            type="password"
                             placeholder="passphrase"
                             onChange={this.handlePassphraseChange}
                             value={this.state.passphrase}
@@ -336,9 +337,10 @@ class Login extends React.Component<Props, DefaultState> {
                 </Modal>
 
                 <Modal size={"small"} open={openGenerateDialog}>
-                    <Modal.Header>New keypair</Modal.Header>
+                    <Modal.Header>
+                        <Icon name="exclamation" /> New keypair
+                    </Modal.Header>
                     <Modal.Content>
-                        <Icon name="exclamation" />
                         <p>
                             Please remember or write down your public key and securely store the
                             private key somewhere. It is recommended to store it in a local file
@@ -346,14 +348,9 @@ class Login extends React.Component<Props, DefaultState> {
                             write it down somewhere for back-up purposes. Losing this key means you
                             lost your funds in the wallet forever!
                         </p>
-                        <br />
-                        <Label>
-                            <Icon name="keycdn" /> Public key
-                        </Label>
+                        <h3>Public key</h3>
                         <p style={{ display: "inline " }}>{this.state.publicKey}</p>
-                        <Label>
-                            <Icon name="key" /> Private key
-                        </Label>
+                        <h3>Private key</h3>
                         <p style={{ display: "inline " }}>{this.state.privateKey}</p>
                     </Modal.Content>
                     <Modal.Actions>
@@ -366,83 +363,53 @@ class Login extends React.Component<Props, DefaultState> {
                         />
                     </Modal.Actions>
                 </Modal>
-
-                <Transition
-                    visible={this.state.decryptFileSuccess}
-                    animation="scale"
-                    duration={500}
-                >
-                    <Message
-                        success
-                        header="File was succesfully decrypted"
-                        content="You may now proceed with further actions in the application"
-                    />
-                </Transition>
-
-                <Transition visible={this.state.invalidKeyPair} animation="scale" duration={500}>
-                    <Message
-                        negative
-                        header="Invalid Credentials"
-                        content="Please supply correct credentials!"
-                    />
-                </Transition>
             </div>
         );
     }
 
-    private toggleSuccessMessage = () => {
-        this.setState({ decryptFileSuccess: true });
-        setTimeout(() => {
-            this.setState({ decryptFileSuccess: false });
-        }, 2000);
-    };
-
-    private toggleErrorMessage = () => {
-        this.setState({ invalidKeyPair: true });
-        setTimeout(() => {
-            this.setState({ invalidKeyPair: false });
-        }, 2000);
-    };
-
     private decryptFile = () => {
         logger.info("Start decrypting local file");
+        let decryptedContent;
 
-        // het semester valt niet meer te r
-        const decryptedContent = this.cryptoService.decrypt(
-            this.state.encryptedString,
-            this.state.passphrase,
-        ); // key has to be 16 or 32 bytes
+        try {
+            decryptedContent = this.cryptoService.decrypt(
+                this.state.encryptedString,
+                this.state.passphrase,
+            ); // key has to be 16 or 32 bytes
 
-        const keys = decryptedContent.split(":");
-
-        if (decryptedContent) {
-            this.toggleSuccessMessage();
-            this.setState({ open: false, publicKey: keys[0], privateKey: keys[1] });
-            this.userDataStore.set("localFilePath", this.state.filePath);
+            const keys = decryptedContent.split(":");
+            if (decryptedContent) {
+                toast.success("File was succesfully decrypted!");
+                this.setState({ open: false, publicKey: keys[0], privateKey: keys[1] });
+                this.userDataStore.set("localFilePath", this.state.filePath);
+            }
+            logger.info("Done decrypting local file");
+        } catch (err) {
+            logger.error(err);
+            toast.error("Please supply correst passphrase");
         }
-
-        logger.info("Done decrypting local file");
     };
 
     private encryptFile = () => {
         logger.info("Start encrypting local file");
 
-        fs.writeFile(
-            this.state.filePath,
-            this.cryptoService.encrypt(
-                this.state.publicKey + ":" + this.state.privateKey,
-                this.state.passphrase,
-            ),
-            function(this: Login, err) {
-                if (err) {
-                    logger.error(err);
-                }
-
-                this.setState({ openEncryptDialog: false });
-
-                logger.info("The file was saved!");
-            }.bind(this),
-        );
+        try {
+            fs.writeFile(
+                this.state.filePath,
+                this.cryptoService.encrypt(
+                    this.state.publicKey + ":" + this.state.privateKey,
+                    this.state.passphrase,
+                ),
+                function(this: Login) {
+                    this.setState({ openEncryptDialog: false });
+                    toast.success("The credentials are saved!");
+                    logger.info("The file was saved!");
+                }.bind(this),
+            );
+        } catch (err) {
+            toast.error("Please supply a passphrase with a length of 32 characters!");
+            logger.error(err);
+        }
 
         logger.info("Done encrypting local file");
     };

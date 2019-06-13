@@ -1,8 +1,8 @@
-const electron = require("electron");
-const path = require("path");
-const fs = require("fs");
+import electron from "electron";
+import * as fs from "fs";
+import * as path from "path";
 
-class UserDataStore {
+export class UserDataStore {
     private path: string;
     private data: object;
 
@@ -41,6 +41,3 @@ function parseDataFile(filePath) {
         return {};
     }
 }
-
-// expose the class
-module.exports = UserDataStore;
