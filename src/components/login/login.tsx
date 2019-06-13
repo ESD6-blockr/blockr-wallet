@@ -338,7 +338,7 @@ class Login extends React.Component<Props, DefaultState> {
                         <h3>Public key</h3>
                         <p style={{ display: "inline" }}>{this.state.publicKey}</p>
                         <h3>Private key</h3>
-                        <p style={{ display: "inline " }}>{this.state.privateKey}</p>
+                        <p style={{ display: "inline" }}>{this.state.privateKey}</p>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button
