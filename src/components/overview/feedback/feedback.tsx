@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Label, List, Segment } from 'semantic-ui-react';
-import AddFeedback from '../feedback/AddFeedback';
-import { ApiService } from '../../../services/apiService';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { Button, Form, Input, Label, List, Segment } from "semantic-ui-react";
+import { ApiService } from "../../../services/apiService";
+import AddFeedback from "../feedback/AddFeedback";
 const apiService = new ApiService();
 export default class Feedback extends React.Component<any, any> {
     public state = {
-        feedback: '',
-        gottenFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash)
+        feedback: "",
+        gottenFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
     };
     public handleChange = (e, data) => {
         this.state.feedback = data.value;
@@ -17,8 +17,9 @@ export default class Feedback extends React.Component<any, any> {
         const timestamp = Math.floor(dateTime / 1000);
         if (!(this.state.feedback.length === 0)) {
             const gotten = [...this.state.gottenFeedback];
-            gotten.push({ value: this.state.feedback, pubKey: 'PUBLICKEYOFUSER', time: timestamp });
-            this.setState({ gottenFeedback: gotten, feedback: '' });
+            gotten.push({ value: this.state.feedback, pubKey: "PUBLICKEYOFUSER", time: timestamp });
+            apiService.addFeedbackInDocument(this.props.match.params.hash,this.state.feedback);
+            this.setState({ gottenFeedback: gotten, feedback: "" });
         }
     };
 
@@ -31,7 +32,7 @@ export default class Feedback extends React.Component<any, any> {
                 </div>
                 <Form onSubmit={this.handleSubmit}>
                     <List>
-                        {this.state.gottenFeedback.map(fb => (
+                        {this.state.gottenFeedback.map((fb) => (
                             <Segment key={fb.value}>
                                 <List.Item>Value: {fb.value}</List.Item>
                                 <List.Item>User: {fb.pubKey}</List.Item>

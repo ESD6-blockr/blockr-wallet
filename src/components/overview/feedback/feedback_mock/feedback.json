@@ -16,6 +16,11 @@
                 "value": "Ik vond het een mooi titelblad hebben",
                 "pubKey": "levi",
                 "time": 1560416511
+            },
+            {
+                "value": "test123",
+                "time": 1560419923,
+                "pubKey": "PUBLICKEYOFUSER"
             }
         ]
     },

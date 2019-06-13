@@ -22,7 +22,6 @@ export default class Filelist extends React.Component<any, any> {
                     </div>
                     <Link
                         className="ui column blue button space-top right-button"
-                        // onClick={(e) => this.viewFeedback(e, file)}
                         to={`/feedback/${file.hash}`}
                     >
                         View feedback
