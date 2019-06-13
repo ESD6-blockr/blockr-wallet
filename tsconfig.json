@@ -19,7 +19,7 @@
     "strictPropertyInitialization": false,
     "suppressExcessPropertyErrors": true,
     "resolveJsonModule": true,
-    "isolatedModules": false, // for custom userdatastore
+    "isolatedModules": false, // for custom userdatastore ()
     "noEmit": true,
     "jsx": "react",
     "experimentalDecorators": true,
