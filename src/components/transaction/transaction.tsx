@@ -50,20 +50,18 @@ class Transaction extends React.Component<Props, IState> {
     };
 
     public handleMethodParamChange(methodName, paramName, paramVal) {
-        // //setting the variables we're gonna use using the state and passed parameters
-        // var map = this.state.methods;
-        // // debugger;
-        // //get the method and change the params
-        // var method : Map<any,any> = map.methods.get(methodName);
-        // //change the state back with the new values
-        // map.methods.forEach((value:any,key:any)=>{
-        //     if(key === methodName){
-        //         value = method;
-        //     }
-        // });
-        // this.setState({
-        //     methods: map
-        // })
+        // setting the variables we're gonna use using the state and passed parameters
+        const map = this.state.methods;
+
+        // get the method and change the params
+        const method: Map<any, any> = map.methods.get(methodName);
+        method.set(paramName, paramVal.value);
+
+        // change the state back with the new values
+        map.methods.set(methodName, method);
+        this.setState({
+            methods: map,
+        });
     }
 
     public componentDidMount() {
