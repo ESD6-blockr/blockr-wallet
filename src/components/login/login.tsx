@@ -214,7 +214,7 @@ class Login extends React.Component<Props, DefaultState> {
                     <Button type="submit" name="loginButton" loading={isLoading}>
                         Login
                     </Button>
-                    <Button type="button" onClick={() => this.generateKeypair()}>
+                    <Button type="button" onClick={this.generateKeypair}>
                         Register
                     </Button>
                 </Form>
@@ -231,7 +231,7 @@ class Login extends React.Component<Props, DefaultState> {
                             disabled
                             placeholder="/path/to/encryptedFile"
                             value={this.userDataStore.get("localFilePath")}
-                            style={{ width: "85% " }}
+                            style={{ width: "85%" }}
                         />
                         <Button
                             onClick={() => this.fileRead(this.userDataStore.get("localFilePath"))}
@@ -337,9 +337,9 @@ class Login extends React.Component<Props, DefaultState> {
                             lost your funds in the wallet forever!
                         </p>
                         <h3>Public key</h3>
-                        <p style={{ display: "inline " }}>{this.state.publicKey}</p>
+                        <p style={{ display: "inline" }}>{this.state.publicKey}</p>
                         <h3>Private key</h3>
-                        <p style={{ display: "inline " }}>{this.state.privateKey}</p>
+                        <p style={{ display: "inline" }}>{this.state.privateKey}</p>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button
