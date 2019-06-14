@@ -14,7 +14,7 @@ import {
     List,
     Tab,
 } from "semantic-ui-react";
-import { uuidv4 } from "uuid/v4";
+import * as uuidv4 from "uuid/v4";
 import { getTransactionsByRecipient, postTransaction } from "../../actions/transaction.actions";
 import { TRANSACTION_TYPE_OPTIONS } from "../../constants/createTransaction.constant";
 import { JsonContractParser } from "../../contract/contract.parser";
@@ -72,7 +72,11 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
     public componentDidMount() {
         if (!this.props.currentUser) {
             goToUrl("/");
+            return;
         }
+        this.setState({
+            owner: this.props.currentUser.publicKey,
+        });
     }
 
     public handlePublicKeyChange = (element) => {
@@ -152,12 +156,6 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
     public handleReviewerChange = (e) => {
         this.setState({
             newReviewer: e.target.value,
-        });
-    };
-
-    public handleOwnerChange = (e) => {
-        this.setState({
-            owner: e.target.value,
         });
     };
 
@@ -284,14 +282,6 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                             </Form.Field>
                             <Form.Input>
                                 <Input
-                                    label="Creator Address"
-                                    name="creatorAddress"
-                                    value={this.state.owner}
-                                    onChange={this.handleOwnerChange}
-                                />
-                            </Form.Input>
-                            <Form.Input>
-                                <Input
                                     label="IPFS Hash"
                                     name="ipfs"
                                     value={this.state.ipfsHash}
@@ -372,6 +362,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                             <Button
                                 type="submit"
                                 name="createButton"
+                                disabled
                                 loading={this.props.postTransactionLoading}
                             >
                                 Create
@@ -491,7 +482,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             constructorParams,
             contractTemplate,
         );
-        // console.log("contract :: ", contract);
+        console.log("contract :: ", contract);
         // log the complete package to be sent over
         return contract;
     };

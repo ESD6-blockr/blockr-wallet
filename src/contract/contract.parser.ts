@@ -1,3 +1,4 @@
+import { ContractMockData } from "../contract/contract.mock";
 import { ContractData } from "./contract.data";
 
 export class JsonContractParser {
@@ -15,26 +16,49 @@ export class JsonContractParser {
         return functionJson;
     }
 
-    public getMethods() {
-        // TODO: Get from API
-        return null;
-        // const parsed = JSON.parse(this.jsonInput);
-        // const functions = parsed.functions;
+    public getMockMethods() {
+        return this.getMethodsFromParsed(new ContractMockData().mockContractMethods);
+    }
 
-        // const methods = new Map<string, Map<string, any>>();
-        // for (let i = 0; i < functions.length; i++) {
-        //     const func = functions[i];
-        //     const functionName = func.functionName;
-        //     const p = func.parameters;
-        //     const params = new Map<string, any>();
+    public getMethods(text: string) {
+        const parsed = JSON.parse(text);
+        return this.getMethodsFromParsed(parsed);
+    }
 
-        //     for (let j = 0; j < p.length; j++) {
-        //         params.set(p[j], "");
-        //     }
+    /**
+     *
+     * @param json Json is used to get methods from. Should already be parsed
+     */
+    public getMethodsFromParsed(parsed: any) {
+        const constructor = parsed.constructor;
+        const constructorParams = constructor.functionParameters;
+        const template = parsed.classTemplate.contract;
+        const functions = parsed.functions;
 
-        //     methods.set(functionName, params);
-        // }
-        // return methods;
+        const methods = new Map<string, Map<string, any>>();
+        for (const func of functions) {
+            const functionName = func.functionName;
+            const functionParameters = func.parameters;
+            let params = new Map<string, any>();
+
+            if (functionName === "constructor") {
+                params = constructorParams;
+            } else {
+                // Give all params empty values
+                for (const functionParameter of functionParameters) {
+                    params.set(functionParameter, "");
+                }
+            }
+
+            methods.set(functionName, params);
+        }
+
+        const methodsTemp = {
+            classTemplate: template,
+            methods,
+        };
+
+        return methodsTemp;
     }
 
     public parseConstructorContract(

@@ -11,6 +11,7 @@ import {
     getTransactionsBySender,
     setCurrentTransaction,
 } from "../../actions/transaction.actions";
+import { ContractMockData } from "../../contract/contract.mock";
 import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
@@ -41,19 +42,7 @@ class Profile extends React.Component<Props, IState> {
         super(props);
 
         // mock data
-        const mockTransHead = new TransactionHeader(
-            "[MOCK]publicKey",
-            "[MOCK]currentUser.publicKey",
-            1,
-            new Date(),
-            "[MOCK]uuidv4()",
-            "[MOCK]contract",
-        );
-        const mockTrans = new Transaction(
-            TransactionType.SMART_CONTRACT,
-            mockTransHead,
-            "signature",
-        );
+        const mockTrans = new ContractMockData().mockTransaction;
 
         this.state = {
             transactions: [mockTrans],
