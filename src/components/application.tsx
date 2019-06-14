@@ -1,14 +1,16 @@
 import * as React from "react";
-import { Route, Router, Switch } from "react-router";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Grid, Segment } from "semantic-ui-react";
-import "../global.scss";
 import routerHistory from "../store/routerHistory";
 import CreateTransaction from "./createTransaction/createTransaction";
 import Login from "./login/login";
 import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
+
+import { Route, Router, Switch } from "react-router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Grid, Segment } from "semantic-ui-react";
+import "../global.scss";
+
 import "reflect-metadata";
 
 export function getValidatorIp(): string {

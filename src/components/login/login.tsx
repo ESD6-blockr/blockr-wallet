@@ -2,7 +2,7 @@ import electron from "electron";
 import * as fs from "fs";
 const { remote } = electron;
 const dialog = remote.dialog;
-const app = remote.app;
+import ospath from "ospath";
 
 import { CryptoKeyUtil } from "@blockr/blockr-crypto";
 import { logger } from "@blockr/blockr-logger";
@@ -15,6 +15,7 @@ import { login } from "../../actions/authentication.actions";
 import { CryptoService } from "../../services/cryptoService";
 import { goToUrl } from "../../store/routerHistory";
 import { UserDataStore } from "../../store/userDataStore";
+
 import "./login.scss";
 
 interface DefaultState {
@@ -150,7 +151,7 @@ class Login extends React.Component<Props, DefaultState> {
 
         const options = {
             // default file location
-            defaultPath: app.getPath("documents") + "/blockr-keyfile.enc",
+            defaultPath: ospath.data() + "/.blockr-keyfile.enc",
         };
 
         dialog.showSaveDialog(null, options, (path) => {
@@ -161,7 +162,7 @@ class Login extends React.Component<Props, DefaultState> {
 
     public showOpenDialog = () => {
         const options = {
-            defaultPath: app.getPath("documents") + "/blockr-keyfile.enc",
+            defaultPath: ospath.data() + "/.blockr-keyfile.enc",
         };
 
         dialog.showOpenDialog(null, options, (path) => {
