@@ -1,4 +1,4 @@
-import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
+import { Transaction } from "@blockr/blockr-models";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -41,17 +41,11 @@ class Profile extends React.Component<Props, IState> {
     constructor(props: any) {
         super(props);
 
-        // mock data
         const mockTrans = new ContractMockData().mockTransaction;
 
         this.state = {
             transactions: [mockTrans],
         };
-        // note:
-        // IState interface (all of it) was added for mocking purposes.
-        // "transaction.transactionHeader.date.toString()" --.
-        // "import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";" --.
-        // mock data end
     }
 
     public componentDidMount() {

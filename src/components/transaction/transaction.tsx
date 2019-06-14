@@ -1,8 +1,4 @@
-import {
-    Transaction as TransactionModel,
-    TransactionHeader,
-    TransactionType,
-} from "@blockr/blockr-models";
+import { Transaction as TransactionModel } from "@blockr/blockr-models";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -72,19 +68,10 @@ class Transaction extends React.Component<Props, IState> {
     }
 
     public render() {
-        // mock data
-        const mockTransHead = new TransactionHeader(
-            "[MOCK]publicKey",
-            "[MOCK]currentUser.publicKey",
-            1,
-            new Date(),
-            "[MOCK]uuidv4()",
-            "[MOCK]contract",
-        );
         const mockTrans: TransactionModel = new ContractMockData().mockTransaction;
         const mockMethods = this.constructMethods(new JsonContractParser().getMockMethods());
 
-        const currentTransaction: TransactionModel = mockTrans; // this.props;
+        const currentTransaction: TransactionModel = mockTrans; // this.props; //<-- this.props was original non-mocked
         const table = this.constructTable(currentTransaction);
 
         return (
@@ -106,6 +93,7 @@ class Transaction extends React.Component<Props, IState> {
         );
     }
 
+    // constructs the table that houses the transaction information
     public constructTable(currentTransaction) {
         const tableKeys = [] as any;
         let index = 0;
@@ -116,7 +104,6 @@ class Transaction extends React.Component<Props, IState> {
 
         return (
             <table
-                // celled
                 style={{
                     width: "90%",
                 }}
@@ -133,7 +120,6 @@ class Transaction extends React.Component<Props, IState> {
     }
 
     public getTableElement(key, currentTransaction, index) {
-        // console.log("item at index[" + index + "] :", key);
         const value = (currentTransaction as TransactionModel)[key];
         return (
             <Table.Row key={index}>
@@ -143,6 +129,7 @@ class Transaction extends React.Component<Props, IState> {
         );
     }
 
+    // construct the total list of methods
     public constructMethods(methods) {
         const listItems: any = [];
 
@@ -161,6 +148,7 @@ class Transaction extends React.Component<Props, IState> {
         );
     }
 
+    // creates the parameter elements for each individual method
     public createParams(methodName, paramVal, paramName) {
         return (
             <div key={paramName + "_" + paramVal} style={{ margin: "10px" }}>
@@ -174,6 +162,7 @@ class Transaction extends React.Component<Props, IState> {
         );
     }
 
+    // creates the dropdown element that houses the parameters the method uses
     public createField(methodName, methodParams, index) {
         const params: any = [];
         methodParams.forEach((paramVal: any, paramName: any) => {
@@ -215,8 +204,27 @@ class Transaction extends React.Component<Props, IState> {
         );
     }
 
-    public submitMethodToExecute(value) {
-        // TODO: API stuff
+    public submitMethodToExecute(methodName) {
+        // setting the map that holds the methods.
+        const map = this.state.methods;
+        // get the method to send over.
+        const method = map.methods.get(methodName);
+
+        const constructor: Map<any, any> = map.methods.get("constructor");
+        const functionParameter: any = {};
+
+        method.forEach((value: string, key: any) => {
+            functionParameter[key] = value;
+        });
+
+        const objectToSend = new JsonContractParser().parseFunctionContract(
+            methodName,
+            functionParameter,
+            constructor,
+            map.classTemplate,
+        );
+
+        // TODO: send to Smart Contract Engine to execute. Connection not working.
         // console.log(value, this.state.methods.get(value));
     }
 }

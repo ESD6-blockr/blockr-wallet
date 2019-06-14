@@ -2,20 +2,6 @@ import { ContractMockData } from "../contract/contract.mock";
 import { ContractData } from "./contract.data";
 
 export class JsonContractParser {
-    public parse(json: string) {
-        const parsed = JSON.parse(json);
-        const functions = parsed.functions;
-        const functionJson: string[] = [];
-        for (const i of functions) {
-            const func = i;
-
-            const functionName = func.functionName;
-            const params = func.parameters;
-            // functionJson.push(this.parseFunctionContract(functionName, params));
-        }
-        return functionJson;
-    }
-
     public getMockMethods() {
         return this.getMethodsFromParsed(new ContractMockData().mockContractMethods);
     }
@@ -79,17 +65,12 @@ export class JsonContractParser {
             function: contractData,
         };
 
-        // log every individual piece to look for /undefined/
-        // console.log("Full contract data array: ", contractData);
-        // console.log("Contract template: ", contract);
-        // console.log(json);
-
         return JSON.stringify(json);
     }
 
     public parseFunctionContract(
         functionName: string,
-        params: Map<string, string>,
+        params: Map<any, any>,
         constructorParams: Map<string, string>,
         contract: any,
     ) {
@@ -104,11 +85,6 @@ export class JsonContractParser {
             constructor: constructorData,
             function: contractData,
         };
-
-        // log every individual piece to look for /undefined/
-        // console.log("Full contract data array: ", contractData);
-        // console.log("Contract template: ", contract);
-        // console.log(json);
 
         return JSON.stringify(json);
     }

@@ -149,7 +149,6 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             transactionHeader,
             "signature",
         );
-        return;
         this.props.postTransaction(transaction);
     };
 
@@ -482,8 +481,6 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             constructorParams,
             contractTemplate,
         );
-        console.log("contract :: ", contract);
-        // log the complete package to be sent over
         return contract;
     };
 
