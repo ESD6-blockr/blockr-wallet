@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
 import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
 import { logout } from "../../actions/authentication.actions";
+import { getStateByPublicKey } from "../../actions/state.actions";
 import {
     getTransactionsByRecipient,
     setCurrentTransaction,
@@ -13,6 +14,7 @@ import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
 const mapStateToProps = (state: IRootState) => ({
+    currentState: state.state.currentState,
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
@@ -21,6 +23,7 @@ const mapStateToProps = (state: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+    getStateByPublicKey,
     getTransactionsByRecipient,
     logout,
     setCurrentTransaction,
@@ -42,6 +45,10 @@ class Profile extends React.Component<Props> {
         if (this.props.transactions.length === 0) {
             this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
         }
+
+        if (!this.props.currentState) {
+            this.props.getStateByPublicKey(this.props.currentUser.publicKey);
+        }
     }
 
     public handleLogout = () => {
@@ -55,11 +62,11 @@ class Profile extends React.Component<Props> {
     };
 
     public render() {
-        const { transactions, currentUser, getTransactionLoading } = this.props;
+        const { transactions, currentUser, currentState, getTransactionLoading } = this.props;
         return (
             <div className="centered">
                 <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
-                <h3>Balance: temp 123</h3>
+                <h3>Balance: {currentState ? currentState.amount : "Unknown"}</h3>
                 <h3>Transactions</h3>
                 <Segment>
                     <div role="list" className="ui divided relaxed list left-div">
