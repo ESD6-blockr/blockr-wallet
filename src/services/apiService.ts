@@ -1,4 +1,4 @@
-import { Transaction } from "@blockr/blockr-models";
+import { State, Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
 import { getValidatorIp } from "../components/application";
 
@@ -27,6 +27,14 @@ export class ApiService {
         });
     }
 
+    public getStateByPublicKey(publicKey: string): Promise<State> {
+        return new Promise(async (resolve, reject) => {
+            Axios.get<State>(this.getStatesRoute() + "/" + publicKey)
+                .then((response) => resolve(response.data))
+                .catch((error) => reject(error));
+        });
+    }
+
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
         return new Promise(async (resolve, reject) => {
             Axios.get<Transaction[]>(this.getTransactionRoute(), { params: queryObject })
@@ -37,5 +45,9 @@ export class ApiService {
 
     private getTransactionRoute(): string {
         return `${getValidatorIp()}/transactions`;
+    }
+
+    private getStatesRoute(): string {
+        return `${getValidatorIp()}/states`;
     }
 }
