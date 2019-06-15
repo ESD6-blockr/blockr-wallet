@@ -32,6 +32,8 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 class Profile extends React.Component<Props> {
+    private balanceRefreshTimerId: number;
+
     constructor(props: any) {
         super(props);
     }
@@ -49,6 +51,17 @@ class Profile extends React.Component<Props> {
         if (!this.props.currentState) {
             this.props.getStateByPublicKey(this.props.currentUser.publicKey);
         }
+
+        // @ts-ignore
+        this.balanceRefreshTimerId = setInterval(() => {
+            if (this.props.currentUser && this.props.currentUser.publicKey) {
+                this.props.getStateByPublicKey(this.props.currentUser.publicKey);
+            }
+        }, 10000);
+    }
+
+    public componentWillUnmount() {
+        clearInterval(this.balanceRefreshTimerId);
     }
 
     public handleLogout = () => {

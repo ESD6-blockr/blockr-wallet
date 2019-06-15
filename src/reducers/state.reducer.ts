@@ -18,15 +18,6 @@ const initialState: IStateState = {
 };
 
 /*
-    Set Current State
-*/
-
-const setCurrentState = (state: IStateState, action): IStateState => ({
-    ...state,
-    currentState: action.payload,
-});
-
-/*
     Get State
 */
 
@@ -49,7 +40,6 @@ const getStateFailure = (state: IStateState, action): IStateState => ({
 });
 
 export const getStateHandlers = {
-    [constants.SET_CURRENT_STATE]: setCurrentState,
     [constants.GET_STATE_BEGIN]: getStateBegin,
     [constants.GET_STATE_SUCCESS]: getStateSuccess,
     [constants.GET_STATE_FAILURE]: getStateFailure,
