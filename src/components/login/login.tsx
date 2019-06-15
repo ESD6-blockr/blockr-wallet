@@ -371,7 +371,7 @@ class Login extends React.Component<Props, DefaultState> {
             logger.info("Done decrypting local file");
         } catch (err) {
             logger.error(err);
-            toast.error("Please supply correst passphrase");
+            toast.error("Please supply correct passphrase");
         }
     };
 
