@@ -281,7 +281,10 @@ class Login extends React.Component<Props, DefaultState> {
                 >
                     <Modal.Header>Encrypt local file</Modal.Header>
                     <Modal.Content>
-                        <p>Select or create a local file where the credentials will be stored.</p>
+                        <p>
+                            Please supply a strong password/passphrase for securely storing your
+                            credentials.
+                        </p>
 
                         <label>Public key</label>
                         <br />
@@ -360,7 +363,7 @@ class Login extends React.Component<Props, DefaultState> {
             decryptedContent = this.cryptoService.decrypt(
                 this.state.encryptedString,
                 this.state.passphrase,
-            ); // key has to be 16 or 32 bytes
+            );
 
             const keys = decryptedContent.split(":");
             if (decryptedContent) {
@@ -392,7 +395,7 @@ class Login extends React.Component<Props, DefaultState> {
                 }.bind(this),
             );
         } catch (err) {
-            toast.error("Please supply a passphrase with a length of 32 characters!");
+            toast.error("Something went wrong with encrypting your credentials.");
             logger.error(err);
         }
 
