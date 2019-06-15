@@ -140,9 +140,6 @@ class Login extends React.Component<Props, DefaultState> {
         const pubKey = keypair.getPublic(true, "hex");
         const privKey = keypair.getPrivate("hex");
 
-        logger.info("PUBKEY: " + pubKey);
-        logger.info("PRIVKEY: " + privKey);
-
         this.setState({ openGenerateDialog: true, privateKey: privKey, publicKey: String(pubKey) });
     };
 
