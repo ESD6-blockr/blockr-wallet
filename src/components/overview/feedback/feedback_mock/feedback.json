@@ -3,17 +3,17 @@
         "hash": "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS",
         "feedback": [
             {
-                "value": "Goed document, maar ik zou wat minder bondig zijn.",
+                "value": "Decent document, but I would put some more effort and time in explaining your metaphores",
                 "pubKey": "bas",
                 "time": 1560416457
             },
             {
-                "value": "Het document heeft een goede basis, maar ik zou de onderzoeken nog wat verder uitwerken.",
+                "value": "It's a good start, but it still requires further explanation of the research.",
                 "pubKey": "bart",
                 "time": 1560416500
             },
             {
-                "value": "Ik vond het een mooi titelblad hebben",
+                "value": "I like your document cover.",
                 "pubKey": "levi",
                 "time": 1560416511
             },
@@ -28,12 +28,12 @@
         "hash": "QmbcXF47Xf8aye8eRUoLTBrLJVqeptNjZLDHW3aYt79cjF",
         "feedback": [
             {
-                "value": "Perfectie op ten top",
+                "value": "This is a 1 in a 1000 kind of document, well done.",
                 "pubKey": "bas",
                 "time": 1560416457
             },
             {
-                "value": "Dit moet het voorbeeld zijn voor alle documenten",
+                "value": "This should be an example for all other documents",
                 "pubKey": "bart",
                 "time": 1560416500
             },
@@ -48,19 +48,14 @@
         "hash": "QmWScQUnnhcoLrgGU1H7sWv1vNc38djz2kEmQD7dzmjsEC",
         "feedback": [
             {
-                "value": "Woorden kunnen niet beschrijven hoe goed dit document is, maar cijfers wel 2/10",
+                "value": "Some would say the document is written unprofessionally, but other are able to see the joke.",
                 "pubKey": "bas",
                 "time": 1560416457
             },
             {
-                "value": "Dit document heeft duidelijk nog wat werk nodig",
+                "value": "This document clearly needs some more work, but I like the basis setup.",
                 "pubKey": "bart",
                 "time": 1560416500
-            },
-            {
-                "value": "Dit is niet te lezen man....",
-                "pubKey": "levi",
-                "time": 1560416511
             }
         ]
     }
