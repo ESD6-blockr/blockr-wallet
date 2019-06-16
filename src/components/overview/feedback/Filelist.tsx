@@ -1,23 +1,22 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input } from "semantic-ui-react";
-import { getIPFSIp } from "../../application";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
+import { getIPFSIp } from '../../application';
 
-export default class Filelist extends React.Component<any, any> {
-    public viewFeedback = (e, file) => {
-        console.log("feedback: " + file.hash);
+export class Filelist extends React.Component<any, any> {
+    public viewFeedback = file => {
         this.props.selectFeedback(file.hash);
     };
-    public openDocument = (e, file) => {
-        window.open(getIPFSIp() + "/api/ipfs/" + file.hash);
+    public openDocument = file => {
+        window.open(getIPFSIp() + '/api/ipfs/' + file.hash);
         this.props.selectFeedback(file.hash);
     };
     public render() {
         const { files } = this.props;
-        const fileList = files.map((file) => {
+        const fileList = files.map(file => {
             return (
                 <div className="ui segment" key={file.hash} style={{ margin: 0 }}>
-                    <div className="ui column" onClick={(e) => this.viewFeedback(e, file)}>
+                    <div className="ui column" onClick={() => this.viewFeedback(file)}>
                         {file.hash}
                     </div>
                     <Link
@@ -28,7 +27,8 @@ export default class Filelist extends React.Component<any, any> {
                     </Link>
                     <Button
                         className="ui column blue purple space-top right-button"
-                        onClick={(e) => this.openDocument(e, file)}>
+                        onClick={() => this.openDocument(file)}
+                    >
                         Save document
                     </Button>
                 </div>

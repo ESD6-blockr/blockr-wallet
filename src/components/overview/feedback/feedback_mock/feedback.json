@@ -3,7 +3,7 @@
         "hash": "QmXGuMJBBrJz8iFhvigjsNpRMDiGms2Y18kH5PmYJdUVKS",
         "feedback": [
             {
-                "value": "Decent document, but I would put some more effort and time in explaining your metaphores",
+                "value": "Decent document, but I would put some more effort and time in explaining your metaphors",
                 "pubKey": "bas",
                 "time": 1560416457
             },
@@ -18,8 +18,8 @@
                 "time": 1560416511
             },
             {
-                "value": "test123",
-                "time": 1560419923,
+                "value": "test",
+                "time": 1560716942,
                 "pubKey": "PUBLICKEYOFUSER"
             }
         ]
@@ -48,12 +48,12 @@
         "hash": "QmWScQUnnhcoLrgGU1H7sWv1vNc38djz2kEmQD7dzmjsEC",
         "feedback": [
             {
-                "value": "Some would say the document is written unprofessionally, but other are able to see the joke.",
+                "value": "Some would say the document is written unprofessionally, but others are able to see the joke.",
                 "pubKey": "bas",
                 "time": 1560416457
             },
             {
-                "value": "This document clearly needs some more work, but I like the basis setup.",
+                "value": "This document clearly needs some more work, but I like the base structure.",
                 "pubKey": "bart",
                 "time": 1560416500
             }

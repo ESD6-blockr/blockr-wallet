@@ -1,9 +1,8 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input } from "semantic-ui-react";
-import { uploadPDFToIPFS } from "../../actions/ipfs.actions";
-import { doAPICall, getBase64 } from "../../helpers/base64.helper";
-import "./file.scss";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Input } from 'semantic-ui-react';
+import { doAPICall, getBase64 } from '../../helpers/base64.helper';
+import './file.scss';
 
 interface IState {
     file: any;
@@ -13,7 +12,7 @@ export default class FileUpload extends React.Component<{}, IState> {
     constructor(props) {
         super(props);
         this.state = {
-            file: null,
+            file: null
         };
     }
 
@@ -30,7 +29,7 @@ export default class FileUpload extends React.Component<{}, IState> {
             <div>
                 <div
                     style={{
-                        textAlign: "center",
+                        textAlign: 'center'
                     }}
                 >
                     <h3>Upload File</h3>

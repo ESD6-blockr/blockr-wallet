@@ -1,26 +1,24 @@
-import * as React from "react";
-import { Route, Router, Switch } from "react-router";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Grid, Segment } from "semantic-ui-react";
-import "../global.scss";
-import routerHistory from "../store/routerHistory";
-import CreateTransaction from "./createTransaction/createTransaction";
-import FileUpload from "./file/file";
-import Login from "./login/login";
-import Feedback from "./overview/feedback/feedback";
-import Overview from "./overview/overview";
-import Profile from "./profile/profile";
-import Transaction from "./transaction/transaction";
+import * as React from 'react';
+import { Route, Router, Switch } from 'react-router';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Grid, Segment } from 'semantic-ui-react';
+import '../global.scss';
+import routerHistory from '../store/routerHistory';
+import CreateTransaction from './createTransaction/createTransaction';
+import FileUpload from './file/file';
+import Login from './login/login';
+import Feedback from './overview/feedback/feedback';
+import Overview from './overview/overview';
+import Profile from './profile/profile';
+import Transaction from './transaction/transaction';
 
 export function getValidatorIp(): string {
-    // return validatorIp || "https://public.blockr.verux.nl";
-    return "https://public.blockr.verux.nl";
+    return 'https://public.blockr.verux.nl';
 }
 
 export function getIPFSIp(): string {
-    // return validatorIp || "https://public.blockr.verux.nl";
-    return "http://localhost:3002";
+    return 'http://localhost:3002';
 }
 
 const numberOfColumns = 2;
@@ -29,13 +27,13 @@ const Application = () => (
         <Grid centered={true} columns={numberOfColumns}>
             <Grid.Column
                 style={{
-                    width: "90%",
+                    width: '90%'
                 }}
             >
                 <Segment
                     style={{
-                        marginTop: "2%",
-                        textAlign: "center",
+                        marginTop: '2%',
+                        textAlign: 'center'
                     }}
                 >
                     <h1>Blockr Wallet</h1>

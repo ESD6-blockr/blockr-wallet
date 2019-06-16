@@ -1,19 +1,17 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input } from "semantic-ui-react";
-
-import { ApiService } from "../../services/apiService";
-import Filelist from "./feedback/Filelist";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { ApiService } from '../../services/apiService';
+import { Filelist } from './feedback/fileList';
 const apiService: ApiService = new ApiService();
 
 export default class Overview extends React.Component<any, any> {
     public state = {
         files: apiService.getAllDocumentsWithFeedback(),
-        selectedHash: "",
+        selectedHash: ''
     };
-    public selectFeedback = (hash) => {
+    public selectFeedback = hash => {
         this.setState({
-            selectedHash: hash,
+            selectedHash: hash
         });
     };
 
@@ -21,8 +19,8 @@ export default class Overview extends React.Component<any, any> {
         return (
             <div className="">
                 <h1 className="">Feedback - Blockr</h1>
-                <div className="Filelist">
-                    <h2 className="werkstukkenHeader ui">Werkstukken</h2>
+                <div className="fileList">
+                    <h2 className="documentHeader ui">Documents</h2>
                     <Filelist files={this.state.files} selectFeedback={this.selectFeedback} />
                 </div>
                 <Link

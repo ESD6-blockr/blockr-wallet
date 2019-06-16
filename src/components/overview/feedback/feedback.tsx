@@ -1,25 +1,34 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input, Label, List, Segment } from "semantic-ui-react";
-import { ApiService } from "../../../services/apiService";
-import AddFeedback from "../feedback/AddFeedback";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Input, Label, List, Segment } from 'semantic-ui-react';
+import { ApiService } from '../../../services/apiService';
+import { IRootState } from 'reducers';
 const apiService = new ApiService();
+
 export default class Feedback extends React.Component<any, any> {
     public state = {
-        feedback: "",
-        gottenFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
+        feedback: '',
+        receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash)
     };
     public handleChange = (e, data) => {
         this.state.feedback = data.value;
     };
-    public handleSubmit = (e, data) => {
+    public handleSubmit = () => {
         const dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
         if (!(this.state.feedback.length === 0)) {
-            const gotten = [...this.state.gottenFeedback];
-            gotten.push({ value: this.state.feedback, pubKey: "PUBLICKEYOFUSER", time: timestamp });
-            apiService.addFeedbackInDocument(this.props.match.params.hash, this.state.feedback);
-            this.setState({ gottenFeedback: gotten, feedback: "" });
+            const received = [...this.state.receivedFeedback];
+            received.push({
+                value: this.state.feedback,
+                pubKey: 'PUBLICKEYOFUSER',
+                time: timestamp
+            });
+            apiService.addFeedbackInDocument(
+                this.props.match.params.hash,
+                this.state.feedback,
+                'PUBLICKEYOFUSER'
+            );
+            this.setState({ receivedFeedback: received, feedback: '' });
         }
     };
 
@@ -32,7 +41,7 @@ export default class Feedback extends React.Component<any, any> {
                 </div>
                 <Form onSubmit={this.handleSubmit}>
                     <List>
-                        {this.state.gottenFeedback.map((fb) => (
+                        {this.state.receivedFeedback.map(fb => (
                             <Segment key={fb.value}>
                                 <List.Item>Value: {fb.value}</List.Item>
                                 <List.Item>User: {fb.pubKey}</List.Item>
@@ -41,12 +50,12 @@ export default class Feedback extends React.Component<any, any> {
                         ))}
                     </List>
                     <div className="Feedback">
-                        <h2 className="ui row">Feedback toevoegen</h2>
+                        <h2 className="ui row">Add feedback to document:</h2>
                         <div className="row ui">
                             <Label>Feedback:</Label>
                             <Input type="text" id="feedback" onChange={this.handleChange} />
                             <Button className="ui column blue purple space-top left-button">
-                                Toevoegen
+                                Add
                             </Button>
                         </div>
                     </div>

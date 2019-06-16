@@ -1,10 +1,11 @@
-import { State, Transaction } from "@blockr/blockr-models";
-import Axios from "axios";
-import * as fs from "fs";
-import { reject } from "q";
-import { resolve } from "url";
-import { getIPFSIp, getValidatorIp } from "../components/application";
-import feedback_data from "../components/overview/feedback/feedback_mock/feedback.json";
+import { State, Transaction } from '@blockr/blockr-models';
+import Axios from 'axios';
+import { reject } from 'q';
+import { resolve } from 'url';
+import * as fs from 'fs';
+import { getIPFSIp, getValidatorIp } from '../components/application';
+import FeedbackData from '../components/overview/feedback/feedback_mock/feedback.json';
+import { logger } from '@blockr/blockr-logger';
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
@@ -13,13 +14,13 @@ export class ApiService {
 
     public getTransactionsBySender = (publicKey: string): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({
-            "transactionHeader.senderKey": publicKey,
+            'transactionHeader.senderKey': publicKey
         });
     };
 
     public getTransactionsByRecipient(publicKey: string): Promise<Transaction[]> {
         return this.getTransactionsByQuery({
-            "transactionHeader.recipientKey": publicKey,
+            'transactionHeader.recipientKey': publicKey
         });
     }
 
@@ -27,23 +28,23 @@ export class ApiService {
         return new Promise(async (resolved, rejected) => {
             return Axios.post(this.getTransactionRoute(), transaction)
                 .then(() => resolved())
-                .catch((error) => rejected(error));
+                .catch(error => rejected(error));
         });
     }
 
     public postDocumentToIPFS(base64EncodedPDF: string) {
         return new Promise(async (solve, fail) => {
             return Axios.post(this.getIPFSRoute(), {
-                base64EncodedPDF,
+                base64EncodedPDF
             })
-                .then((response) => solve(response.data.hash))
-                .catch((error) => fail(error));
+                .then(response => solve(response.data.hash))
+                .catch(error => fail(error));
         });
     }
 
     public getFeedbackForDocumentIPFSHash(hash: string) {
         let feedback: Array<{ value: string; pubKey: string; time: number }> = [];
-        feedback_data.forEach((data) => {
+        FeedbackData.forEach(data => {
             if (data.hash === hash) {
                 feedback = data.feedback;
             }
@@ -51,45 +52,35 @@ export class ApiService {
         return feedback;
     }
 
-    public addFeedbackInDocument(hash: string, feedback: string): void {
+    public addFeedbackInDocument(hash: string, feedback: string, publicKey: string): void {
         const dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
-        feedback_data.map((data) => {
+        FeedbackData.map(data => {
             if (data.hash === hash) {
-                data.feedback.push({ value: feedback, time: timestamp, pubKey: "PUBLICKEYOFUSER" });
+                data.feedback.push({ value: feedback, time: timestamp, pubKey: publicKey });
             }
         });
-        fs.writeFile(
-            "./src/components/overview/feedback/feedback_mock/feedback.json",
-            JSON.stringify(feedback_data, null, 4),
-            (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.log("File has been created");
-            },
-        );
+        this.updateDocumentsMock();
     }
     public getAllDocumentsWithFeedback() {
-        Axios.get("http://145.93.165.33:3000/ptsmock/ipfshashes")
-            .then((response) => console.log(response))
-            .catch((error) => console.log(error));
-        return feedback_data;
+        Axios.get('http://145.93.165.33:3000/ptsmock/ipfshashes')
+            .then(response => logger.info(response))
+            .catch(error => logger.error(error));
+        return FeedbackData;
     }
     public getBlockchainStateByPublicKey(publicKey: string): Promise<State> {
         return new Promise(async (event, decline) => {
             Axios.get<State>(`${this.getStatesRoute()}/${publicKey}`)
-                .then((response) => event(response.data))
-                .catch((error) => decline(error));
+                .then(response => event(response.data))
+                .catch(error => decline(error));
         });
     }
 
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
         return new Promise(async (handle, fault) => {
             Axios.get<Transaction[]>(this.getTransactionRoute(), { params: queryObject })
-                .then((response) => handle(response.data))
-                .catch((error) => fault(error));
+                .then(response => handle(response.data))
+                .catch(error => fault(error));
         });
     }
 
@@ -103,4 +94,16 @@ export class ApiService {
     private getStatesRoute(): string {
         return `${getValidatorIp()}/states`;
     }
+    public updateDocumentsMock = () => {
+        fs.writeFile(
+            './src/components/overview/feedback/feedback_mock/feedback.json',
+            JSON.stringify(FeedbackData, null, 4),
+            err => {
+                if (err) {
+                    logger.error(err);
+                    return;
+                }
+            }
+        );
+    };
 }
