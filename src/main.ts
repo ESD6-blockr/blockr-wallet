@@ -3,15 +3,12 @@ import * as installer from "electron-devtools-installer";
 import * as path from "path";
 import * as url from "url";
 
-import "reflect-metadata";
-
 let win: BrowserWindow | null;
 
 const installExtensions = async () => {
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"];
 
-    // TODO: Add catch
     return Promise.all(extensions.map((name) => installer.default(installer[name], forceDownload)));
 };
 
