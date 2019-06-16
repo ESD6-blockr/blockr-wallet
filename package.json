@@ -1,6 +1,6 @@
 {
   "name": "blockr-wallet",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
@@ -35,6 +35,7 @@
   "build": {
     "productName": "Blockr Wallet",
     "appId": "org.blockr.wallet",
+    "icon": "./dist/icons",
     "mac": {
       "category": "blockr.wallet.blockchain.wallet"
     },
@@ -47,6 +48,7 @@
       "package.json"
     ],
     "linux": {
+      "category": "Utility",
       "target": "deb"
     },
     "win": {
