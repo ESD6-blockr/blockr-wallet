@@ -18,7 +18,7 @@ export default class Feedback extends React.Component<any, any> {
         if (!(this.state.feedback.length === 0)) {
             const gotten = [...this.state.gottenFeedback];
             gotten.push({ value: this.state.feedback, pubKey: "PUBLICKEYOFUSER", time: timestamp });
-            apiService.addFeedbackInDocument(this.props.match.params.hash,this.state.feedback);
+            apiService.addFeedbackInDocument(this.props.match.params.hash, this.state.feedback);
             this.setState({ gottenFeedback: gotten, feedback: "" });
         }
     };

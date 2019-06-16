@@ -1,20 +1,23 @@
-import * as React from 'react';
-import * as renderer from 'react-test-renderer';
-import configureStore from 'redux-mock-store';
+import * as React from "react";
+import * as renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
 
-import { configure, mount, shallow } from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
-import { Provider } from 'react-redux';
+import { configure, mount, shallow } from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
+import { Provider } from "react-redux";
 
-import Login from '../../components/login/login';
-import User from '../../models/user';
+import Login from "../../components/login/login";
+import User from "../../models/user";
 
-jest.mock('history');
+jest.mock("history");
 
-describe('Login component', () => {
-    it('renders correctly', () => {
+describe("Login component", () => {
+    it("renders correctly", () => {
         const initialState = {
-            authentication: { currentUser: new User('public', 'private'), isLoading: false }
+            authentication: {
+                currentUser: new User("public", "private"),
+                isLoading: false,
+            },
         };
 
         const mockStore = configureStore();
@@ -24,7 +27,7 @@ describe('Login component', () => {
         const container = shallow(
             <Provider store={store}>
                 <Login />
-            </Provider>
+            </Provider>,
         ).dive();
         // expect(Object.keys(container.props()).length).toEqual(1);
         expect(true);
