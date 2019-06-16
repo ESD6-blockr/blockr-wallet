@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
 import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
 import { logout } from "../../actions/authentication.actions";
-import { getStateByPublicKey } from "../../actions/state.actions";
+import { getBlockchainStateByPublicKey } from "../../actions/state.actions";
 import {
     getTransactionsByRecipient,
     setCurrentTransaction,
@@ -14,7 +14,7 @@ import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
 const mapStateToProps = (state: IRootState) => ({
-    currentState: state.state.currentState,
+    currentState: state.blockchainState.currentBlockchainState,
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
@@ -23,7 +23,7 @@ const mapStateToProps = (state: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-    getStateByPublicKey,
+    getBlockchainStateByPublicKey,
     getTransactionsByRecipient,
     logout,
     setCurrentTransaction,
@@ -49,13 +49,13 @@ class Profile extends React.Component<Props> {
         }
 
         if (!this.props.currentState) {
-            this.props.getStateByPublicKey(this.props.currentUser.publicKey);
+            this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
         }
 
         // @ts-ignore
         this.balanceRefreshTimerId = setInterval(() => {
             if (this.props.currentUser && this.props.currentUser.publicKey) {
-                this.props.getStateByPublicKey(this.props.currentUser.publicKey);
+                this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
             }
         }, 10000);
     }

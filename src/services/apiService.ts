@@ -27,7 +27,7 @@ export class ApiService {
         });
     }
 
-    public getStateByPublicKey(publicKey: string): Promise<State> {
+    public getBlockchainStateByPublicKey(publicKey: string): Promise<State> {
         return new Promise(async (resolve, reject) => {
             Axios.get<State>(this.getStatesRoute() + "/" + publicKey)
                 .then((response) => resolve(response.data))
