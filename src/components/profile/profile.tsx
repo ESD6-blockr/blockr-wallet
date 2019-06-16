@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
 import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
 import { logout } from "../../actions/authentication.actions";
+import { getBlockchainStateByPublicKey } from "../../actions/state.actions";
 import {
     getTransactionsByRecipient,
     setCurrentTransaction,
@@ -13,6 +14,7 @@ import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
 const mapStateToProps = (state: IRootState) => ({
+    currentState: state.blockchainState.currentBlockchainState,
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
@@ -21,6 +23,7 @@ const mapStateToProps = (state: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+    getBlockchainStateByPublicKey,
     getTransactionsByRecipient,
     logout,
     setCurrentTransaction,
@@ -29,6 +32,8 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 class Profile extends React.Component<Props> {
+    private balanceRefreshTimerId: number;
+
     constructor(props: any) {
         super(props);
     }
@@ -42,6 +47,21 @@ class Profile extends React.Component<Props> {
         if (this.props.transactions.length === 0) {
             this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
         }
+
+        if (!this.props.currentState) {
+            this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
+        }
+
+        // @ts-ignore
+        this.balanceRefreshTimerId = setInterval(() => {
+            if (this.props.currentUser && this.props.currentUser.publicKey) {
+                this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
+            }
+        }, 10000);
+    }
+
+    public componentWillUnmount() {
+        clearInterval(this.balanceRefreshTimerId);
     }
 
     public handleLogout = () => {
@@ -55,11 +75,11 @@ class Profile extends React.Component<Props> {
     };
 
     public render() {
-        const { transactions, currentUser, getTransactionLoading } = this.props;
+        const { transactions, currentUser, currentState, getTransactionLoading } = this.props;
         return (
             <div className="centered">
                 <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
-                <h3>Balance: temp 123</h3>
+                <h3>Balance: {currentState ? currentState.amount : "Unknown"}</h3>
                 <h3>Transactions</h3>
                 <Segment>
                     <div role="list" className="ui divided relaxed list left-div">
