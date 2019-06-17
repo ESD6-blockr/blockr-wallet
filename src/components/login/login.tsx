@@ -1,7 +1,5 @@
-import electron from "electron";
+import { remote } from "electron";
 import * as fs from "fs";
-const { remote } = electron;
-const dialog = remote.dialog;
 import ospath from "ospath";
 
 import { CryptoKeyUtil } from "@blockr/blockr-crypto";
@@ -94,12 +92,6 @@ class Login extends React.Component<Props, DefaultState> {
         });
     };
 
-    public handleFilePathChange = (element) => {
-        this.setState({
-            filePath: element.target.value,
-        });
-    };
-
     public handleAgreementChange = (element, data) => {
         this.setState({
             agreement: data.checked ? 1 : 0,
@@ -111,10 +103,7 @@ class Login extends React.Component<Props, DefaultState> {
 
         try {
             // verify keypair-relation
-            const keyPair = await this.cryptoKeyUtil.verifyKeyPair(
-                this.state.publicKey,
-                this.state.privateKey,
-            );
+            await this.cryptoKeyUtil.verifyKeyPair(this.state.publicKey, this.state.privateKey);
 
             if (this.state.agreement) {
                 this.props.login(this.state.publicKey, this.state.privateKey);
@@ -151,8 +140,7 @@ class Login extends React.Component<Props, DefaultState> {
             defaultPath: ospath.data() + "/.blockr-keyfile.enc",
         };
 
-        dialog.showSaveDialog(null, options, (path) => {
-            logger.info("Select path: " + path);
+        remote.dialog.showSaveDialog(null, options, (path) => {
             this.setState({ filePath: path, openEncryptDialog: true });
         });
     };
@@ -162,9 +150,7 @@ class Login extends React.Component<Props, DefaultState> {
             defaultPath: ospath.data() + "/.blockr-keyfile.enc",
         };
 
-        dialog.showOpenDialog(null, options, (path) => {
-            logger.info("Select path: " + path);
-
+        remote.dialog.showOpenDialog(null, options, (path) => {
             const contents = fs.readFileSync(path[0], "utf8");
             this.setState({ filePath: path[0], encryptedString: contents, open: true });
         });
@@ -390,6 +376,7 @@ class Login extends React.Component<Props, DefaultState> {
                 ),
                 function(this: Login) {
                     this.setState({ openEncryptDialog: false });
+                    this.userDataStore.set("localFilePath", this.state.filePath);
                     toast.success("The credentials are saved!");
                     logger.info("The file was saved!");
                 }.bind(this),
