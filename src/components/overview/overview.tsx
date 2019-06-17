@@ -6,7 +6,7 @@ const apiService: ApiService = new ApiService();
 
 export default class Overview extends React.Component<any, any> {
     public state = {
-        files: apiService.getAllDocumentsWithFeedback(),
+        files: apiService.getAllDocumentsWithFeedbackFromMock(),
         selectedHash: ''
     };
     public selectFeedback = hash => {
