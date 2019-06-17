@@ -1,15 +1,27 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Label, List, Segment } from 'semantic-ui-react';
-import { ApiService } from '../../../services/apiService';
-import { IRootState } from 'reducers';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { IRootState } from "reducers";
+import { Button, Form, Input, Label, List, Segment } from "semantic-ui-react";
+import { ApiService } from "../../../services/apiService";
 const apiService = new ApiService();
 
-export default class Feedback extends React.Component<any, any> {
+const mapStateToProps = (state: IRootState) => ({
+    currentUser: state.authentication.currentUser,
+});
+
+type Props = ReturnType<typeof mapStateToProps> & any;
+
+class Feedback extends React.Component<Props> {
     public state = {
-        feedback: '',
-        receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash)
+        feedback: "",
+        receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
     };
+
+    constructor(props: any) {
+        super(props);
+    }
+
     public handleChange = (e, data) => {
         this.state.feedback = data.value;
     };
@@ -19,16 +31,16 @@ export default class Feedback extends React.Component<any, any> {
         if (!(this.state.feedback.length === 0)) {
             const received = [...this.state.receivedFeedback];
             received.push({
+                pubKey: this.props.currentUser.publicKey,
+                time: timestamp,
                 value: this.state.feedback,
-                pubKey: 'PUBLICKEYOFUSER',
-                time: timestamp
             });
             apiService.addFeedbackInDocument(
                 this.props.match.params.hash,
                 this.state.feedback,
-                'PUBLICKEYOFUSER'
+                this.props.currentUser.publicKey,
             );
-            this.setState({ receivedFeedback: received, feedback: '' });
+            this.setState({ receivedFeedback: received, feedback: "" });
         }
     };
 
@@ -41,7 +53,7 @@ export default class Feedback extends React.Component<any, any> {
                 </div>
                 <Form onSubmit={this.handleSubmit}>
                     <List>
-                        {this.state.receivedFeedback.map(fb => (
+                        {this.state.receivedFeedback.map((fb) => (
                             <Segment key={fb.value}>
                                 <List.Item>Value: {fb.value}</List.Item>
                                 <List.Item>User: {fb.pubKey}</List.Item>
@@ -71,3 +83,4 @@ export default class Feedback extends React.Component<any, any> {
         );
     }
 }
+export default connect(mapStateToProps)(Feedback);

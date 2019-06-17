@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { ApiService } from '../../services/apiService';
-import { Filelist } from './feedback/fileList';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { ApiService } from "../../services/apiService";
+import { Filelist } from "./feedback/fileList";
 const apiService: ApiService = new ApiService();
 
 export default class Overview extends React.Component<any, any> {
     public state = {
         files: apiService.getAllDocumentsWithFeedbackFromMock(),
-        selectedHash: ''
+        selectedHash: "",
     };
-    public selectFeedback = hash => {
+    public selectFeedback = (hash) => {
         this.setState({
-            selectedHash: hash
+            selectedHash: hash,
         });
     };
 
