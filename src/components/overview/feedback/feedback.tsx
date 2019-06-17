@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
 import { Button, Form, Input, Label, List, Segment } from "semantic-ui-react";
 import { ApiService } from "../../../services/apiService";
+
 const apiService = new ApiService();
 
 const mapStateToProps = (state: IRootState) => ({
@@ -14,7 +15,7 @@ type Props = ReturnType<typeof mapStateToProps> & any;
 
 class Feedback extends React.Component<Props> {
     public state = {
-        feedback: "",
+        feedbackFieldValue: "",
         receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
     };
 
@@ -23,24 +24,24 @@ class Feedback extends React.Component<Props> {
     }
 
     public handleChange = (e, data) => {
-        this.state.feedback = data.value;
+        this.state.feedbackFieldValue = data.value;
     };
     public handleSubmit = () => {
         const dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
-        if (!(this.state.feedback.length === 0)) {
+        if (!(this.state.feedbackFieldValue.length === 0)) {
             const received = [...this.state.receivedFeedback];
             received.push({
                 pubKey: this.props.currentUser.publicKey,
                 time: timestamp,
-                value: this.state.feedback,
+                value: this.state.feedbackFieldValue,
             });
             apiService.addFeedbackInDocument(
                 this.props.match.params.hash,
-                this.state.feedback,
+                this.state.feedbackFieldValue,
                 this.props.currentUser.publicKey,
             );
-            this.setState({ receivedFeedback: received, feedback: "" });
+            this.setState({ receivedFeedback: received, feedbackFieldValue: "" });
         }
     };
 

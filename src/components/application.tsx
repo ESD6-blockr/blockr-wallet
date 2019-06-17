@@ -14,10 +14,12 @@ import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
 
 export function getValidatorIp(): string {
+    // Public-API host. This IP will be offline after the final demo.
     return "https://public.blockr.verux.nl";
 }
 
 export function getIPFSIp(): string {
+    // IPFS API host. This IP will be offline after the final demo.
     return "http://188.166.52.164:3002";
 }
 
@@ -27,13 +29,13 @@ const Application = () => (
         <Grid centered={true} columns={numberOfColumns}>
             <Grid.Column
                 style={{
-                    width: "90%"
+                    width: "90%",
                 }}
             >
                 <Segment
                     style={{
                         marginTop: "2%",
-                        textAlign: "center"
+                        textAlign: "center",
                     }}
                 >
                     <h1>Blockr Wallet</h1>

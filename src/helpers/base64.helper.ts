@@ -1,5 +1,6 @@
 import { logger } from "@blockr/blockr-logger";
 import { uploadPDFToIPFS } from "../actions/ipfs.actions";
+
 export const getBase64 = (file, cb) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
