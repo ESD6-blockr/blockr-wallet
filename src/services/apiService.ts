@@ -53,7 +53,8 @@ export class ApiService {
     public addFeedbackInDocument(hash: string, feedback: string, publicKey: string): void {
         const dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
-        FeedbackData.map((data) => {
+
+        FeedbackData.forEach((data) => {
             if (data.hash === hash) {
                 data.feedback.push({ value: feedback, time: timestamp, pubKey: publicKey });
             }

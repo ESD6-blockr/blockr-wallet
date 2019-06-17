@@ -23,7 +23,7 @@ class Feedback extends React.Component<Props> {
         super(props);
     }
 
-    public handleChange = (e, data) => {
+    public handleChange = (data) => {
         this.state.feedbackFieldValue = data.value;
     };
     public handleSubmit = () => {
