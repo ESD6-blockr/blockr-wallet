@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "semantic-ui-react";
-import { getIPFSIp } from "../../application";
+import { downloadDocument } from "../../../helpers/base64.helper";
 
 export class Filelist extends React.Component<any, any> {
     public viewFeedback = (file) => {
         this.props.selectFeedback(file.hash);
     };
     public openDocument = (file) => {
-        window.open(getIPFSIp() + "/api/ipfs/" + file.hash);
+        downloadDocument(file);
         this.props.selectFeedback(file.hash);
     };
     public render() {

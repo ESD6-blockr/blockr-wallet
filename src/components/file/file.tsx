@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Button, Form, Input } from "semantic-ui-react";
 import { doAPICall, getBase64 } from "../../helpers/base64.helper";
 import "./file.scss";
@@ -21,7 +22,11 @@ export default class FileUpload extends React.Component<{}, IState> {
     };
 
     public uploadFile = () => {
-        getBase64(this.state.file, doAPICall);
+        if (this.state.file === null) {
+            toast.error("No file selected!");
+        } else {
+            getBase64(this.state.file, doAPICall);
+        }
     };
 
     public render() {
