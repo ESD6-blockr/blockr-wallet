@@ -78,7 +78,9 @@ class Profile extends React.Component<Props> {
         const { transactions, currentUser, currentState, getTransactionLoading } = this.props;
         return (
             <div className="centered">
-                <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
+                <h2 style={{ fontSize: "1.5rem" }}>
+                    {currentUser ? currentUser.publicKey : "Unknown"}
+                </h2>
                 <h3>Balance: {currentState ? currentState.amount : "Unknown"}</h3>
                 <h3>Transactions</h3>
                 <Segment>
