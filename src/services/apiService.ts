@@ -5,10 +5,6 @@ import * as fs from "fs";
 import { getIPFSIp, getValidatorIp } from "../components/application";
 import FeedbackData from "../components/overview/feedback/feedback_mock/feedback.json";
 
-// This is the IP that is used to mock communication with the Smart Contract group.
-// This IP will be offline after the final demo.
-const smartContractGroupMockIP = "http://145.93.165.33:3000/ptsmock/ipfshashes";
-
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({});
@@ -66,11 +62,9 @@ export class ApiService {
     }
 
     public getAllDocumentsWithFeedbackFromMock() {
-        Axios.get(smartContractGroupMockIP)
-            .then((response) => logger.info(response))
-            .catch((error) => logger.error(error));
         return FeedbackData;
     }
+
     public getBlockchainStateByPublicKey(publicKey: string): Promise<State> {
         return new Promise(async (resolve, reject) => {
             Axios.get<State>(`${this.getStatesRoute()}/${publicKey}`)
