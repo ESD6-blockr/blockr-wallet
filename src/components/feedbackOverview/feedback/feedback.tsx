@@ -11,9 +11,7 @@ const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
 });
 
-type Props = ReturnType<typeof mapStateToProps> & any;
-
-class Feedback extends React.Component<Props> {
+class Feedback extends React.Component<any> {
     public state = {
         feedbackFieldValue: "",
         receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
@@ -23,7 +21,7 @@ class Feedback extends React.Component<Props> {
         super(props);
     }
 
-    public handleChange = (data) => {
+    public handleChange = (e, data) => {
         this.state.feedbackFieldValue = data.value;
     };
     public handleSubmit = () => {
