@@ -7,39 +7,36 @@ import { ApiService } from "../../../services/apiService";
 
 const apiService = new ApiService();
 
+const inputFeedbackId = "feedback";
+
 const mapStateToProps = (state: IRootState) => ({
     currentUser: state.authentication.currentUser,
 });
 
 class Feedback extends React.Component<any> {
     public state = {
-        feedbackFieldValue: "",
         receivedFeedback: apiService.getFeedbackForDocumentIPFSHash(this.props.match.params.hash),
     };
 
     constructor(props: any) {
         super(props);
     }
-
-    public handleChange = (e, data) => {
-        this.state.feedbackFieldValue = data.value;
-    };
     public handleSubmit = () => {
         const dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
-        if (!(this.state.feedbackFieldValue.length === 0)) {
+        if ((document.getElementById(inputFeedbackId) as HTMLInputElement).value.length > 0) {
             const received = [...this.state.receivedFeedback];
             received.push({
                 pubKey: this.props.currentUser.publicKey,
                 time: timestamp,
-                value: this.state.feedbackFieldValue,
+                value: (document.getElementById(inputFeedbackId) as HTMLInputElement).value,
             });
             apiService.addFeedbackInDocument(
                 this.props.match.params.hash,
-                this.state.feedbackFieldValue,
+                (document.getElementById(inputFeedbackId) as HTMLInputElement).value,
                 this.props.currentUser.publicKey,
             );
-            this.setState({ receivedFeedback: received, feedbackFieldValue: "" });
+            this.setState({ receivedFeedback: received });
         }
     };
 
@@ -64,7 +61,7 @@ class Feedback extends React.Component<any> {
                         <h2 className="ui row">Add feedback to document:</h2>
                         <div className="row ui">
                             <Label>Feedback:</Label>
-                            <Input type="text" id="feedback" onChange={this.handleChange} />
+                            <Input type="text" id={inputFeedbackId} />
                             <Button className="ui column blue purple space-top left-button">
                                 Add
                             </Button>
