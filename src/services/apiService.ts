@@ -1,6 +1,9 @@
+import { logger } from "@blockr/blockr-logger";
 import { State, Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
-import { getValidatorIp } from "../components/application";
+import * as fs from "fs";
+import { getIPFSIp, getValidatorIp } from "../components/application";
+import FeedbackData from "../components/feedbackOverview/feedback/feedback_mock/feedback.json";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
@@ -27,6 +30,42 @@ export class ApiService {
         });
     }
 
+    public postDocumentToIPFS(base64EncodedPDF: string) {
+        return new Promise(async (resolve, reject) => {
+            return Axios.post(this.getIPFSRoute(), {
+                base64EncodedPDF,
+            })
+                .then((response) => resolve(response.data.hash))
+                .catch((error) => reject(error));
+        });
+    }
+
+    public getFeedbackForDocumentIPFSHash(hash: string) {
+        let feedback: Array<{ value: string; pubKey: string; time: number }> = [];
+        FeedbackData.forEach((data) => {
+            if (data.hash === hash) {
+                feedback = data.feedback;
+            }
+        });
+        return feedback;
+    }
+
+    public addFeedbackInDocument(hash: string, feedback: string, publicKey: string): void {
+        const dateTime = Date.now();
+        const timestamp = Math.floor(dateTime / 1000);
+
+        FeedbackData.forEach((data) => {
+            if (data.hash === hash) {
+                data.feedback.push({ value: feedback, time: timestamp, pubKey: publicKey });
+            }
+        });
+        this.updateDocumentsMock();
+    }
+
+    public getAllDocumentsWithFeedbackFromMock() {
+        return FeedbackData;
+    }
+
     public getBlockchainStateByPublicKey(publicKey: string): Promise<State> {
         return new Promise(async (resolve, reject) => {
             Axios.get<State>(`${this.getStatesRoute()}/${publicKey}`)
@@ -34,6 +73,18 @@ export class ApiService {
                 .catch((error) => reject(error));
         });
     }
+    public updateDocumentsMock = () => {
+        fs.writeFile(
+            "./src/components/feedbackOverview/feedback/feedback_mock/feedback.json",
+            JSON.stringify(FeedbackData, null, 4),
+            (err) => {
+                if (err) {
+                    logger.error(err);
+                    return;
+                }
+            },
+        );
+    };
 
     private getTransactionsByQuery(queryObject: object): Promise<Transaction[]> {
         return new Promise(async (resolve, reject) => {
@@ -47,6 +98,9 @@ export class ApiService {
         return `${getValidatorIp()}/transactions`;
     }
 
+    private getIPFSRoute(): string {
+        return `${getIPFSIp()}/api/ipfs`;
+    }
     private getStatesRoute(): string {
         return `${getValidatorIp()}/states`;
     }

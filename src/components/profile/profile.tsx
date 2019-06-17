@@ -140,6 +140,11 @@ class Profile extends React.Component<Props> {
                     <Link className="ui button space-top right-button" to="/file">
                         Upload file
                     </Link>
+                    <br />
+                    <Link className="ui button space-top right-button" to="/feedback">
+                        View documents
+                    </Link>
+                    <br />
                 </div>
             </div>
         );
