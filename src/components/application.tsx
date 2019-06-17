@@ -2,6 +2,7 @@ import * as React from "react";
 import { Route, Router, Switch } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "reflect-metadata";
 import { Grid, Segment } from "semantic-ui-react";
 import "../global.scss";
 import routerHistory from "../store/routerHistory";
