@@ -119,8 +119,17 @@ class Login extends React.Component<Props, DefaultState> {
 
     public fileRead = (filePath) => {
         logger.info("Reading local file..");
-        const contents = fs.readFileSync(filePath, "utf8");
-        this.setState({ filePath, open: true, encryptedString: contents });
+        try {
+            const contents = fs.readFileSync(filePath, "utf8");
+            this.setState({ filePath, open: true, encryptedString: contents });
+        } catch (err) {
+            if (err.message.includes("no such file")) {
+                toast.error("The file which you're trying to unlock doesn't exist anymore.");
+            } else {
+                logger.error(err.message);
+                toast.error("An error occured!");
+            }
+        }
     };
 
     public generateKeypair = () => {
@@ -151,8 +160,14 @@ class Login extends React.Component<Props, DefaultState> {
         };
 
         remote.dialog.showOpenDialog(null, options, (path) => {
-            const contents = fs.readFileSync(path[0], "utf8");
-            this.setState({ filePath: path[0], encryptedString: contents, open: true });
+            try {
+                const contents = fs.readFileSync(path[0], "utf8");
+                this.setState({ filePath: path[0], encryptedString: contents, open: true });
+            } catch (err) {
+                if (err.message.includes("Cannot read property '0'")) {
+                    toast.error("Please select a file to open!");
+                }
+            }
         });
     };
 
@@ -375,14 +390,17 @@ class Login extends React.Component<Props, DefaultState> {
                     this.state.passphrase,
                 ),
                 function(this: Login) {
-                    this.setState({ openEncryptDialog: false });
                     this.userDataStore.set("localFilePath", this.state.filePath);
+                    this.setState({ openEncryptDialog: false });
                     toast.success("The credentials are saved!");
                     logger.info("The file was saved!");
                 }.bind(this),
             );
         } catch (err) {
-            toast.error("Something went wrong with encrypting your credentials.");
+            if (err.message.includes("path must be a string or Buffer")) {
+                toast.error("Please select a file to write the credentials to!");
+                logger.error(err);
+            }
             logger.error(err);
         }
 
