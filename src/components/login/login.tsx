@@ -199,12 +199,14 @@ class Login extends React.Component<Props, DefaultState> {
                         name="passwordInput"
                         value={this.state.privateKey}
                         onChange={this.handlePrivateKeyChange}
+                        onKeyPress={this.onKeyPressHandleLogin}
                     />
                     <Form.Field required>
                         <Checkbox
                             label="I agree to the Terms and Conditions"
                             value={this.state.agreement}
                             onChange={this.handleAgreementChange}
+                            onKeyPress={this.onKeyPressHandleLogin}
                         />
                     </Form.Field>
                     <Button type="submit" name="loginButton" loading={isLoading}>
@@ -230,15 +232,25 @@ class Login extends React.Component<Props, DefaultState> {
                             style={{ width: "85%" }}
                         />
                         <Button
+                            style={{ marginLeft: "0.5em" }}
                             onClick={() => this.fileRead(this.userDataStore.get("localFilePath"))}
                         >
                             <Icon name="unlock" />
+                            Unlock
                         </Button>
                     </div>
 
                     <div style={{ clear: "both", marginTop: "5px" }} />
 
-                    <div className="local-file-actions" style={{ float: "right", marginTop: "1%" }}>
+                    <div
+                        className="local-file-actions"
+                        style={{
+                            float: "right",
+                            marginBottom: "1%",
+                            marginRight: "2.4em",
+                            marginTop: "1%",
+                        }}
+                    >
                         <Button secondary onClick={this.showOpenDialog}>
                             <Icon name="upload" />
                             Load credentials
@@ -256,10 +268,11 @@ class Login extends React.Component<Props, DefaultState> {
                     <Modal.Content>
                         <Input
                             type="password"
-                            placeholder="passphrase"
+                            placeholder="Passphrase"
                             onChange={this.handlePassphraseChange}
                             value={this.state.passphrase}
                             style={{ width: "100%" }}
+                            onKeyPress={this.onKeyPressDecryptFile}
                         />
                     </Modal.Content>
                     <Modal.Actions>
@@ -354,6 +367,12 @@ class Login extends React.Component<Props, DefaultState> {
         );
     }
 
+    private onKeyPressHandleLogin = (event) => {
+        if (event.key === "Enter") {
+            this.handleLogin();
+        }
+    };
+
     private decryptFile = () => {
         logger.info("Start decrypting local file");
         let decryptedContent;
@@ -374,6 +393,12 @@ class Login extends React.Component<Props, DefaultState> {
         } catch (err) {
             logger.error(err);
             toast.error("Please supply correct passphrase");
+        }
+    };
+
+    private onKeyPressDecryptFile = (event) => {
+        if (event.key === "Enter") {
+            this.decryptFile();
         }
     };
 
