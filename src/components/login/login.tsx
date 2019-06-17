@@ -1,4 +1,4 @@
-import electron from "electron";
+import { remote } from "electron";
 import * as fs from "fs";
 const { remote } = electron;
 const dialog = remote.dialog;
