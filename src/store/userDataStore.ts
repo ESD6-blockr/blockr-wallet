@@ -3,8 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 export class UserDataStore {
-    private path: string;
-    private data: object;
+    private readonly path: string;
+    private readonly data: object;
 
     constructor() {
         // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly

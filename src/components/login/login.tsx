@@ -1,9 +1,8 @@
+import { CryptoKeyUtil } from "@blockr/blockr-crypto";
+import { logger } from "@blockr/blockr-logger";
 import { remote } from "electron";
 import * as fs from "fs";
 import ospath from "ospath";
-
-import { CryptoKeyUtil } from "@blockr/blockr-crypto";
-import { logger } from "@blockr/blockr-logger";
 import * as React from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -13,7 +12,6 @@ import { login } from "../../actions/authentication.actions";
 import { CryptoService } from "../../services/cryptoService";
 import { goToUrl } from "../../store/routerHistory";
 import { UserDataStore } from "../../store/userDataStore";
-
 import "./login.scss";
 
 interface DefaultState {
@@ -127,7 +125,7 @@ class Login extends React.Component<Props, DefaultState> {
                 toast.error("The file which you're trying to unlock doesn't exist anymore.");
             } else {
                 logger.error(err.message);
-                toast.error("An error occured!");
+                toast.error("An error occurred!");
             }
         }
     };
@@ -368,7 +366,7 @@ class Login extends React.Component<Props, DefaultState> {
 
             const keys = decryptedContent.split(":");
             if (decryptedContent) {
-                toast.success("File was succesfully decrypted!");
+                toast.success("File was successfully decrypted!");
                 this.setState({ open: false, publicKey: keys[0], privateKey: keys[1] });
                 this.userDataStore.set("localFilePath", this.state.filePath);
             }
