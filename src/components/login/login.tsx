@@ -367,9 +367,9 @@ class Login extends React.Component<Props, DefaultState> {
         );
     }
 
-    private onKeyPressHandleLogin = async (event) => {
+    private onKeyPressHandleLogin = (event) => {
         if (event.key === "Enter") {
-            await this.handleLogin();
+            this.handleLogin();
         }
     };
 
