@@ -7,10 +7,10 @@ import { Grid, Segment } from "semantic-ui-react";
 import "../global.scss";
 import routerHistory from "../store/routerHistory";
 import CreateTransaction from "./createTransaction/createTransaction";
+import DocumentsOverview from "./feedbackOverview/documentsOverview";
+import Feedback from "./feedbackOverview/feedback/feedback";
 import FileUpload from "./file/file";
 import Login from "./login/login";
-import Feedback from "./overview/feedback/feedback";
-import Overview from "./overview/overview";
 import Profile from "./profile/profile";
 import Transaction from "./transaction/transaction";
 
@@ -48,7 +48,7 @@ const Application = () => (
                             <Route exact path="/transaction/create" component={CreateTransaction} />
                             <Route exact path="/" component={Login} />
                             <Route exact path="/transaction" component={Transaction} />
-                            <Route exact path="/feedback" component={Overview} />
+                            <Route exact path="/feedback" component={DocumentsOverview} />
                             <Route exact path="/feedback/:hash" component={Feedback} />
                             <Route exact path="/file" component={FileUpload} />
                         </Switch>

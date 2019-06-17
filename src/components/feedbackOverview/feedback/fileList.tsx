@@ -4,18 +4,24 @@ import { Button } from "semantic-ui-react";
 import { downloadDocument } from "../../../helpers/base64.helper";
 
 export class Filelist extends React.Component<any, any> {
+
     public viewFeedback = (file) => {
         this.props.selectFeedback(file.hash);
     };
+
     public openDocument = (file) => {
         downloadDocument(file);
         this.props.selectFeedback(file.hash);
     };
+
     public render() {
         const { files } = this.props;
         const fileList = files.map((file) => {
             return (
-                <div className="ui segment" key={file.hash} style={{ margin: 0 }}>
+                <div className="ui segment" key={file.hash} style={{
+                    margin: "0.5em",
+                    width: "33%",
+                }}>
                     <div className="ui column" onClick={() => this.viewFeedback(file)}>
                         {file.hash}
                     </div>

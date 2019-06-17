@@ -22,8 +22,8 @@ export default class FileUpload extends React.Component<{}, IState> {
     };
 
     public uploadFile = () => {
-        if (this.state.file === null) {
-            toast.error("No file selected!");
+        if (!this.state.file) {
+            toast.error("No file selected.");
         } else {
             getBase64(this.state.file, doAPICall);
         }

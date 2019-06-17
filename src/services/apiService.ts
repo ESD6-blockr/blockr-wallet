@@ -3,7 +3,7 @@ import { State, Transaction } from "@blockr/blockr-models";
 import Axios from "axios";
 import * as fs from "fs";
 import { getIPFSIp, getValidatorIp } from "../components/application";
-import FeedbackData from "../components/overview/feedback/feedback_mock/feedback.json";
+import FeedbackData from "../components/feedbackOverview/feedback/feedback_mock/feedback.json";
 
 export class ApiService {
     public getAllTransactionsAsync = (): Promise<Transaction[]> => {
@@ -74,7 +74,7 @@ export class ApiService {
     }
     public updateDocumentsMock = () => {
         fs.writeFile(
-            "./src/components/overview/feedback/feedback_mock/feedback.json",
+            "./src/components/feedbackOverview/feedback/feedback_mock/feedback.json",
             JSON.stringify(FeedbackData, null, 4),
             (err) => {
                 if (err) {

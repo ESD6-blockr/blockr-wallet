@@ -5,7 +5,7 @@ import { Filelist } from "./feedback/fileList";
 
 const apiService: ApiService = new ApiService();
 
-export default class Overview extends React.Component<any, any> {
+export default class DocumentsOverview extends React.Component<any, any> {
     public state = {
         files: apiService.getAllDocumentsWithFeedbackFromMock(),
         selectedHash: "",

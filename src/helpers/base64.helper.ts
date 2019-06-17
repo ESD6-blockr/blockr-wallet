@@ -29,6 +29,8 @@ export const downloadDocument = (file) => {
             document.body.appendChild(link);
             link.click();
         })
-        .catch((error) => toast.error("Failed to download document."));
-    // window.open(getIPFSIp() + "/api/ipfs/" + file.hash);
+        .catch((error) => {
+            toast.error("Failed to download document.");
+            logger.error(error);
+        });
 };
