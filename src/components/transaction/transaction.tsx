@@ -225,7 +225,7 @@ class Transaction extends React.Component<Props, IState> {
         );
 
         // TODO: send to Smart Contract Engine to execute. Connection not working.
-        // console.log(value, this.state.methods.get(value));
+        //console.log("Method ["+methodName+"] object out :", objectToSend);
     }
 }
 

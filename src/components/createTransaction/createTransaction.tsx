@@ -149,7 +149,14 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             transactionHeader,
             "signature",
         );
-        this.props.postTransaction(transaction);
+
+        //demo
+        // console.log("[Transaction object]:",transaction);
+        // if(contractType == ContractType.Template)
+        // console.log("[Contract Object]:",this.handleTemplateContract());
+        //end demo
+
+        // this.props.postTransaction(transaction);
     };
 
     public handleReviewerChange = (e) => {
@@ -299,7 +306,12 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
                                     />
                                 </Form.Input>
                                 <Form.Field>
-                                    <Button onClick={this.addReviewer}>Add</Button>
+                                    <Button 
+                                        type="button"
+                                        onClick={this.addReviewer}
+                                    >
+                                    Add
+                                    </Button>
                                 </Form.Field>
                                 {infoLabel}
                             </Form.Group>

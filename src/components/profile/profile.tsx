@@ -5,21 +5,17 @@ import { Link } from "react-router-dom";
 import { IRootState } from "reducers";
 import { Button, Dimmer, Loader, Segment } from "semantic-ui-react";
 import { logout } from "../../actions/authentication.actions";
+import { getBlockchainStateByPublicKey } from "../../actions/state.actions";
+import { ContractMockData } from "../../contract/contract.mock";
 import {
-    getAllTransactions,
     getTransactionsByRecipient,
-    getTransactionsBySender,
     setCurrentTransaction,
 } from "../../actions/transaction.actions";
-import { ContractMockData } from "../../contract/contract.mock";
 import { goToUrl } from "../../store/routerHistory";
 import "./profile.scss";
 
-interface IState {
-    transactions: Transaction[];
-}
-
 const mapStateToProps = (state: IRootState) => ({
+    currentState: state.blockchainState.currentBlockchainState,
     currentUser: state.authentication.currentUser,
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
@@ -27,20 +23,25 @@ const mapStateToProps = (state: IRootState) => ({
     transactions: state.transaction.transactions,
 });
 
+interface IState {
+    transactions: Transaction[];
+}
+
 const mapDispatchToProps = {
-    getAllTransactions,
+    getBlockchainStateByPublicKey,
     getTransactionsByRecipient,
-    getTransactionsBySender,
     logout,
     setCurrentTransaction,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
-class Profile extends React.Component<Props, IState> {
+class Profile extends React.Component<Props,IState> {
+    private balanceRefreshTimerId: number;
+
     constructor(props: any) {
         super(props);
-
+        
         const mockTrans = new ContractMockData().mockTransaction;
 
         this.state = {
@@ -57,6 +58,21 @@ class Profile extends React.Component<Props, IState> {
         if (this.props.transactions.length === 0) {
             this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
         }
+
+        if (!this.props.currentState) {
+            this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
+        }
+
+        // @ts-ignore
+        this.balanceRefreshTimerId = setInterval(() => {
+            if (this.props.currentUser && this.props.currentUser.publicKey) {
+                this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
+            }
+        }, 10000);
+    }
+
+    public componentWillUnmount() {
+        clearInterval(this.balanceRefreshTimerId);
     }
 
     public handleLogout = () => {
@@ -70,11 +86,14 @@ class Profile extends React.Component<Props, IState> {
     };
 
     public render() {
-        const { transactions, currentUser, getTransactionLoading } = this.props;
+        const { currentUser, currentState, getTransactionLoading } = this.props;
+        const transactions = this.state.transactions;
         return (
             <div className="centered">
-                <h2>{currentUser ? currentUser.publicKey : "Unknown"}</h2>
-                <h3>Balance: temp 123</h3>
+                <h2 style={{ fontSize: "1.5rem" }}>
+                    {currentUser ? currentUser.publicKey : "Unknown"}
+                </h2>
+                <h3>Balance: {currentState ? currentState.amount : "Unknown"}</h3>
                 <h3>Transactions</h3>
                 <Segment>
                     <div role="list" className="ui divided relaxed list left-div">
@@ -83,7 +102,7 @@ class Profile extends React.Component<Props, IState> {
                                 <Loader />
                             </Dimmer>
                         )}
-                        {this.state.transactions.map((transaction: Transaction, index: number) => {
+                        {transactions.map((transaction: Transaction, index: number) => {
                             return (
                                 <div
                                     key={index}
@@ -135,6 +154,11 @@ class Profile extends React.Component<Props, IState> {
                     <Link className="ui button space-top right-button" to="/file">
                         Upload file
                     </Link>
+                    <br />
+                    <Link className="ui button space-top right-button" to="/feedback">
+                        View documents
+                    </Link>
+                    <br />
                 </div>
             </div>
         );
