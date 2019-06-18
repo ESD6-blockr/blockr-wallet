@@ -10,7 +10,8 @@ export interface ITransactionState {
     readonly postTransactionDone: boolean;
     readonly postTransactionError: Error | null;
     readonly postTransactionLoading: boolean;
-    readonly transactions: Transaction[];
+    readonly transactionsByRecipient: Transaction[];
+    readonly transactionsBySender: Transaction[];
 }
 
 const initialState: ITransactionState = {
@@ -21,7 +22,8 @@ const initialState: ITransactionState = {
     postTransactionDone: false,
     postTransactionError: null,
     postTransactionLoading: false,
-    transactions: [],
+    transactionsByRecipient: [],
+    transactionsBySender: [],
 };
 
 /*
@@ -42,11 +44,18 @@ const getTransactionBegin = (state: ITransactionState): ITransactionState => ({
     getTransactionLoading: true,
 });
 
-const getTransactionSuccess = (state: ITransactionState, action): ITransactionState => ({
+const getTransactionByRecipientSuccess = (state: ITransactionState, action): ITransactionState => ({
     ...state,
     getTransactionDone: true,
     getTransactionLoading: false,
-    transactions: action.payload,
+    transactionsByRecipient: action.payload,
+});
+
+const getTransactionBySenderSuccess = (state: ITransactionState, action): ITransactionState => ({
+    ...state,
+    getTransactionDone: true,
+    getTransactionLoading: false,
+    transactionsBySender: action.payload,
 });
 
 const getTransactionFailure = (state: ITransactionState, action): ITransactionState => ({
@@ -80,7 +89,8 @@ export const getTransactionHandlers = {
     [constants.SET_CURRENT_TRANSACTION]: setCurrentTransaction,
     [constants.GET_TRANSACTIONS_BEGIN]: getTransactionBegin,
     [constants.POST_TRANSACTIONS_BEGIN]: postTransactionBegin,
-    [constants.GET_TRANSACTIONS_SUCCESS]: getTransactionSuccess,
+    [constants.GET_TRANSACTIONS_BY_SENDER_SUCCESS]: getTransactionBySenderSuccess,
+    [constants.GET_TRANSACTIONS_BY_RECIPIENT_SUCCESS]: getTransactionByRecipientSuccess,
     [constants.POST_TRANSACTIONS_SUCCESS]: postTransactionSuccess,
     [constants.GET_TRANSACTIONS_FAILURE]: getTransactionFailure,
     [constants.POST_TRANSACTIONS_FAILURE]: postTransactionFailure,

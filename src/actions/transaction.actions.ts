@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import { AnyAction, Dispatch } from "redux";
 import {
     GET_TRANSACTIONS_BEGIN,
+    GET_TRANSACTIONS_BY_RECIPIENT_SUCCESS,
+    GET_TRANSACTIONS_BY_SENDER_SUCCESS,
     GET_TRANSACTIONS_FAILURE,
-    GET_TRANSACTIONS_SUCCESS,
     POST_TRANSACTIONS_BEGIN,
     POST_TRANSACTIONS_FAILURE,
     POST_TRANSACTIONS_SUCCESS,
@@ -48,22 +49,6 @@ export const postTransaction = (transaction: Transaction) => {
     };
 };
 
-export const getAllTransactions = () => {
-    return (dispatch: Dispatch<AnyAction>) => {
-        dispatch({ type: GET_TRANSACTIONS_BEGIN });
-
-        apiService
-            .getAllTransactionsAsync()
-            .then((transactions: Transaction[]) => {
-                dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
-            })
-            .catch((error) => {
-                logger.error(error);
-                dispatch({ type: GET_TRANSACTIONS_FAILURE, error });
-            });
-    };
-};
-
 export const getTransactionsBySender = (publicKey: string) => {
     return (dispatch: Dispatch<AnyAction>) => {
         dispatch({ type: GET_TRANSACTIONS_BEGIN });
@@ -71,7 +56,7 @@ export const getTransactionsBySender = (publicKey: string) => {
         apiService
             .getTransactionsBySender(publicKey)
             .then((transactions: Transaction[]) => {
-                dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
+                dispatch({ type: GET_TRANSACTIONS_BY_SENDER_SUCCESS, payload: transactions });
             })
             .catch((error) => {
                 logger.error(error);
@@ -87,7 +72,7 @@ export const getTransactionsByRecipient = (publicKey: string) => {
         apiService
             .getTransactionsByRecipient(publicKey)
             .then((transactions: Transaction[]) => {
-                dispatch({ type: GET_TRANSACTIONS_SUCCESS, payload: transactions });
+                dispatch({ type: GET_TRANSACTIONS_BY_RECIPIENT_SUCCESS, payload: transactions });
             })
             .catch((error) => {
                 logger.error(error);
