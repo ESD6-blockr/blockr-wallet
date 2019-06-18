@@ -44,6 +44,16 @@ class Transaction extends React.Component<Props> {
                     <Table.Body>
                         {Object.keys(currentTransaction as TransactionModel).map(
                             (key: string, index: number) => {
+                                if (key === "transactionHeader") {
+                                    return (
+                                        <Table.Row key={index}>
+                                            <Table.Cell>{key}</Table.Cell>
+                                            <Table.Cell>
+                                                {JSON.stringify(currentTransaction[key])}
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    );
+                                }
                                 const value = (currentTransaction as TransactionModel)[key];
                                 return (
                                     <Table.Row key={index}>
