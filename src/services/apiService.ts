@@ -12,13 +12,13 @@ export class ApiService {
 
     public getTransactionsBySender = (publicKey: string): Promise<Transaction[]> => {
         return this.getTransactionsByQuery({
-            "transactionHeader.senderKey": publicKey,
+            "transactions.transactionHeader.senderKey": publicKey,
         });
     };
 
     public getTransactionsByRecipient(publicKey: string): Promise<Transaction[]> {
         return this.getTransactionsByQuery({
-            "transactionHeader.recipientKey": publicKey,
+            "transactions.transactionHeader.recipientKey": publicKey,
         });
     }
 
