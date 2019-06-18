@@ -8,6 +8,7 @@ import store from "./store";
 // Create main element
 const mainElement = document.createElement("div");
 document.body.appendChild(mainElement);
+document.title = "Blockr Wallet";
 
 // Render components
 const render = (Component: () => JSX.Element) => {
