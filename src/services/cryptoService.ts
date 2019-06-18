@@ -5,7 +5,13 @@ const algorithm = "aes-256-cbc";
 // https://gist.github.com/vlucas/2bd40f62d20c1d49237a109d491974eb
 export class CryptoService {
     public encrypt = (text, password) => {
-        const derivedKey = pbkdf2.pbkdf2Sync(password, "salt", 1, 32, "sha512");
+        const derivedKey = pbkdf2.pbkdf2Sync(
+            password,
+            "$87e3wjdasudhasjdnsajnfcas8e349439",
+            100000,
+            32,
+            "sha512",
+        );
 
         const iv = crypto.randomBytes(16);
         const cipher = crypto.createCipheriv(algorithm, Buffer.from(derivedKey), iv);
@@ -15,7 +21,13 @@ export class CryptoService {
     };
 
     public decrypt = (text, password) => {
-        const derivedKey = pbkdf2.pbkdf2Sync(password, "salt", 1, 32, "sha512");
+        const derivedKey = pbkdf2.pbkdf2Sync(
+            password,
+            "$87e3wjdasudhasjdnsajnfcas8e349439",
+            100000,
+            32,
+            "sha512",
+        );
 
         const textParts = text.split(":");
         const iv = new Buffer(textParts.shift(), "hex");
