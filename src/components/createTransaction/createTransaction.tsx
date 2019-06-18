@@ -1,3 +1,4 @@
+import { CryptoKeyUtil, ObjectHasher } from "@blockr/blockr-crypto";
 import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -62,7 +63,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         });
     };
 
-    public handlePostTransaction = () => {
+    public handlePostTransaction = async () => {
         if (!this.props.currentUser) {
             return;
         }
@@ -74,10 +75,19 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
             new Date(),
         );
 
+        const cryptoKeyUtils = new CryptoKeyUtil();
+        const objectHasher = new ObjectHasher();
+        const hash = await objectHasher.hashAsync(transatcionHeader);
+        const keyPair = await cryptoKeyUtils.verifyKeyPair(
+            this.props.currentUser.publicKey,
+            this.props.currentUser.privateKey,
+        );
+        const signature = cryptoKeyUtils.createSignatureWithKeyPair(hash, keyPair);
+
         const transaction: Transaction = new Transaction(
             TransactionType[this.state.type],
             transatcionHeader,
-            "signature",
+            signature,
         );
 
         this.props.postTransaction(transaction);
