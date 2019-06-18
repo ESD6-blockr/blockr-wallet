@@ -34,7 +34,7 @@ class CreateTransaction extends React.Component<Props, DefaultState> {
         this.state = {
             amount: 0,
             publicKey: "",
-            type: "coin",
+            type: "COIN",
         };
     }
 

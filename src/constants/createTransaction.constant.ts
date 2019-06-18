@@ -1,12 +1,12 @@
 export const TRANSACTION_TYPE_OPTIONS = [
     {
-        key: "stake",
+        key: "STAKE",
         text: "Stake",
-        value: "stake",
+        value: "STAKE",
     },
     {
-        key: "coin",
+        key: "COIN",
         text: "Coin",
-        value: "coin",
+        value: "COIN",
     },
 ];
