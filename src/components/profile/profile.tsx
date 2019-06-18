@@ -8,6 +8,7 @@ import { logout } from "../../actions/authentication.actions";
 import { getBlockchainStateByPublicKey } from "../../actions/state.actions";
 import {
     getTransactionsByRecipient,
+    getTransactionsBySender,
     setCurrentTransaction,
 } from "../../actions/transaction.actions";
 import { goToUrl } from "../../store/routerHistory";
@@ -19,12 +20,15 @@ const mapStateToProps = (state: IRootState) => ({
     getTransactionDone: state.transaction.getTransactionDone,
     getTransactionError: state.transaction.getTransactionError,
     getTransactionLoading: state.transaction.getTransactionLoading,
-    transactions: state.transaction.transactions,
+    transactions: state.transaction.transactionsByRecipient.concat(
+        state.transaction.transactionsBySender,
+    ),
 });
 
 const mapDispatchToProps = {
     getBlockchainStateByPublicKey,
     getTransactionsByRecipient,
+    getTransactionsBySender,
     logout,
     setCurrentTransaction,
 };
@@ -45,6 +49,7 @@ class Profile extends React.Component<Props> {
         }
 
         if (this.props.transactions.length === 0) {
+            this.props.getTransactionsBySender(this.props.currentUser.publicKey);
             this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
         }
 

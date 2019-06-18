@@ -10,7 +10,6 @@ import "./Transaction.scss";
 const mapStateToProps = (state: IRootState) => ({
     currentTransaction: state.transaction.currentTransaction,
     currentUser: state.authentication.currentUser,
-    transactions: state.transaction.transactions,
 });
 
 const mapDispatchToProps = {};
