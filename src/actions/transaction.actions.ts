@@ -56,6 +56,12 @@ export const getTransactionsBySender = (publicKey: string) => {
         apiService
             .getTransactionsBySender(publicKey)
             .then((transactions: Transaction[]) => {
+                transactions = transactions.filter((transaction) => {
+                    return (
+                        transaction.transactionHeader.recipientKey !==
+                        transaction.transactionHeader.senderKey
+                    );
+                });
                 dispatch({ type: GET_TRANSACTIONS_BY_SENDER_SUCCESS, payload: transactions });
             })
             .catch((error) => {
@@ -72,6 +78,12 @@ export const getTransactionsByRecipient = (publicKey: string) => {
         apiService
             .getTransactionsByRecipient(publicKey)
             .then((transactions: Transaction[]) => {
+                transactions = transactions.filter((transaction) => {
+                    return (
+                        transaction.transactionHeader.recipientKey !==
+                        transaction.transactionHeader.senderKey
+                    );
+                });
                 dispatch({ type: GET_TRANSACTIONS_BY_RECIPIENT_SUCCESS, payload: transactions });
             })
             .catch((error) => {

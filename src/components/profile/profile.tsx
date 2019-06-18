@@ -61,6 +61,8 @@ class Profile extends React.Component<Props> {
         this.balanceRefreshTimerId = setInterval(() => {
             if (this.props.currentUser && this.props.currentUser.publicKey) {
                 this.props.getBlockchainStateByPublicKey(this.props.currentUser.publicKey);
+                this.props.getTransactionsBySender(this.props.currentUser.publicKey);
+                this.props.getTransactionsByRecipient(this.props.currentUser.publicKey);
             }
         }, 10000);
     }
